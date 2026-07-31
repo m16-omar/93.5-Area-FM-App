@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/area_fm_logo.dart';
 import '../../../live_radio/presentation/providers/audio_player_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -32,7 +31,6 @@ class HomeScreen extends ConsumerWidget {
                       icon: const Icon(Icons.menu, color: AppColors.secondaryBlue, size: 28),
                       onPressed: () => context.push('/settings'),
                     ),
-                    const AreaFMLogo(size: 48),
                     Row(
                       children: [
                         InkWell(
