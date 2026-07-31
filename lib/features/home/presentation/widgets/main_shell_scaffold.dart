@@ -28,19 +28,20 @@ class MainShellScaffold extends ConsumerWidget {
     final selectedIndex = _calculateSelectedIndex(context);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         children: [
-          // Topmost Announcement Bar
+          // Topmost Notification Header Bar (Matching Image)
           Container(
-            padding: const EdgeInsets.only(top: 40, left: 16, right: 16, bottom: 8),
-            decoration: const BoxDecoration(color: Color(0xFF031A3D)),
+            padding: const EdgeInsets.only(top: 44, left: 16, right: 16, bottom: 10),
+            decoration: const BoxDecoration(color: Color(0xFF041D44)),
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: AppColors.primaryOrange,
-                    borderRadius: BorderRadius.circular(12),
+                    color: const Color(0xFFFF3B30),
+                    borderRadius: BorderRadius.circular(14),
                   ),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
@@ -60,7 +61,7 @@ class MainShellScaffold extends ConsumerWidget {
                     style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600),
                   ),
                 ),
-                // Top Social Icons
+                // Social Links Icons
                 _buildSocialIcon(Icons.facebook, AppConstants.facebookUrl),
                 _buildSocialIcon(Icons.share, AppConstants.twitterUrl),
                 _buildSocialIcon(Icons.camera_alt_outlined, AppConstants.instagramUrl),
@@ -69,68 +70,75 @@ class MainShellScaffold extends ConsumerWidget {
             ),
           ),
 
-          // Main Page Content
+          // Page Content
           Expanded(child: child),
         ],
       ),
 
-      // Bottom Navigation Bar
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          NavigationBar(
-            selectedIndex: selectedIndex,
-            onDestinationSelected: (index) {
-              switch (index) {
-                case 0:
-                  context.go('/home');
-                  break;
-                case 1:
-                  context.go('/shows');
-                  break;
-                case 2:
-                  context.go('/podcasts');
-                  break;
-                case 3:
-                  context.go('/events');
-                  break;
-                case 4:
-                  context.go('/settings');
-                  break;
-              }
-            },
-            backgroundColor: const Color(0xFF041B3D),
-            indicatorColor: AppColors.primaryOrange.withValues(alpha: 0.25),
-            elevation: 12,
-            destinations: const [
-              NavigationDestination(
-                icon: Icon(Icons.home_outlined, color: Colors.white70),
-                selectedIcon: Icon(Icons.home, color: AppColors.primaryOrange),
-                label: 'Home',
-              ),
-              NavigationDestination(
-                icon: Icon(Icons.music_note_outlined, color: Colors.white70),
-                selectedIcon: Icon(Icons.music_note, color: AppColors.primaryOrange),
-                label: 'Shows',
-              ),
-              NavigationDestination(
-                icon: Icon(Icons.mic_none_outlined, color: Colors.white70),
-                selectedIcon: Icon(Icons.mic, color: AppColors.primaryOrange),
-                label: 'Podcasts',
-              ),
-              NavigationDestination(
-                icon: Icon(Icons.calendar_month_outlined, color: Colors.white70),
-                selectedIcon: Icon(Icons.calendar_month, color: AppColors.primaryOrange),
-                label: 'Events',
-              ),
-              NavigationDestination(
-                icon: Icon(Icons.more_horiz_outlined, color: Colors.white70),
-                selectedIcon: Icon(Icons.more_horiz, color: AppColors.primaryOrange),
-                label: 'More',
-              ),
-            ],
+      // Custom Bottom Navigation Bar matching Image 1 exactly
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          color: Color(0xFF041D44),
+          boxShadow: [
+            BoxShadow(color: Colors.black26, blurRadius: 10, offset: Offset(0, -2)),
+          ],
+        ),
+        child: SafeArea(
+          top: false,
+          child: SizedBox(
+            height: 64,
+            child: Row(
+              children: [
+                _buildNavItem(context, index: 0, label: 'Home', icon: Icons.home, route: '/home', isSelected: selectedIndex == 0),
+                _buildNavItem(context, index: 1, label: 'Shows', icon: Icons.music_note, route: '/shows', isSelected: selectedIndex == 1),
+                _buildNavItem(context, index: 2, label: 'Podcasts', icon: Icons.mic, route: '/podcasts', isSelected: selectedIndex == 2),
+                _buildNavItem(context, index: 3, label: 'Events', icon: Icons.calendar_month, route: '/events', isSelected: selectedIndex == 3),
+                _buildNavItem(context, index: 4, label: 'More', icon: Icons.more_horiz, route: '/settings', isSelected: selectedIndex == 4),
+              ],
+            ),
           ),
-        ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavItem(
+    BuildContext context, {
+    required int index,
+    required String label,
+    required IconData icon,
+    required String route,
+    required bool isSelected,
+  }) {
+    final color = isSelected ? AppColors.primaryOrange : Colors.white;
+
+    return Expanded(
+      child: InkWell(
+        onTap: () => context.go(route),
+        child: Column(
+          children: [
+            // Top Selected Indicator Line
+            Container(
+              height: 3,
+              width: isSelected ? 36 : 0,
+              decoration: const BoxDecoration(
+                color: AppColors.primaryOrange,
+                borderRadius: BorderRadius.vertical(bottom: Radius.circular(2)),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Icon(icon, color: color, size: 22),
+            const SizedBox(height: 2),
+            Text(
+              label,
+              style: TextStyle(
+                color: color,
+                fontSize: 11,
+                fontWeight: isSelected ? FontWeight.w900 : FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

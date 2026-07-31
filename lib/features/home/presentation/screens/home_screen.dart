@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/area_fm_logo.dart';
 import '../../../live_radio/presentation/providers/audio_player_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -21,16 +22,22 @@ class HomeScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header Navigation Bar
+              // White Header Row (Matching Image 1 Exactly)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    // Orange Hamburger Menu Icon
                     IconButton(
-                      icon: const Icon(Icons.menu, color: AppColors.secondaryBlue, size: 28),
+                      icon: const Icon(Icons.menu, color: AppColors.primaryOrange, size: 28),
                       onPressed: () => context.push('/settings'),
                     ),
+
+                    // Central 93.5 Area FM Badge Logo
+                    const AreaFMLogo(size: 60),
+
+                    // Right Search and Play Buttons
                     Row(
                       children: [
                         InkWell(
@@ -39,7 +46,7 @@ class HomeScreen extends ConsumerWidget {
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: AppColors.primaryOrange.withValues(alpha: 0.12),
+                              color: const Color(0xFFFFF4EE),
                             ),
                             child: const Icon(Icons.search, color: AppColors.primaryOrange, size: 22),
                           ),
@@ -69,7 +76,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ),
 
-              // Hero Carousel Banner Card
+              // Hero Carousel Banner Card (Matching Image 1)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Container(
@@ -77,14 +84,14 @@ class HomeScreen extends ConsumerWidget {
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [Color(0xFF031A3D), Color(0xFF072B5E)],
+                      colors: [Color(0xFF041D44), Color(0xFF0B3068)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(24),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.secondaryBlue.withValues(alpha: 0.3),
+                        color: const Color(0xFF041D44).withValues(alpha: 0.3),
                         blurRadius: 16,
                         offset: const Offset(0, 6),
                       ),
@@ -96,7 +103,7 @@ class HomeScreen extends ConsumerWidget {
                         right: -10,
                         bottom: -10,
                         child: Opacity(
-                          opacity: 0.15,
+                          opacity: 0.18,
                           child: Icon(Icons.mic, size: 180, color: AppColors.primaryOrange),
                         ),
                       ),
@@ -135,7 +142,7 @@ class HomeScreen extends ConsumerWidget {
                           ),
                           const SizedBox(height: 8),
                           const SizedBox(
-                            width: 220,
+                            width: 210,
                             child: Text(
                               'Great music, real conversations, and unbeatable vibes 24/7.',
                               style: TextStyle(color: Colors.white70, fontSize: 13, height: 1.4),
@@ -270,14 +277,14 @@ class HomeScreen extends ConsumerWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [Color(0xFF031A3D), Color(0xFF062C61)],
+                      colors: [Color(0xFF041D44), Color(0xFF072C61)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.secondaryBlue.withValues(alpha: 0.2),
+                        color: const Color(0xFF041D44).withValues(alpha: 0.2),
                         blurRadius: 12,
                         offset: const Offset(0, 4),
                       ),
@@ -286,18 +293,18 @@ class HomeScreen extends ConsumerWidget {
                   child: Row(
                     children: [
                       Container(
-                        width: 70,
+                        width: 74,
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         decoration: const BoxDecoration(
-                          color: AppColors.secondaryBlue,
+                          color: Color(0xFF072654),
                           borderRadius: BorderRadius.horizontal(left: Radius.circular(20)),
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
-                            Text('AUG', style: TextStyle(color: Colors.white70, fontSize: 14, fontWeight: FontWeight.bold)),
+                            Text('AUG', style: TextStyle(color: Colors.white70, fontSize: 13, fontWeight: FontWeight.bold)),
                             Text('10', style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w900)),
-                            Text('SUN', style: TextStyle(color: AppColors.primaryOrange, fontSize: 14, fontWeight: FontWeight.bold)),
+                            Text('SUN', style: TextStyle(color: AppColors.primaryOrange, fontSize: 13, fontWeight: FontWeight.bold)),
                           ],
                         ),
                       ),
@@ -309,7 +316,7 @@ class HomeScreen extends ConsumerWidget {
                             children: const [
                               Text(
                                 'Area 93.5 Live Music Concert',
-                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
                               ),
                               SizedBox(height: 6),
                               Row(
@@ -366,7 +373,7 @@ class HomeScreen extends ConsumerWidget {
               fontFamily: 'Outfit',
               fontWeight: FontWeight.w900,
               fontSize: 16,
-              color: AppColors.secondaryBlue,
+              color: Color(0xFF072654),
               letterSpacing: 0.5,
             ),
           ),
@@ -399,7 +406,7 @@ class HomeScreen extends ConsumerWidget {
         image: DecorationImage(
           image: NetworkImage(imageUrl),
           fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(Colors.black.withValues(alpha: 0.45), BlendMode.darken),
+          colorFilter: ColorFilter.mode(Colors.black.withValues(alpha: 0.4), BlendMode.darken),
         ),
       ),
       child: Column(
@@ -421,7 +428,7 @@ class HomeScreen extends ConsumerWidget {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 4),
             decoration: const BoxDecoration(
-              color: AppColors.secondaryBlue,
+              color: Color(0xFF072654),
               borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
             ),
             child: Text(
@@ -452,6 +459,9 @@ class HomeScreen extends ConsumerWidget {
         color: const Color(0xFFF8FAFC),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.grey[200]!),
+        boxShadow: [
+          BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 6, offset: const Offset(0, 2)),
+        ],
       ),
       child: Row(
         children: [
@@ -478,8 +488,8 @@ class HomeScreen extends ConsumerWidget {
                 },
                 child: Container(
                   padding: const EdgeInsets.all(6),
-                  decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white70),
-                  child: const Icon(Icons.play_arrow, color: AppColors.secondaryBlue, size: 20),
+                  decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                  child: const Icon(Icons.play_arrow, color: Color(0xFF072654), size: 20),
                 ),
               ),
             ],
@@ -489,7 +499,7 @@ class HomeScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.textDark)),
+                Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF072654))),
                 const SizedBox(height: 2),
                 Text(subtitle, style: const TextStyle(color: AppColors.textMuted, fontSize: 12)),
               ],
@@ -498,13 +508,13 @@ class HomeScreen extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: Colors.grey[200],
+              color: const Color(0xFFEDF2F7),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Text(duration, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.textDark)),
+            child: Text(duration, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF072654))),
           ),
           const SizedBox(width: 4),
-          const Icon(Icons.more_vert, color: AppColors.textMuted, size: 20),
+          const Icon(Icons.more_vert, color: AppColors.primaryOrange, size: 20),
         ],
       ),
     );
