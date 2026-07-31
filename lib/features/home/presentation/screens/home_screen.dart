@@ -32,7 +32,7 @@ class HomeScreen extends ConsumerWidget {
                       icon: const Icon(Icons.menu, color: AppColors.secondaryBlue, size: 28),
                       onPressed: () => context.push('/settings'),
                     ),
-                    const AreaFMLogo(size: 80),
+                    const AreaFMLogo(size: 48),
                     Row(
                       children: [
                         InkWell(

@@ -14,21 +14,22 @@ class AreaFMLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scale = size / 120.0;
+    final borderWidth = (2.5 * scale).clamp(1.5, 3.5);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 14 * scale, vertical: 8 * scale),
+          padding: EdgeInsets.symmetric(horizontal: 10 * scale, vertical: 5 * scale),
           decoration: BoxDecoration(
             color: AppColors.secondaryBlue,
-            borderRadius: BorderRadius.circular(16 * scale),
-            border: Border.all(color: Colors.white, width: 3 * scale),
+            borderRadius: BorderRadius.circular(12 * scale),
+            border: Border.all(color: Colors.white, width: borderWidth),
             boxShadow: [
               BoxShadow(
-                color: AppColors.primaryOrange.withValues(alpha: 0.35),
-                blurRadius: 16 * scale,
-                spreadRadius: 2 * scale,
+                color: AppColors.primaryOrange.withValues(alpha: 0.3),
+                blurRadius: 10 * scale,
+                spreadRadius: 1 * scale,
               ),
             ],
           ),
@@ -40,29 +41,31 @@ class AreaFMLogo extends StatelessWidget {
                 '93.5',
                 style: TextStyle(
                   fontFamily: 'Outfit',
-                  fontSize: 22 * scale,
+                  fontSize: (20 * scale).clamp(9.0, 24.0),
                   fontWeight: FontWeight.w900,
                   fontStyle: FontStyle.italic,
                   color: Colors.white,
-                  letterSpacing: 2 * scale,
+                  letterSpacing: 1.5 * scale,
+                  height: 1.0,
                 ),
               ),
               // AREA Banner
               Container(
-                margin: EdgeInsets.symmetric(vertical: 2 * scale),
-                padding: EdgeInsets.symmetric(horizontal: 12 * scale, vertical: 2 * scale),
+                margin: EdgeInsets.symmetric(vertical: 1.5 * scale),
+                padding: EdgeInsets.symmetric(horizontal: 8 * scale, vertical: 1.5 * scale),
                 decoration: BoxDecoration(
                   color: AppColors.primaryOrange,
-                  borderRadius: BorderRadius.circular(6 * scale),
+                  borderRadius: BorderRadius.circular(4 * scale),
                 ),
                 child: Text(
                   'AREA',
                   style: TextStyle(
                     fontFamily: 'Outfit',
-                    fontSize: 28 * scale,
+                    fontSize: (24 * scale).clamp(10.0, 30.0),
                     fontWeight: FontWeight.w900,
                     color: Colors.white,
-                    letterSpacing: 3 * scale,
+                    letterSpacing: 2 * scale,
+                    height: 1.0,
                   ),
                 ),
               ),
@@ -71,17 +74,18 @@ class AreaFMLogo extends StatelessWidget {
                 'FM',
                 style: TextStyle(
                   fontFamily: 'Outfit',
-                  fontSize: 20 * scale,
+                  fontSize: (18 * scale).clamp(8.0, 22.0),
                   fontWeight: FontWeight.w900,
                   color: Colors.white,
-                  letterSpacing: 4 * scale,
+                  letterSpacing: 3 * scale,
+                  height: 1.0,
                 ),
               ),
             ],
           ),
         ),
         if (showTagline) ...[
-          SizedBox(height: 16 * scale),
+          SizedBox(height: 14 * scale),
           const Text(
             'YOUR VOICE.',
             style: TextStyle(
