@@ -1,51 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/theme/app_theme.dart';
-import 'services/audio_service.dart';
-import 'screens/main_navigation_screen.dart';
+import 'core/routes/app_router.dart';
+import 'core/services/storage_service.dart';
+import 'features/settings/presentation/screens/settings_screen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const AreaFMApp());
+  await StorageService.initHive();
+  runApp(const ProviderScope(child: AreaFMApp()));
 }
 
-class AreaFMApp extends StatefulWidget {
+class AreaFMApp extends ConsumerWidget {
   const AreaFMApp({super.key});
 
   @override
-  State<AreaFMApp> createState() => _AreaFMAppState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(themeModeProvider);
 
-class _AreaFMAppState extends State<AreaFMApp> {
-  final ValueNotifier<bool> _isDarkModeNotifier = ValueNotifier<bool>(true);
-
-  @override
-  void dispose() {
-    _isDarkModeNotifier.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<AudioPlayerService>(
-          create: (_) => AudioPlayerService(),
-        ),
-      ],
-      child: ValueListenableBuilder<bool>(
-        valueListenable: _isDarkModeNotifier,
-        builder: (context, isDark, child) {
-          return MaterialApp(
-            title: '93.5 Area FM',
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.lightTheme,
-            darkTheme: AppTheme.darkTheme,
-            themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
-            home: MainNavigationScreen(isDarkModeNotifier: _isDarkModeNotifier),
-          );
-        },
-      ),
+    return MaterialApp.router(
+      title: 'Area 93.5 FM',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      routerConfig: appRouter,
     );
   }
 }

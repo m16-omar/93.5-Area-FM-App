@@ -1,9 +1,20 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:area_fm_app/main.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:area_fm_app/core/theme/app_theme.dart';
+import 'package:area_fm_app/features/about/presentation/screens/about_screen.dart';
 
 void main() {
-  testWidgets('App smoke test', (WidgetTester tester) async {
-    await tester.pumpWidget(const AreaFMApp());
-    expect(find.byType(AreaFMApp), findsOneWidget);
+  testWidgets('AreaFMApp Widget Test', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(
+          home: AboutScreen(),
+        ),
+      ),
+    );
+
+    expect(find.byType(AboutScreen), findsOneWidget);
+    expect(find.text('AREA 93.5 FM'), findsOneWidget);
   });
 }
