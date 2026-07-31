@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/constants/app_constants.dart';
 import '../../../live_radio/presentation/providers/audio_player_provider.dart';
 
 class MainShellScaffold extends ConsumerWidget {
@@ -13,153 +14,136 @@ class MainShellScaffold extends ConsumerWidget {
   int _calculateSelectedIndex(BuildContext context) {
     final String location = GoRouterState.of(context).uri.toString();
     if (location.startsWith('/home')) return 0;
-    if (location.startsWith('/live_radio')) return 1;
-    if (location.startsWith('/shows')) return 2;
-    if (location.startsWith('/podcasts')) return 3;
-    if (location.startsWith('/presenters')) return 4;
-    if (location.startsWith('/news')) return 5;
-    if (location.startsWith('/settings')) return 6;
+    if (location.startsWith('/shows')) return 1;
+    if (location.startsWith('/podcasts')) return 2;
+    if (location.startsWith('/events')) return 3;
+    if (location.startsWith('/settings') || location.startsWith('/more') || location.startsWith('/about')) return 4;
     return 0;
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final audioState = ref.watch(audioPlayerProvider);
-    final audioNotifier = ref.read(audioPlayerProvider.notifier);
     final track = audioState.currentTrack;
     final selectedIndex = _calculateSelectedIndex(context);
 
     return Scaffold(
-      body: child,
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
+      body: Column(
         children: [
-          // Persistent Bottom Mini-Player
-          GestureDetector(
-            onTap: () => context.push('/live_radio'),
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? AppColors.darkCard
-                    : AppColors.secondaryBlue,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.primaryBlue.withValues(alpha: 0.3),
-                    blurRadius: 16,
-                    offset: const Offset(0, 4),
+          // Topmost Announcement Bar
+          Container(
+            padding: const EdgeInsets.only(top: 40, left: 16, right: 16, bottom: 8),
+            decoration: const BoxDecoration(color: Color(0xFF031A3D)),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryOrange,
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: CachedNetworkImage(
-                      imageUrl: track.image,
-                      width: 46,
-                      height: 46,
-                      fit: BoxFit.cover,
-                    ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.sensors, color: Colors.white, size: 12),
+                      SizedBox(width: 4),
+                      Text('LIVE', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w900)),
+                    ],
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                              decoration: BoxDecoration(
-                                color: AppColors.primaryOrange,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: const Text(
-                                'LIVE',
-                                style: TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.w900),
-                              ),
-                            ),
-                            const SizedBox(width: 6),
-                            Flexible(
-                              child: Text(
-                                track.title,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          '93.5 Area FM • ${track.presenter}',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 11),
-                        ),
-                      ],
-                    ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    '${track.title} with ${track.presenter}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600),
                   ),
-                  IconButton(
-                    icon: audioState.isBuffering
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-                          )
-                        : Icon(
-                            audioState.isPlaying ? Icons.pause_circle_filled : Icons.play_circle_filled,
-                            color: AppColors.primaryOrange,
-                            size: 36,
-                          ),
-                    onPressed: () => audioNotifier.togglePlayPause(),
-                  ),
-                ],
-              ),
+                ),
+                // Top Social Icons
+                _buildSocialIcon(Icons.facebook, AppConstants.facebookUrl),
+                _buildSocialIcon(Icons.share, AppConstants.twitterUrl),
+                _buildSocialIcon(Icons.camera_alt_outlined, AppConstants.instagramUrl),
+                _buildSocialIcon(Icons.chat_bubble_outline, 'https://wa.me/${AppConstants.whatsappNumber}'),
+              ],
             ),
           ),
 
-          // Navigation Bar
+          // Main Page Content
+          Expanded(child: child),
+        ],
+      ),
+
+      // Bottom Navigation Bar
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
           NavigationBar(
-            selectedIndex: selectedIndex > 5 ? 5 : selectedIndex,
+            selectedIndex: selectedIndex,
             onDestinationSelected: (index) {
               switch (index) {
                 case 0:
                   context.go('/home');
                   break;
                 case 1:
-                  context.go('/live_radio');
-                  break;
-                case 2:
                   context.go('/shows');
                   break;
-                case 3:
+                case 2:
                   context.go('/podcasts');
                   break;
-                case 4:
-                  context.go('/presenters');
+                case 3:
+                  context.go('/events');
                   break;
-                case 5:
-                  context.go('/news');
+                case 4:
+                  context.go('/settings');
                   break;
               }
             },
-            indicatorColor: AppColors.primaryOrange.withValues(alpha: 0.2),
-            elevation: 8,
+            backgroundColor: const Color(0xFF041B3D),
+            indicatorColor: AppColors.primaryOrange.withValues(alpha: 0.25),
+            elevation: 12,
             destinations: const [
-              NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home, color: AppColors.primaryOrange), label: 'Home'),
-              NavigationDestination(icon: Icon(Icons.radio_outlined), selectedIcon: Icon(Icons.radio, color: AppColors.primaryOrange), label: 'Live FM'),
-              NavigationDestination(icon: Icon(Icons.calendar_month_outlined), selectedIcon: Icon(Icons.calendar_month, color: AppColors.primaryOrange), label: 'Shows'),
-              NavigationDestination(icon: Icon(Icons.podcasts_outlined), selectedIcon: Icon(Icons.podcasts, color: AppColors.primaryOrange), label: 'Podcasts'),
-              NavigationDestination(icon: Icon(Icons.people_outline), selectedIcon: Icon(Icons.people, color: AppColors.primaryOrange), label: 'DJs'),
-              NavigationDestination(icon: Icon(Icons.newspaper_outlined), selectedIcon: Icon(Icons.newspaper, color: AppColors.primaryOrange), label: 'News'),
+              NavigationDestination(
+                icon: Icon(Icons.home_outlined, color: Colors.white70),
+                selectedIcon: Icon(Icons.home, color: AppColors.primaryOrange),
+                label: 'Home',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.music_note_outlined, color: Colors.white70),
+                selectedIcon: Icon(Icons.music_note, color: AppColors.primaryOrange),
+                label: 'Shows',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.mic_none_outlined, color: Colors.white70),
+                selectedIcon: Icon(Icons.mic, color: AppColors.primaryOrange),
+                label: 'Podcasts',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.calendar_month_outlined, color: Colors.white70),
+                selectedIcon: Icon(Icons.calendar_month, color: AppColors.primaryOrange),
+                label: 'Events',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.more_horiz_outlined, color: Colors.white70),
+                selectedIcon: Icon(Icons.more_horiz, color: AppColors.primaryOrange),
+                label: 'More',
+              ),
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildSocialIcon(IconData icon, String urlStr) {
+    return InkWell(
+      onTap: () async {
+        final url = Uri.parse(urlStr);
+        if (await canLaunchUrl(url)) await launchUrl(url);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        child: Icon(icon, color: Colors.white70, size: 16),
       ),
     );
   }

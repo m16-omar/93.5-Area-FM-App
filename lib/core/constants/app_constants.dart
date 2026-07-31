@@ -6,6 +6,9 @@ class AppConstants {
   // API & Web Endpoints (Django REST Framework)
   static const String apiBaseUrl = 'https://area-93-5-fm-web.vercel.app/api/v1';
   static const String webUrl = 'https://area-93-5-fm-web.vercel.app';
+  static const String facebookUrl = 'https://facebook.com/areafm935';
+  static const String twitterUrl = 'https://twitter.com/areafm935';
+  static const String instagramUrl = 'https://instagram.com/areafm935';
   
   // Audio Live Stream URLs
   static const String defaultStreamUrl = 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/area_fm_logo.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -19,10 +20,10 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1400),
     );
 
-    _scaleAnimation = Tween<double>(begin: 0.6, end: 1.0).animate(
+    _scaleAnimation = Tween<double>(begin: 0.7, end: 1.0).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
     );
 
@@ -32,9 +33,9 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
     _controller.forward();
 
-    Future.delayed(const Duration(milliseconds: 2200), () {
+    Future.delayed(const Duration(milliseconds: 2400), () {
       if (mounted) {
-        context.go('/home');
+        context.go('/onboarding');
       }
     });
   }
@@ -49,63 +50,83 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(gradient: AppColors.darkGradient),
-        child: Center(
-          child: AnimatedBuilder(
-            animation: _controller,
-            builder: (context, child) {
-              return FadeTransition(
-                opacity: _fadeAnimation,
-                child: ScaleTransition(
-                  scale: _scaleAnimation,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(24),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: AppColors.primaryOrange,
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.primaryOrange.withValues(alpha: 0.5),
-                              blurRadius: 36,
-                              spreadRadius: 6,
-                            ),
-                          ],
-                        ),
-                        child: const Icon(Icons.radio, color: Colors.white, size: 72),
-                      ),
-                      const SizedBox(height: 24),
-                      const Text(
-                        'AREA 93.5 FM',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 32,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 1.5,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      const Text(
-                        'The Voice of the City • 24/7 Live Stream',
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 14,
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                      const SizedBox(height: 48),
-                      const CircularProgressIndicator(
-                        color: AppColors.primaryOrange,
-                        strokeWidth: 3,
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF041B3D), Color(0xFF020E22)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
+        ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            // Background Microphone Silhouette & Concentric Ring Graphics
+            Positioned(
+              top: 80,
+              right: -20,
+              child: Opacity(
+                opacity: 0.08,
+                child: Icon(Icons.mic, size: 360, color: Colors.white),
+              ),
+            ),
+            // Concentric Circles
+            Container(
+              width: 320,
+              height: 320,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: AppColors.primaryOrange.withValues(alpha: 0.15), width: 1.5),
+              ),
+            ),
+            Container(
+              width: 260,
+              height: 260,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: AppColors.primaryOrange.withValues(alpha: 0.25), width: 1.5),
+              ),
+            ),
+
+            // Central Animated Logo & Tagline
+            AnimatedBuilder(
+              animation: _controller,
+              builder: (context, child) {
+                return FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: ScaleTransition(
+                    scale: _scaleAnimation,
+                    child: const Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AreaFMLogo(size: 150, showTagline: true),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+
+            // Bottom Soundwave Visualizer Bar
+            Positioned(
+              bottom: 60,
+              child: Row(
+                children: List.generate(7, (idx) {
+                  final heights = [16.0, 28.0, 42.0, 24.0, 38.0, 20.0, 14.0];
+                  return Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 3),
+                    width: 4,
+                    height: heights[idx],
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryOrange,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  );
+                }),
+              ),
+            ),
+          ],
         ),
       ),
     );
