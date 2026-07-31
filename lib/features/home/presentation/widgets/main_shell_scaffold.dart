@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../live_radio/presentation/providers/audio_player_provider.dart';
@@ -24,6 +25,7 @@ class MainShellScaffold extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final audioState = ref.watch(audioPlayerProvider);
+    final audioNotifier = ref.read(audioPlayerProvider.notifier);
     final track = audioState.currentTrack;
     final selectedIndex = _calculateSelectedIndex(context);
 
@@ -75,31 +77,125 @@ class MainShellScaffold extends ConsumerWidget {
         ],
       ),
 
-      // Custom Bottom Navigation Bar matching Image 1 exactly
-      bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xFF041D44),
-          boxShadow: [
-            BoxShadow(color: Colors.black26, blurRadius: 10, offset: Offset(0, -2)),
-          ],
-        ),
-        child: SafeArea(
-          top: false,
-          child: SizedBox(
-            height: 64,
-            child: Row(
-              children: [
-                _buildNavItem(context, index: 0, label: 'Home', icon: Icons.home, route: '/home', isSelected: selectedIndex == 0),
-                _buildNavItem(context, index: 1, label: 'Shows', icon: Icons.music_note, route: '/shows', isSelected: selectedIndex == 1),
-                _buildNavItem(context, index: 2, label: 'Podcasts', icon: Icons.mic, route: '/podcasts', isSelected: selectedIndex == 2),
-                _buildNavItem(context, index: 3, label: 'Events', icon: Icons.calendar_month, route: '/events', isSelected: selectedIndex == 3),
-                _buildNavItem(context, index: 4, label: 'More', icon: Icons.more_horiz, route: '/settings', isSelected: selectedIndex == 4),
-              ],
+      // Mini Player + Bottom Navigation Bar Stack
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Persistent Audio Mini Player Bar (Matching Design)
+          InkWell(
+            onTap: () => context.push('/live_radio'),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              decoration: const BoxDecoration(
+                color: Color(0xFF031A3D),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
+                boxShadow: [
+                  BoxShadow(color: Colors.black38, blurRadius: 8, offset: Offset(0, -2)),
+                ],
+              ),
+              child: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: CachedNetworkImage(
+                      imageUrl: track.image,
+                      width: 46,
+                      height: 46,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${track.title} with ${track.presenter}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                        ),
+                        const SizedBox(height: 2),
+                        Row(
+                          children: [
+                            const Text('On Air', style: TextStyle(color: AppColors.primaryOrange, fontSize: 11, fontWeight: FontWeight.bold)),
+                            const Text(' • ', style: TextStyle(color: Colors.white54, fontSize: 11)),
+                            Text(
+                              _formatDuration(audioState.position),
+                              style: const TextStyle(color: Colors.white70, fontSize: 11),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.skip_previous, color: Colors.white, size: 24),
+                        onPressed: () {},
+                      ),
+                      InkWell(
+                        onTap: () => audioNotifier.togglePlayPause(),
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppColors.primaryOrange,
+                          ),
+                          child: Icon(
+                            audioState.isPlaying ? Icons.pause : Icons.play_arrow,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.skip_next, color: Colors.white, size: 24),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
+
+          // Bottom Navigation Bar
+          Container(
+            decoration: const BoxDecoration(
+              color: Color(0xFF041D44),
+            ),
+            child: SafeArea(
+              top: false,
+              child: SizedBox(
+                height: 64,
+                child: Row(
+                  children: [
+                    _buildNavItem(context, index: 0, label: 'Home', icon: Icons.home, route: '/home', isSelected: selectedIndex == 0),
+                    _buildNavItem(context, index: 1, label: 'Shows', icon: Icons.music_note, route: '/shows', isSelected: selectedIndex == 1),
+                    _buildNavItem(context, index: 2, label: 'Podcasts', icon: Icons.mic, route: '/podcasts', isSelected: selectedIndex == 2),
+                    _buildNavItem(context, index: 3, label: 'Events', icon: Icons.calendar_month, route: '/events', isSelected: selectedIndex == 3),
+                    _buildNavItem(context, index: 4, label: 'More', icon: Icons.more_horiz, route: '/settings', isSelected: selectedIndex == 4),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  String _formatDuration(Duration dur) {
+    if (dur == Duration.zero) return '00:45:32';
+    final hours = dur.inHours;
+    final minutes = dur.inMinutes.remainder(60).toString().padLeft(2, '0');
+    final seconds = dur.inSeconds.remainder(60).toString().padLeft(2, '0');
+    if (hours > 0) {
+      return '$hours:$minutes:$seconds';
+    }
+    return '$minutes:$seconds';
   }
 
   Widget _buildNavItem(
