@@ -19,7 +19,7 @@ class FeaturedShowsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 215,
+      height: 220,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -31,7 +31,7 @@ class FeaturedShowsWidget extends StatelessWidget {
           return GestureDetector(
             onTap: () => context.push('/show_details/$showId'),
             child: Container(
-              width: 165,
+              width: 130,
               margin: const EdgeInsets.only(right: 12),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
@@ -47,9 +47,9 @@ class FeaturedShowsWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 child: Image.asset(
                   showAsset,
-                  width: 165,
-                  height: 215,
-                  fit: BoxFit.cover,
+                  width: 130,
+                  height: 220,
+                  fit: BoxFit.fill,
                   errorBuilder: (context, error, stackTrace) => Container(
                     color: const Color(0xFF001F54),
                     child: const Center(
