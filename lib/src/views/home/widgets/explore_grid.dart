@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../const/app_colors.dart';
 import '../../../routes/route_names.dart';
 
-/// 5-item quick-nav explore grid matching Home Screen.png
+/// 5-item quick-nav explore grid matching the designer spec in Home Screen.png
+/// Each item is a rounded dark navy container card holding both a bright blue icon
+/// and centered white label text.
 class ExploreGridWidget extends StatelessWidget {
   const ExploreGridWidget({super.key});
 
   static const _items = [
     _ExploreItem(icon: Icons.mic_rounded, label: 'Shows', route: RouteNames.shows),
-    _ExploreItem(icon: Icons.calendar_month_outlined, label: 'Schedule', route: RouteNames.shows),
+    _ExploreItem(icon: Icons.calendar_month_rounded, label: 'Schedule', route: RouteNames.shows),
     _ExploreItem(icon: Icons.headphones_rounded, label: 'Podcasts', route: RouteNames.podcasts),
     _ExploreItem(icon: Icons.bar_chart_rounded, label: 'Charts', route: RouteNames.charts),
-    _ExploreItem(icon: Icons.local_activity_outlined, label: 'Events', route: RouteNames.events),
+    _ExploreItem(icon: Icons.confirmation_number_outlined, label: 'Events', route: RouteNames.events),
   ];
 
   @override
@@ -25,7 +26,7 @@ class ExploreGridWidget extends StatelessWidget {
           'EXPLORE',
           style: GoogleFonts.bebasNeue(
             color: Colors.white,
-            fontSize: 20,
+            fontSize: 22,
             letterSpacing: 1.2,
           ),
         ),
@@ -47,30 +48,51 @@ class _ExploreButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => context.push(item.route),
-      child: Column(
-        children: [
-          Container(
-            width: 56,
-            height: 56,
-            decoration: BoxDecoration(
-              color: AppColors.surfaceDark2,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: AppColors.borderDark, width: 0.5),
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => context.push(item.route),
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 3),
+          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 2),
+          decoration: BoxDecoration(
+            color: const Color(0xFF071329),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: const Color(0xFF0F264E),
+              width: 1,
             ),
-            child: Icon(item.icon, color: Colors.white, size: 24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.3),
+                blurRadius: 6,
+                offset: const Offset(0, 3),
+              ),
+            ],
           ),
-          const SizedBox(height: 6),
-          Text(
-            item.label,
-            style: GoogleFonts.inter(
-              color: AppColors.textSecondaryDark,
-              fontSize: 11,
-              fontWeight: FontWeight.w500,
-            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                item.icon,
+                color: const Color(0xFF0055FF),
+                size: 28,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                item.label,
+                style: GoogleFonts.inter(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
