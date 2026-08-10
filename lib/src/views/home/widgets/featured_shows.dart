@@ -4,7 +4,7 @@ import '../../../../const/app_assets.dart';
 import '../../../models/show_model.dart';
 
 /// Horizontal scroll of featured show cards rendering the exact designer artwork
-/// assets (show1.png, show2.png, show3.png, show4.png) matching Home Screen.png.
+/// assets (show1.png, show2.png, show3.png, show4.png) in full aspect ratio matching Home Screen.png.
 class FeaturedShowsWidget extends StatelessWidget {
   final List<ShowModel> shows;
   const FeaturedShowsWidget({super.key, required this.shows});
@@ -19,7 +19,7 @@ class FeaturedShowsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 220,
+      height: 280,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -31,25 +31,25 @@ class FeaturedShowsWidget extends StatelessWidget {
           return GestureDetector(
             onTap: () => context.push('/show_details/$showId'),
             child: Container(
-              width: 130,
-              margin: const EdgeInsets.only(right: 12),
+              width: 165,
+              margin: const EdgeInsets.only(right: 14),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(18),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.35),
+                    color: Colors.black.withValues(alpha: 0.4),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(18),
                 child: Image.asset(
                   showAsset,
-                  width: 130,
-                  height: 220,
-                  fit: BoxFit.fill,
+                  width: 165,
+                  height: 280,
+                  fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) => Container(
                     color: const Color(0xFF001F54),
                     child: const Center(
