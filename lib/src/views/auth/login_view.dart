@@ -202,7 +202,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                       onTap: () => setState(() => _obscurePassword = !_obscurePassword),
                       child: Icon(
                         _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                        color: Colors.white38,
+                        color: Colors.white60,
                         size: 20,
                       ),
                     ),
@@ -407,7 +407,7 @@ class _DarkTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.08),
+        color: const Color(0xFF1C2639),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.white24),
       ),
@@ -415,13 +415,30 @@ class _DarkTextField extends StatelessWidget {
         controller: controller,
         obscureText: obscureText,
         keyboardType: keyboardType,
-        style: GoogleFonts.inter(color: Colors.white, fontSize: 14),
+        style: GoogleFonts.inter(
+          color: Colors.white,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+        ),
         decoration: InputDecoration(
+          filled: true,
+          fillColor: const Color(0xFF1C2639),
           hintText: hintText,
           hintStyle: GoogleFonts.inter(color: Colors.white38, fontSize: 14),
-          prefixIcon: Icon(prefixIcon, color: Colors.white38, size: 20),
+          prefixIcon: Icon(prefixIcon, color: Colors.white60, size: 20),
           suffixIcon: suffixIcon,
-          border: InputBorder.none,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+          ),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         ),
       ),

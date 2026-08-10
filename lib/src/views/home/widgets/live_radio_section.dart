@@ -8,7 +8,7 @@ import '../../../models/show_model.dart';
 
 /// ON AIR NOW card matching the exact designer reference in Home Screen.png:
 /// Dark navy card with DJ Ace presenter thumbnail, ON AIR title, with DJ Ace,
-/// time slot, and round blue audio visualizer waveform button.
+/// time slot, and round blue audio visualizer waveform button. Theme-aware header.
 class LiveRadioSectionWidget extends ConsumerWidget {
   final ShowModel show;
   const LiveRadioSectionWidget({super.key, required this.show});
@@ -17,6 +17,7 @@ class LiveRadioSectionWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final playerService = ref.watch(audioPlayerServiceProvider);
     final isPlaying = playerService.isPlaying;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -29,10 +30,10 @@ class LiveRadioSectionWidget extends ConsumerWidget {
             children: [
               Text(
                 'ON AIR NOW',
-                style: GoogleFonts.poppins(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
+                style: GoogleFonts.bebasNeue(
+                  color: isDark ? Colors.white : AppColors.textPrimaryLight,
+                  fontSize: 20,
+                  letterSpacing: 1.2,
                 ),
               ),
               GestureDetector(

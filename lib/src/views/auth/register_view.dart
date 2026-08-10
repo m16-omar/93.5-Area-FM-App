@@ -202,7 +202,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                   const SizedBox(height: 8),
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.08),
+                      color: const Color(0xFF1C2639),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: Colors.white24),
                     ),
@@ -215,11 +215,11 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                           ),
                           child: Row(
                             children: [
-                              const Icon(Icons.phone_outlined, color: Colors.white38, size: 18),
+                              const Icon(Icons.phone_outlined, color: Colors.white60, size: 18),
                               const SizedBox(width: 6),
-                              Text('+234', style: GoogleFonts.inter(color: Colors.white70, fontSize: 14)),
+                              Text('+234', style: GoogleFonts.inter(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
                               const SizedBox(width: 4),
-                              const Icon(Icons.arrow_drop_down, color: Colors.white38, size: 16),
+                              const Icon(Icons.arrow_drop_down, color: Colors.white60, size: 16),
                             ],
                           ),
                         ),
@@ -227,11 +227,15 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                           child: TextField(
                             controller: _phoneController,
                             keyboardType: TextInputType.phone,
-                            style: GoogleFonts.inter(color: Colors.white, fontSize: 14),
+                            style: GoogleFonts.inter(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
                             decoration: InputDecoration(
+                              filled: true,
+                              fillColor: const Color(0xFF1C2639),
                               hintText: 'Phone Number',
                               hintStyle: GoogleFonts.inter(color: Colors.white38, fontSize: 14),
                               border: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
                               contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
                             ),
                           ),
@@ -251,7 +255,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                       onTap: () => setState(() => _obscurePassword = !_obscurePassword),
                       child: Icon(
                         _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                        color: Colors.white38,
+                        color: Colors.white60,
                         size: 18,
                       ),
                     ),
@@ -268,7 +272,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                       onTap: () => setState(() => _obscureConfirm = !_obscureConfirm),
                       child: Icon(
                         _obscureConfirm ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                        color: Colors.white38,
+                        color: Colors.white60,
                         size: 18,
                       ),
                     ),
@@ -476,7 +480,7 @@ class _DarkField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.08),
+        color: const Color(0xFF1C2639),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.white24),
       ),
@@ -484,13 +488,26 @@ class _DarkField extends StatelessWidget {
         controller: controller,
         obscureText: obscure,
         keyboardType: keyboard,
-        style: GoogleFonts.inter(color: Colors.white, fontSize: 14),
+        style: GoogleFonts.inter(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
         decoration: InputDecoration(
+          filled: true,
+          fillColor: const Color(0xFF1C2639),
           hintText: hint,
           hintStyle: GoogleFonts.inter(color: Colors.white38, fontSize: 14),
-          prefixIcon: Icon(icon, color: Colors.white38, size: 18),
+          prefixIcon: Icon(icon, color: Colors.white60, size: 18),
           suffixIcon: suffix,
-          border: InputBorder.none,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+          ),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         ),
       ),

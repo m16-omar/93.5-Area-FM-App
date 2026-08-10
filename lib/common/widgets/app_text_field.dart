@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../const/app_colors.dart';
 import '../../const/app_sizes.dart';
 
@@ -31,6 +32,9 @@ class AppTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDark ? Colors.white : AppColors.textPrimaryLight;
+    final hintColor = isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight;
+    final fillBg = isDark ? AppColors.surfaceDark3 : const Color(0xFFF3F4F6);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,10 +42,10 @@ class AppTextField extends StatelessWidget {
         if (labelText != null) ...[
           Text(
             labelText!,
-            style: TextStyle(
+            style: GoogleFonts.inter(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+              color: textColor,
             ),
           ),
           const SizedBox(height: 6),
@@ -53,18 +57,19 @@ class AppTextField extends StatelessWidget {
           maxLines: maxLines,
           validator: validator,
           onChanged: onChanged,
-          style: TextStyle(
-            color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+          style: GoogleFonts.inter(
+            color: textColor,
             fontSize: 14,
+            fontWeight: FontWeight.w500,
           ),
           decoration: InputDecoration(
             hintText: hintText,
-            hintStyle: TextStyle(
-              color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+            hintStyle: GoogleFonts.inter(
+              color: hintColor,
               fontSize: 14,
             ),
             filled: true,
-            fillColor: isDark ? AppColors.cardDark : AppColors.cardLight,
+            fillColor: fillBg,
             prefixIcon: prefixIcon,
             suffixIcon: suffixIcon,
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

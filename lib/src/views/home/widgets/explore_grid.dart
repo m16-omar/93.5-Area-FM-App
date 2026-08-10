@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../const/app_colors.dart';
 import '../../../routes/route_names.dart';
 
 /// 5-item quick-nav explore grid matching the designer spec in Home Screen.png
-/// Each item is a rounded dark navy container card holding both a bright blue icon
-/// and centered white label text.
+/// Each item is a rounded container card holding both a bright blue icon
+/// and centered label text. Theme-aware for light and dark mode.
 class ExploreGridWidget extends StatelessWidget {
   const ExploreGridWidget({super.key});
 
@@ -19,13 +20,15 @@ class ExploreGridWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'EXPLORE',
           style: GoogleFonts.bebasNeue(
-            color: Colors.white,
+            color: isDark ? Colors.white : AppColors.textPrimaryLight,
             fontSize: 22,
             letterSpacing: 1.2,
           ),
@@ -34,7 +37,7 @@ class ExploreGridWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: _items.map((item) {
-            return _ExploreButton(item: item);
+            return _ExploreButton(item: item, isDark: isDark);
           }).toList(),
         ),
       ],
@@ -44,7 +47,8 @@ class ExploreGridWidget extends StatelessWidget {
 
 class _ExploreButton extends StatelessWidget {
   final _ExploreItem item;
-  const _ExploreButton({required this.item});
+  final bool isDark;
+  const _ExploreButton({required this.item, required this.isDark});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +59,7 @@ class _ExploreButton extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 3),
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 2),
           decoration: BoxDecoration(
-            color: const Color(0xFF071329),
+            color: isDark ? const Color(0xFF071329) : const Color(0xFF071329),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: const Color(0xFF0F264E),

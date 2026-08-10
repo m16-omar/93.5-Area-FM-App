@@ -6,7 +6,7 @@ import '../../const/app_assets.dart';
 
 /// Centered logo app bar matching the designer spec.
 /// Shows hamburger (drawer) on left, prominent brand logo in center,
-/// and notification bell on right by default.
+/// and notification bell on right by default. Theme-aware for light/dark modes.
 class AreaFMAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool showBack;
   final bool showNotification;
@@ -31,50 +31,54 @@ class AreaFMAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final iconColor = isDark ? Colors.white : AppColors.textPrimaryLight;
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
+      value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.light,
+        statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
       ),
       child: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         scrolledUnderElevation: 0,
         automaticallyImplyLeading: false,
-        systemOverlayStyle: const SystemUiOverlayStyle(
+        systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.light,
+          statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
         ),
         leading: showBack
             ? IconButton(
-                icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 22),
+                icon: Icon(Icons.arrow_back_ios, color: iconColor, size: 22),
                 onPressed: () => Navigator.of(context).pop(),
               )
             : IconButton(
-                icon: const Icon(Icons.menu, color: Colors.white, size: 26),
+                icon: Icon(Icons.menu, color: iconColor, size: 26),
                 onPressed: onMenuTap ?? () => Scaffold.of(context).openDrawer(),
               ),
         title: title != null
             ? Text(
                 title!,
                 style: GoogleFonts.poppins(
-                  color: Colors.white,
+                  color: iconColor,
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),
               )
-            : _AreaFMLogo(),
+            : _AreaFMLogo(isDark: isDark),
         centerTitle: true,
         actions: actions ??
             [
               if (showSearch)
                 IconButton(
-                  icon: const Icon(Icons.search, color: Colors.white, size: 24),
+                  icon: Icon(Icons.search, color: iconColor, size: 24),
                   onPressed: () {},
                 ),
               if (showNotification)
                 _NotificationBell(
                   count: notificationCount,
+                  iconColor: iconColor,
                   onTap: onNotificationTap,
                 ),
               const SizedBox(width: 8),
@@ -88,6 +92,9 @@ class AreaFMAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class _AreaFMLogo extends StatelessWidget {
+  final bool isDark;
+  const _AreaFMLogo({required this.isDark});
+
   @override
   Widget build(BuildContext context) {
     return Image.asset(
@@ -95,13 +102,14 @@ class _AreaFMLogo extends StatelessWidget {
       height: 64,
       fit: BoxFit.contain,
       errorBuilder: (context, error, stackTrace) {
+        final textColor = isDark ? Colors.white : AppColors.textPrimaryLight;
         return RichText(
           textAlign: TextAlign.center,
           text: TextSpan(
             children: [
               TextSpan(
                 text: '93.5\n',
-                style: GoogleFonts.bebasNeue(fontSize: 14, color: Colors.white, height: 1.0),
+                style: GoogleFonts.bebasNeue(fontSize: 14, color: textColor, height: 1.0),
               ),
               TextSpan(
                 text: 'AREA ',
@@ -109,7 +117,7 @@ class _AreaFMLogo extends StatelessWidget {
               ),
               TextSpan(
                 text: 'FM',
-                style: GoogleFonts.bebasNeue(fontSize: 24, color: Colors.white),
+                style: GoogleFonts.bebasNeue(fontSize: 24, color: textColor),
               ),
             ],
           ),
@@ -121,9 +129,10 @@ class _AreaFMLogo extends StatelessWidget {
 
 class _NotificationBell extends StatelessWidget {
   final int count;
+  final Color iconColor;
   final VoidCallback? onTap;
 
-  const _NotificationBell({required this.count, this.onTap});
+  const _NotificationBell({required this.count, required this.iconColor, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -132,9 +141,9 @@ class _NotificationBell extends StatelessWidget {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          const Padding(
-            padding: EdgeInsets.all(8),
-            child: Icon(Icons.notifications_outlined, color: Colors.white, size: 26),
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Icon(Icons.notifications_outlined, color: iconColor, size: 26),
           ),
           if (count > 0)
             Positioned(
