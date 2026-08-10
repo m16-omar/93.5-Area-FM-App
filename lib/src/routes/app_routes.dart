@@ -69,12 +69,9 @@ class MainShellScaffold extends StatelessWidget {
         context.go(RouteNames.shows);
         break;
       case 2:
-        context.push(RouteNames.radioPlayer);
-        break;
-      case 3:
         context.go(RouteNames.podcasts);
         break;
-      case 4:
+      case 3:
         context.go(RouteNames.settings);
         break;
     }

@@ -18,6 +18,7 @@ class RadioPlayerView extends ConsumerWidget {
     return Scaffold(
       appBar: AreaFMAppBar(
         title: 'Live Player',
+        showBack: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.share_rounded),

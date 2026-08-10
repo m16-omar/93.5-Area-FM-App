@@ -15,7 +15,6 @@ class AppBottomNavigation extends StatelessWidget {
   static final List<_NavItem> _items = [
     const _NavItem(label: 'Home', icon: Icons.home_outlined, activeIcon: Icons.home_rounded),
     const _NavItem(label: 'Shows', icon: Icons.radio_outlined, activeIcon: Icons.radio_rounded),
-    const _NavItem(label: 'Live', icon: Icons.graphic_eq_rounded, activeIcon: Icons.graphic_eq_rounded),
     const _NavItem(label: 'Podcasts', icon: Icons.headphones_outlined, activeIcon: Icons.headphones_rounded),
     const _NavItem(label: 'Settings', icon: Icons.settings_outlined, activeIcon: Icons.settings_rounded),
   ];
@@ -49,59 +48,6 @@ class AppBottomNavigation extends StatelessWidget {
               children: List.generate(_items.length, (i) {
                 final item = _items[i];
                 final isActive = currentIndex == i;
-                final isCenter = i == 2; // Live = center elevated
-
-                if (isCenter) {
-                  return Expanded(
-                    child: GestureDetector(
-                      onTap: () => onTap(i),
-                      behavior: HitTestBehavior.opaque,
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        alignment: Alignment.center,
-                        children: [
-                          Positioned(
-                            top: -18,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Container(
-                                  width: 48,
-                                  height: 48,
-                                  decoration: const BoxDecoration(
-                                    color: AppColors.primary,
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Color(0x66FF5500),
-                                        blurRadius: 12,
-                                        spreadRadius: 2,
-                                      ),
-                                    ],
-                                  ),
-                                  child: Icon(
-                                    isActive ? item.activeIcon : item.icon,
-                                    color: Colors.white,
-                                    size: 24,
-                                  ),
-                                ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  item.label,
-                                  style: GoogleFonts.inter(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w500,
-                                    color: isActive ? AppColors.primary : AppColors.textSecondaryDark,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }
 
                 return Expanded(
                   child: GestureDetector(
@@ -139,15 +85,14 @@ class AppBottomNavigation extends StatelessWidget {
   /// Resolve index from current route
   static int indexFromLocation(String location) {
     if (location.startsWith('/shows')) { return 1; }
-    if (location.startsWith('/radio_player') || location.startsWith('/live')) { return 2; }
-    if (location.startsWith('/podcasts')) { return 3; }
+    if (location.startsWith('/podcasts')) { return 2; }
     if (location.startsWith('/settings') ||
         location.startsWith('/more') ||
         location.startsWith('/events') ||
         location.startsWith('/charts') ||
         location.startsWith('/presenters') ||
         location.startsWith('/notifications') ||
-        location.startsWith('/blog')) { return 4; }
+        location.startsWith('/blog')) { return 3; }
     return 0; // home
   }
 }
