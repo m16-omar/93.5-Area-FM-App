@@ -69,13 +69,13 @@ class MainShellScaffold extends StatelessWidget {
         context.go(RouteNames.shows);
         break;
       case 2:
-        context.go(RouteNames.podcasts);
+        context.push(RouteNames.radioPlayer);
         break;
       case 3:
-        context.go(RouteNames.videos);
+        context.go(RouteNames.podcasts);
         break;
       case 4:
-        context.go(RouteNames.charts);
+        context.go(RouteNames.settings);
         break;
     }
   }
@@ -167,14 +167,6 @@ final appRouter = GoRouter(
       builder: (context, state) => const NotificationsView(),
     ),
     GoRoute(
-      path: RouteNames.settings,
-      builder: (context, state) => const SettingsView(),
-    ),
-    GoRoute(
-      path: RouteNames.support,
-      builder: (context, state) => const SupportView(),
-    ),
-    GoRoute(
       path: RouteNames.promote,
       builder: (context, state) => const PromoteView(),
     ),
@@ -216,6 +208,10 @@ final appRouter = GoRouter(
         GoRoute(
           path: RouteNames.team,
           builder: (context, state) => const TeamView(),
+        ),
+        GoRoute(
+          path: RouteNames.settings,
+          builder: (context, state) => const SettingsView(),
         ),
       ],
     ),

@@ -13,11 +13,11 @@ class AppBottomNavigation extends StatelessWidget {
   });
 
   static final List<_NavItem> _items = [
-    _NavItem(label: 'Home', icon: Icons.home_outlined, activeIcon: Icons.home_rounded),
-    _NavItem(label: 'Shows', icon: Icons.radio_outlined, activeIcon: Icons.radio_rounded),
-    _NavItem(label: 'Podcasts', icon: Icons.headphones_outlined, activeIcon: Icons.headphones_rounded),
-    _NavItem(label: 'Videos', icon: Icons.play_circle_outline_rounded, activeIcon: Icons.play_circle_fill_rounded),
-    _NavItem(label: 'More', icon: Icons.grid_view_outlined, activeIcon: Icons.grid_view_rounded),
+    const _NavItem(label: 'Home', icon: Icons.home_outlined, activeIcon: Icons.home_rounded),
+    const _NavItem(label: 'Shows', icon: Icons.radio_outlined, activeIcon: Icons.radio_rounded),
+    const _NavItem(label: 'Live', icon: Icons.graphic_eq_rounded, activeIcon: Icons.graphic_eq_rounded),
+    const _NavItem(label: 'Podcasts', icon: Icons.headphones_outlined, activeIcon: Icons.headphones_rounded),
+    const _NavItem(label: 'Settings', icon: Icons.settings_outlined, activeIcon: Icons.settings_rounded),
   ];
 
   @override
@@ -49,7 +49,7 @@ class AppBottomNavigation extends StatelessWidget {
               children: List.generate(_items.length, (i) {
                 final item = _items[i];
                 final isActive = currentIndex == i;
-                final isCenter = i == 2; // Podcasts = center elevated
+                final isCenter = i == 2; // Live = center elevated
 
                 if (isCenter) {
                   return Expanded(
@@ -139,14 +139,15 @@ class AppBottomNavigation extends StatelessWidget {
   /// Resolve index from current route
   static int indexFromLocation(String location) {
     if (location.startsWith('/shows')) { return 1; }
-    if (location.startsWith('/podcasts')) { return 2; }
-    if (location.startsWith('/videos')) { return 3; }
-    if (location.startsWith('/more') ||
+    if (location.startsWith('/radio_player') || location.startsWith('/live')) { return 2; }
+    if (location.startsWith('/podcasts')) { return 3; }
+    if (location.startsWith('/settings') ||
+        location.startsWith('/more') ||
         location.startsWith('/events') ||
         location.startsWith('/charts') ||
         location.startsWith('/presenters') ||
         location.startsWith('/notifications') ||
-        location.startsWith('/settings')) { return 4; }
+        location.startsWith('/blog')) { return 4; }
     return 0; // home
   }
 }
