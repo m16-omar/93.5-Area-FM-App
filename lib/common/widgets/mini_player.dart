@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../const/app_colors.dart';
 import '../../src/providers/radio_player_provider.dart';
+import '../../src/routes/route_names.dart';
 
 /// Persistent mini player bar at the bottom of the shell scaffold.
 /// Matches designer: dark navy bg, logo, station name, LIVE badge + waveform,
-/// pause/play button, and expand chevron.
+/// pause/play button, expand chevron, and hide/close button when not playing.
 class MiniPlayerWidget extends ConsumerWidget {
   const MiniPlayerWidget({super.key});
 
@@ -15,6 +17,10 @@ class MiniPlayerWidget extends ConsumerWidget {
     final playerService = ref.watch(audioPlayerServiceProvider);
     final isPlaying = playerService.isPlaying;
     final currentTrack = playerService.currentTrack;
+
+    if (playerService.isDismissed) {
+      return const SizedBox.shrink();
+    }
 
     return Container(
       height: 72,
@@ -35,39 +41,42 @@ class MiniPlayerWidget extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Row(
           children: [
-            // Logo
-            Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: AppColors.royalBlue,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: AppColors.brandBlue.withValues(alpha: 0.5), width: 1),
-              ),
-              child: Center(
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: '93.5\n',
-                        style: GoogleFonts.bebasNeue(
-                          fontSize: 8,
-                          color: Colors.white,
-                          letterSpacing: 1,
-                          height: 1.3,
+            // Logo / Cover Thumbnail
+            GestureDetector(
+              onTap: () => context.push(RouteNames.radioPlayer),
+              child: Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: AppColors.royalBlue,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: AppColors.brandBlue.withValues(alpha: 0.5), width: 1),
+                ),
+                child: Center(
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '93.5\n',
+                          style: GoogleFonts.bebasNeue(
+                            fontSize: 8,
+                            color: Colors.white,
+                            letterSpacing: 1,
+                            height: 1.3,
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: 'AREA',
-                        style: GoogleFonts.bebasNeue(
-                          fontSize: 12,
-                          color: AppColors.primary,
-                          letterSpacing: 1,
-                          height: 1.0,
+                        TextSpan(
+                          text: 'AREA',
+                          style: GoogleFonts.bebasNeue(
+                            fontSize: 12,
+                            color: AppColors.primary,
+                            letterSpacing: 1,
+                            height: 1.0,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -75,66 +84,66 @@ class MiniPlayerWidget extends ConsumerWidget {
             const SizedBox(width: 10),
             // Station info
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    currentTrack.title.isNotEmpty
-                        ? currentTrack.title
-                        : '93.5 AREA FM',
-                    style: GoogleFonts.poppins(
-                      color: Colors.white,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 2),
-                  Row(
-                    children: [
-                      Text(
-                        currentTrack.artist.isNotEmpty
-                            ? currentTrack.artist
-                            : 'Where Music Lives & the Beat Never Stops',
-                        style: GoogleFonts.inter(
-                          color: AppColors.textSecondaryDark,
-                          fontSize: 11,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+              child: GestureDetector(
+                onTap: () => context.push(RouteNames.radioPlayer),
+                behavior: HitTestBehavior.opaque,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      currentTrack.title.isNotEmpty
+                          ? currentTrack.title
+                          : '93.5 AREA FM',
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
                       ),
-                    ],
-                  ),
-                  if (isPlaying) ...[
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            'LIVE',
-                            style: GoogleFonts.bebasNeue(
-                              fontSize: 10,
-                              color: Colors.white,
-                              letterSpacing: 1,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      currentTrack.artist.isNotEmpty
+                          ? currentTrack.artist
+                          : 'Where Music Lives & the Beat Never Stops',
+                      style: GoogleFonts.inter(
+                        color: AppColors.textSecondaryDark,
+                        fontSize: 11,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    if (isPlaying) ...[
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              'LIVE',
+                              style: GoogleFonts.bebasNeue(
+                                fontSize: 10,
+                                color: Colors.white,
+                                letterSpacing: 1,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 6),
-                        _WaveformIndicator(),
-                      ],
-                    ),
+                          const SizedBox(width: 6),
+                          _WaveformIndicator(),
+                        ],
+                      ),
+                    ],
                   ],
-                ],
+                ),
               ),
             ),
-            // Play/Pause
+            // Play/Pause button
             GestureDetector(
               onTap: () => playerService.togglePlayPause(),
               child: Container(
@@ -151,12 +160,24 @@ class MiniPlayerWidget extends ConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 8),
-            // Expand chevron
-            Icon(
-              Icons.keyboard_arrow_up_rounded,
-              color: AppColors.textSecondaryDark,
-              size: 20,
+            const SizedBox(width: 6),
+            // Close / Hide Button (Dismisses mini player when not playing or when user taps close)
+            GestureDetector(
+              onTap: () {
+                if (!isPlaying) {
+                  playerService.dismissMiniPlayer();
+                } else {
+                  context.push(RouteNames.radioPlayer);
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: Icon(
+                  isPlaying ? Icons.keyboard_arrow_up_rounded : Icons.close_rounded,
+                  color: AppColors.textSecondaryDark,
+                  size: 22,
+                ),
+              ),
             ),
           ],
         ),

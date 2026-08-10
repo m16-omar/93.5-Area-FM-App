@@ -19,6 +19,7 @@ class AudioPlayerService extends ChangeNotifier {
 
   bool _isPlaying = false;
   bool _isBuffering = false;
+  bool _isDismissed = false;
   double _volume = 0.8;
   bool _isMuted = false;
   Duration _position = Duration.zero;
@@ -36,6 +37,7 @@ class AudioPlayerService extends ChangeNotifier {
   RadioStreamModel get currentTrack => _currentTrack;
   bool get isPlaying => _isPlaying;
   bool get isBuffering => _isBuffering;
+  bool get isDismissed => _isDismissed;
   double get volume => _volume;
   bool get isMuted => _isMuted;
   Duration get position => _position;
@@ -63,8 +65,19 @@ class AudioPlayerService extends ChangeNotifier {
     });
   }
 
+  void dismissMiniPlayer() {
+    _isDismissed = true;
+    notifyListeners();
+  }
+
+  void showMiniPlayer() {
+    _isDismissed = false;
+    notifyListeners();
+  }
+
   Future<void> playTrack(RadioStreamModel track) async {
     try {
+      _isDismissed = false;
       if (_currentTrack.id == track.id && _audioPlayer.audioSource != null) {
         return togglePlayPause();
       }
@@ -85,6 +98,7 @@ class AudioPlayerService extends ChangeNotifier {
 
   Future<void> togglePlayPause() async {
     try {
+      _isDismissed = false;
       if (_audioPlayer.audioSource == null) {
         await playTrack(_currentTrack);
         return;
