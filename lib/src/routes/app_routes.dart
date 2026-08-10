@@ -57,12 +57,7 @@ class MainShellScaffold extends StatelessWidget {
 
   static int _calculateSelectedIndex(BuildContext context) {
     final String location = GoRouterState.of(context).uri.path;
-    if (location.startsWith('/home')) return 0;
-    if (location.startsWith('/radio_player')) return 1;
-    if (location.startsWith('/shows')) return 2;
-    if (location.startsWith('/podcasts')) return 3;
-    if (location.startsWith('/blog') || location.startsWith('/news')) return 4;
-    return 0;
+    return AppBottomNavigation.indexFromLocation(location);
   }
 
   void _onItemTapped(int index, BuildContext context) {
@@ -71,16 +66,16 @@ class MainShellScaffold extends StatelessWidget {
         context.go(RouteNames.home);
         break;
       case 1:
-        context.push(RouteNames.radioPlayer);
-        break;
-      case 2:
         context.go(RouteNames.shows);
         break;
-      case 3:
+      case 2:
         context.go(RouteNames.podcasts);
         break;
+      case 3:
+        context.go(RouteNames.videos);
+        break;
       case 4:
-        context.go(RouteNames.blog);
+        context.go(RouteNames.charts);
         break;
     }
   }
@@ -114,6 +109,75 @@ final appRouter = GoRouter(
       path: RouteNames.radioPlayer,
       builder: (context, state) => const RadioPlayerView(),
     ),
+    GoRoute(
+      path: '/show_details/:id',
+      builder: (context, state) {
+        final id = state.pathParameters['id'] ?? '1';
+        return ShowDetailsView(id: id);
+      },
+    ),
+    GoRoute(
+      path: '/podcast_details/:id',
+      builder: (context, state) {
+        final id = state.pathParameters['id'] ?? '1';
+        return PodcastDetailsView(id: id);
+      },
+    ),
+    GoRoute(
+      path: '/presenter_details/:id',
+      builder: (context, state) {
+        final id = state.pathParameters['id'] ?? '1';
+        return PresenterDetailsView(id: id);
+      },
+    ),
+    GoRoute(
+      path: '/event_details/:id',
+      builder: (context, state) {
+        final id = state.pathParameters['id'] ?? '1';
+        return EventDetailsView(id: id);
+      },
+    ),
+    GoRoute(
+      path: '/video_details/:id',
+      builder: (context, state) {
+        final id = state.pathParameters['id'] ?? '1';
+        return VideoDetailsView(id: id);
+      },
+    ),
+    GoRoute(
+      path: '/post_details/:id',
+      builder: (context, state) {
+        final id = state.pathParameters['id'] ?? '1';
+        return PostDetailsView(id: id);
+      },
+    ),
+    GoRoute(
+      path: '/team_member/:id',
+      builder: (context, state) {
+        final id = state.pathParameters['id'] ?? '1';
+        return TeamMemberDetailsView(id: id);
+      },
+    ),
+    GoRoute(
+      path: RouteNames.contact,
+      builder: (context, state) => const ContactView(),
+    ),
+    GoRoute(
+      path: RouteNames.notifications,
+      builder: (context, state) => const NotificationsView(),
+    ),
+    GoRoute(
+      path: RouteNames.settings,
+      builder: (context, state) => const SettingsView(),
+    ),
+    GoRoute(
+      path: RouteNames.support,
+      builder: (context, state) => const SupportView(),
+    ),
+    GoRoute(
+      path: RouteNames.promote,
+      builder: (context, state) => const PromoteView(),
+    ),
     ShellRoute(
       builder: (context, state, child) => MainShellScaffold(child: child),
       routes: [
@@ -122,84 +186,36 @@ final appRouter = GoRouter(
           builder: (context, state) => const HomeView(),
         ),
         GoRoute(
-          path: RouteNames.blog,
-          builder: (context, state) => const BlogView(),
-        ),
-        GoRoute(
-          path: '${RouteNames.postDetails}/:id',
-          builder: (context, state) => PostDetailsView(id: state.pathParameters['id'] ?? ''),
+          path: RouteNames.shows,
+          builder: (context, state) => const ShowsView(),
         ),
         GoRoute(
           path: RouteNames.podcasts,
           builder: (context, state) => const PodcastsView(),
         ),
         GoRoute(
-          path: '${RouteNames.podcastDetails}/:id',
-          builder: (context, state) => PodcastDetailsView(id: state.pathParameters['id'] ?? ''),
-        ),
-        GoRoute(
-          path: RouteNames.shows,
-          builder: (context, state) => const ShowsView(),
-        ),
-        GoRoute(
-          path: '${RouteNames.showDetails}/:id',
-          builder: (context, state) => ShowDetailsView(id: state.pathParameters['id'] ?? ''),
+          path: RouteNames.videos,
+          builder: (context, state) => const VideosView(),
         ),
         GoRoute(
           path: RouteNames.charts,
           builder: (context, state) => const ChartsView(),
         ),
         GoRoute(
+          path: RouteNames.blog,
+          builder: (context, state) => const BlogView(),
+        ),
+        GoRoute(
           path: RouteNames.events,
           builder: (context, state) => const EventsView(),
-        ),
-        GoRoute(
-          path: '${RouteNames.eventDetails}/:id',
-          builder: (context, state) => EventDetailsView(id: state.pathParameters['id'] ?? ''),
-        ),
-        GoRoute(
-          path: RouteNames.team,
-          builder: (context, state) => const TeamView(),
-        ),
-        GoRoute(
-          path: '${RouteNames.teamMemberDetails}/:id',
-          builder: (context, state) => TeamMemberDetailsView(id: state.pathParameters['id'] ?? ''),
         ),
         GoRoute(
           path: RouteNames.presenters,
           builder: (context, state) => const PresentersView(),
         ),
         GoRoute(
-          path: '${RouteNames.presenterDetails}/:id',
-          builder: (context, state) => PresenterDetailsView(id: state.pathParameters['id'] ?? ''),
-        ),
-        GoRoute(
-          path: RouteNames.videos,
-          builder: (context, state) => const VideosView(),
-        ),
-        GoRoute(
-          path: '${RouteNames.videoDetails}/:id',
-          builder: (context, state) => VideoDetailsView(id: state.pathParameters['id'] ?? ''),
-        ),
-        GoRoute(
-          path: RouteNames.promote,
-          builder: (context, state) => const PromoteView(),
-        ),
-        GoRoute(
-          path: RouteNames.contact,
-          builder: (context, state) => const ContactView(),
-        ),
-        GoRoute(
-          path: RouteNames.notifications,
-          builder: (context, state) => const NotificationsView(),
-        ),
-        GoRoute(
-          path: RouteNames.settings,
-          builder: (context, state) => const SettingsView(),
-        ),
-        GoRoute(
-          path: RouteNames.support,
-          builder: (context, state) => const SupportView(),
+          path: RouteNames.team,
+          builder: (context, state) => const TeamView(),
         ),
       ],
     ),
