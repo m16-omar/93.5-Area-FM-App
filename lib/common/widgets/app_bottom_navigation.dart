@@ -22,20 +22,25 @@ class AppBottomNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bg = isDark ? AppColors.surfaceDark : Colors.white;
+    final borderColor = isDark ? AppColors.borderDark.withValues(alpha: 0.6) : AppColors.borderLight;
+    final unselectedColor = isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight;
+
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surfaceDark,
+        color: bg,
         border: Border(
           top: BorderSide(
-            color: AppColors.borderDark.withValues(alpha: 0.6),
+            color: borderColor,
             width: 1,
           ),
         ),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Colors.black45,
+            color: isDark ? Colors.black45 : Colors.black12,
             blurRadius: 16,
-            offset: Offset(0, -4),
+            offset: const Offset(0, -4),
           ),
         ],
       ),
@@ -97,7 +102,7 @@ class AppBottomNavigation extends StatelessWidget {
                       children: [
                         Icon(
                           isActive ? item.activeIcon : item.icon,
-                          color: isActive ? AppColors.primary : AppColors.textSecondaryDark,
+                          color: isActive ? AppColors.primary : unselectedColor,
                           size: 22,
                         ),
                         const SizedBox(height: 3),
@@ -106,7 +111,7 @@ class AppBottomNavigation extends StatelessWidget {
                           style: GoogleFonts.inter(
                             fontSize: 10,
                             fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
-                            color: isActive ? AppColors.primary : AppColors.textSecondaryDark,
+                            color: isActive ? AppColors.primary : unselectedColor,
                           ),
                         ),
                       ],

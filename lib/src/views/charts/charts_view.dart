@@ -28,9 +28,10 @@ class _ChartsViewState extends ConsumerState<ChartsView> {
   Widget build(BuildContext context) {
     final chartsAsync = ref.watch(topChartsProvider);
     final size = MediaQuery.of(context).size;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
+      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       extendBodyBehindAppBar: true,
       drawer: const AppDrawer(),
       appBar: const AreaFMAppBar(notificationCount: 3),

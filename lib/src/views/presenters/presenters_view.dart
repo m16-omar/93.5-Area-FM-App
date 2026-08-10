@@ -35,9 +35,10 @@ class _PresentersViewState extends ConsumerState<PresentersView> {
   Widget build(BuildContext context) {
     final presentersAsync = ref.watch(presentersListProvider);
     final size = MediaQuery.of(context).size;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
+      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       extendBodyBehindAppBar: true,
       drawer: const AppDrawer(),
       appBar: const AreaFMAppBar(notificationCount: 3),

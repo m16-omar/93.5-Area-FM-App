@@ -21,9 +21,10 @@ class HomeView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final homeDataAsync = ref.watch(homeDataFutureProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
+      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       extendBodyBehindAppBar: false,
       drawer: const AppDrawer(),
       appBar: const AreaFMAppBar(notificationCount: 3),
@@ -60,6 +61,7 @@ class HomeView extends ConsumerWidget {
                 child: _SectionHeader(
                   title: 'FEATURED SHOWS',
                   onSeeAll: () => context.push(RouteNames.shows),
+                  isDark: isDark,
                 ),
               ),
               SliverToBoxAdapter(
@@ -71,6 +73,7 @@ class HomeView extends ConsumerWidget {
                 child: _SectionHeader(
                   title: 'LATEST NEWS',
                   onSeeAll: () => context.push(RouteNames.blog),
+                  isDark: isDark,
                 ),
               ),
               SliverToBoxAdapter(
@@ -89,7 +92,8 @@ class HomeView extends ConsumerWidget {
 class _SectionHeader extends StatelessWidget {
   final String title;
   final VoidCallback? onSeeAll;
-  const _SectionHeader({required this.title, this.onSeeAll});
+  final bool isDark;
+  const _SectionHeader({required this.title, this.onSeeAll, this.isDark = true});
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +105,7 @@ class _SectionHeader extends StatelessWidget {
           Text(
             title,
             style: GoogleFonts.bebasNeue(
-              color: Colors.white,
+              color: isDark ? Colors.white : AppColors.textPrimaryLight,
               fontSize: 20,
               letterSpacing: 1.2,
             ),

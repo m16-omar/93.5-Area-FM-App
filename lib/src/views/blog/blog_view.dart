@@ -27,9 +27,10 @@ class _BlogViewState extends ConsumerState<BlogView> {
   Widget build(BuildContext context) {
     final postsAsync = ref.watch(blogPostsProvider);
     final size = MediaQuery.of(context).size;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
+      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       extendBodyBehindAppBar: true,
       drawer: const AppDrawer(),
       appBar: const AreaFMAppBar(notificationCount: 3),
