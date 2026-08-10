@@ -15,11 +15,11 @@ class AppDrawer extends ConsumerWidget {
     _DrawerNavItem(icon: Icons.home_rounded, label: 'Home', route: RouteNames.home, isGo: true),
     _DrawerNavItem(icon: Icons.mic_rounded, label: 'Shows', route: RouteNames.shows, isGo: true),
     _DrawerNavItem(icon: Icons.headphones_rounded, label: 'Podcasts', route: RouteNames.podcasts, isGo: true),
-    _DrawerNavItem(icon: Icons.play_circle_fill_rounded, label: 'Videos', route: RouteNames.videos),
-    _DrawerNavItem(icon: Icons.bar_chart_rounded, label: 'Charts', route: RouteNames.charts),
-    _DrawerNavItem(icon: Icons.local_activity_outlined, label: 'Events', route: RouteNames.events),
-    _DrawerNavItem(icon: Icons.people_outline_rounded, label: 'Team Members', route: RouteNames.presenters),
-    _DrawerNavItem(icon: Icons.newspaper_rounded, label: 'News & Blog', route: RouteNames.blog),
+    _DrawerNavItem(icon: Icons.play_circle_fill_rounded, label: 'Videos', route: RouteNames.videos, isGo: true),
+    _DrawerNavItem(icon: Icons.bar_chart_rounded, label: 'Charts', route: RouteNames.charts, isGo: true),
+    _DrawerNavItem(icon: Icons.local_activity_outlined, label: 'Events', route: RouteNames.events, isGo: true),
+    _DrawerNavItem(icon: Icons.people_outline_rounded, label: 'Team Members', route: RouteNames.presenters, isGo: true),
+    _DrawerNavItem(icon: Icons.newspaper_rounded, label: 'News & Blog', route: RouteNames.blog, isGo: true),
     _DrawerNavItem(icon: Icons.notifications_outlined, label: 'Notifications', route: RouteNames.notifications, badge: 3),
   ];
 
