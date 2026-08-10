@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../const/app_colors.dart';
 import '../../../common/components/custom_app_bar.dart';
-import '../../../common/widgets/mini_player.dart';
 import '../../providers/home_provider.dart';
 import '../../routes/route_names.dart';
 import '../drawer/app_drawer.dart';
@@ -28,7 +27,6 @@ class HomeView extends ConsumerWidget {
       extendBodyBehindAppBar: false,
       drawer: const AppDrawer(),
       appBar: const AreaFMAppBar(notificationCount: 3),
-      bottomNavigationBar: const MiniPlayerWidget(),
       body: homeDataAsync.when(
         loading: () => const AppLoader(message: 'Loading station content...'),
         error: (err, stack) => AppErrorWidget(

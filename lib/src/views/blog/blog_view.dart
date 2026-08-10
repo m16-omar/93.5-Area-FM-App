@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../const/app_colors.dart';
 import '../../../common/components/custom_app_bar.dart';
-import '../../../common/widgets/mini_player.dart';
 import '../../../common/widgets/app_loader.dart';
 import '../../../common/widgets/app_error.dart';
 import '../../../common/widgets/network_image.dart';
@@ -34,7 +33,6 @@ class _BlogViewState extends ConsumerState<BlogView> {
       extendBodyBehindAppBar: true,
       drawer: const AppDrawer(),
       appBar: const AreaFMAppBar(notificationCount: 3),
-      bottomNavigationBar: const MiniPlayerWidget(),
       body: postsAsync.when(
         loading: () => const AppLoader(message: 'Loading news...'),
         error: (err, stack) => AppErrorWidget(
