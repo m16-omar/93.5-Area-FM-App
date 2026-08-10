@@ -15,6 +15,10 @@ class CurrentUserNotifier extends Notifier<UserModel?> {
   void setUser(UserModel? user) {
     state = user;
   }
+
+  void logout() {
+    state = null;
+  }
 }
 
 final currentUserProvider = NotifierProvider<CurrentUserNotifier, UserModel?>(CurrentUserNotifier.new);

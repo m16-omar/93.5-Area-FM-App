@@ -1,109 +1,219 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../const/app_colors.dart';
-import '../../const/app_sizes.dart';
 import '../../src/providers/radio_player_provider.dart';
-import 'network_image.dart';
 
+/// Persistent mini player bar at the bottom of the shell scaffold.
+/// Matches designer: dark navy bg, logo, station name, LIVE badge + waveform,
+/// pause/play button, and expand chevron.
 class MiniPlayerWidget extends ConsumerWidget {
   const MiniPlayerWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final playerService = ref.watch(audioPlayerServiceProvider);
+    final isPlaying = playerService.isPlaying;
     final currentTrack = playerService.currentTrack;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return GestureDetector(
-      onTap: () => context.push('/radio_player'),
-      child: Container(
-        height: AppSizes.miniPlayerHeight,
-        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        decoration: BoxDecoration(
-          color: isDark ? AppColors.surfaceDark : Colors.white,
-          borderRadius: BorderRadius.circular(AppSizes.r16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.15),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
+    return Container(
+      height: 72,
+      decoration: BoxDecoration(
+        color: AppColors.navyBlue,
+        border: const Border(
+          top: BorderSide(color: AppColors.royalBlue, width: 0.5),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.5),
+            blurRadius: 16,
+            offset: const Offset(0, -4),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Row(
           children: [
-            CustomNetworkImage(
-              imageUrl: currentTrack.coverUrl,
-              width: 48,
-              height: 48,
-              borderRadius: BorderRadius.circular(AppSizes.r8),
+            // Logo
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: AppColors.royalBlue,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: AppColors.brandBlue.withValues(alpha: 0.5), width: 1),
+              ),
+              child: Center(
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: '93.5\n',
+                        style: GoogleFonts.bebasNeue(
+                          fontSize: 8,
+                          color: Colors.white,
+                          letterSpacing: 1,
+                          height: 1.3,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'AREA',
+                        style: GoogleFonts.bebasNeue(
+                          fontSize: 12,
+                          color: AppColors.primary,
+                          letterSpacing: 1,
+                          height: 1.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 10),
+            // Station info
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text(
+                    currentTrack.title.isNotEmpty
+                        ? currentTrack.title
+                        : '93.5 AREA FM',
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 2),
                   Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: AppColors.error,
-                          borderRadius: BorderRadius.circular(4),
+                      Text(
+                        currentTrack.artist.isNotEmpty
+                            ? currentTrack.artist
+                            : 'Where Music Lives & the Beat Never Stops',
+                        style: GoogleFonts.inter(
+                          color: AppColors.textSecondaryDark,
+                          fontSize: 11,
                         ),
-                        child: const Text(
-                          'LIVE',
-                          style: TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      Expanded(
-                        child: Text(
-                          currentTrack.title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    currentTrack.artist,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                  if (isPlaying) ...[
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            'LIVE',
+                            style: GoogleFonts.bebasNeue(
+                              fontSize: 10,
+                              color: Colors.white,
+                              letterSpacing: 1,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        _WaveformIndicator(),
+                      ],
                     ),
-                  ),
+                  ],
                 ],
               ),
             ),
-            if (playerService.isBuffering)
-              const SizedBox(
-                width: 32,
-                height: 32,
-                child: Padding(
-                  padding: EdgeInsets.all(6.0),
-                  child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
-                ),
-              )
-            else
-              IconButton(
-                icon: Icon(
-                  playerService.isPlaying ? Icons.pause_circle_filled_rounded : Icons.play_circle_fill_rounded,
-                  size: 36,
+            // Play/Pause
+            GestureDetector(
+              onTap: () => playerService.togglePlayPause(),
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: const BoxDecoration(
                   color: AppColors.primary,
+                  shape: BoxShape.circle,
                 ),
-                onPressed: () => playerService.togglePlayPause(),
+                child: Icon(
+                  isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                  color: Colors.white,
+                  size: 22,
+                ),
               ),
+            ),
+            const SizedBox(width: 8),
+            // Expand chevron
+            Icon(
+              Icons.keyboard_arrow_up_rounded,
+              color: AppColors.textSecondaryDark,
+              size: 20,
+            ),
           ],
         ),
       ),
+    );
+  }
+}
+
+/// Animated LIVE waveform bars
+class _WaveformIndicator extends StatefulWidget {
+  @override
+  State<_WaveformIndicator> createState() => _WaveformIndicatorState();
+}
+
+class _WaveformIndicatorState extends State<_WaveformIndicator>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, _) {
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: List.generate(5, (i) {
+            final height = 4.0 + (8.0 * ((i % 2 == 0)
+                ? _controller.value
+                : (1 - _controller.value)));
+            return Container(
+              width: 3,
+              height: height,
+              margin: const EdgeInsets.only(right: 2),
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            );
+          }),
+        );
+      },
     );
   }
 }

@@ -17,7 +17,7 @@ class SettingsView extends ConsumerWidget {
     final notifier = ref.read(settingsNotifierProvider.notifier);
 
     return Scaffold(
-      appBar: const CustomAppBar(title: 'App Settings'),
+      appBar: const AreaFMAppBar(title: 'App Settings', showBack: true),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(

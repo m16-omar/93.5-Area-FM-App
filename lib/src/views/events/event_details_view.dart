@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../common/components/custom_app_bar.dart';
 import '../../../common/widgets/app_loader.dart';
 import '../../../common/widgets/app_error.dart';
 import '../../../common/widgets/app_button.dart';
+import '../../../common/widgets/mini_player.dart';
 import '../../../common/helpers/url_helper.dart';
+import '../../../const/app_colors.dart';
 import '../../providers/events_provider.dart';
 import 'widgets/event_banner.dart';
 
@@ -18,41 +21,90 @@ class EventDetailsView extends ConsumerWidget {
     final eventAsync = ref.watch(eventDetailsProvider(id));
 
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Event Details'),
+      backgroundColor: AppColors.backgroundDark,
+      appBar: const AreaFMAppBar(title: 'Event Details', showBack: true),
+      bottomNavigationBar: const MiniPlayerWidget(),
       body: eventAsync.when(
-        loading: () => const AppLoader(),
-        error: (err, stack) => AppErrorWidget(message: err.toString()),
+        loading: () => const AppLoader(message: 'Loading event...'),
+        error: (err, stack) => AppErrorWidget(
+          message: err.toString(),
+          onRetry: () => ref.refresh(eventDetailsProvider(id)),
+        ),
         data: (event) => SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               EventBannerWidget(imageUrl: event.bannerImage),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               Text(
                 event.title,
-                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style: GoogleFonts.poppins(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
               ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  const Icon(Icons.event_rounded, size: 18, color: Colors.green),
-                  const SizedBox(width: 6),
-                  Text('${event.date} • ${event.time}', style: const TextStyle(fontWeight: FontWeight.w600)),
-                ],
+              const SizedBox(height: 14),
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceDark,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppColors.borderDark.withValues(alpha: 0.5)),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(Icons.event_rounded, size: 18, color: AppColors.primary),
+                        const SizedBox(width: 10),
+                        Text(
+                          '${event.date} • ${event.time}',
+                          style: GoogleFonts.inter(
+                            color: Colors.white,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        const Icon(Icons.location_on_rounded, size: 18, color: AppColors.primary),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            event.location,
+                            style: GoogleFonts.inter(
+                              color: AppColors.textSecondaryDark,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'About this Event',
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(height: 8),
-              Row(
-                children: [
-                  const Icon(Icons.location_on_rounded, size: 18, color: Colors.orange),
-                  const SizedBox(width: 6),
-                  Expanded(child: Text(event.location, style: const TextStyle(color: Colors.grey))),
-                ],
-              ),
-              const Divider(height: 32),
               Text(
                 event.description,
-                style: const TextStyle(fontSize: 14, height: 1.5),
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  height: 1.6,
+                  color: AppColors.textSecondaryDark,
+                ),
               ),
               const SizedBox(height: 32),
               if (event.ticketUrl.isNotEmpty)

@@ -16,7 +16,7 @@ class RadioPlayerView extends ConsumerWidget {
     final track = playerService.currentTrack;
 
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: AreaFMAppBar(
         title: 'Live Player',
         actions: [
           IconButton(

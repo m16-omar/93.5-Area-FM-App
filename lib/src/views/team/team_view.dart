@@ -15,7 +15,7 @@ class TeamView extends ConsumerWidget {
     final teamAsync = ref.watch(teamMembersProvider);
 
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Station Leadership'),
+      appBar: const AreaFMAppBar(title: 'Station Leadership', showBack: true),
       body: teamAsync.when(
         loading: () => const AppLoader(message: 'Loading team members...'),
         error: (err, stack) => AppErrorWidget(message: err.toString()),

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../common/components/custom_app_bar.dart';
 import '../../../common/widgets/app_loader.dart';
 import '../../../common/widgets/app_error.dart';
+import '../../../common/widgets/mini_player.dart';
 import '../../../common/helpers/url_helper.dart';
+import '../../../const/app_colors.dart';
 import '../../providers/videos_provider.dart';
 import 'widgets/video_player.dart';
 
@@ -17,12 +20,17 @@ class VideoDetailsView extends ConsumerWidget {
     final videoAsync = ref.watch(videoDetailsProvider(id));
 
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Watch Video'),
+      backgroundColor: AppColors.backgroundDark,
+      appBar: const AreaFMAppBar(title: 'Watch Video', showBack: true),
+      bottomNavigationBar: const MiniPlayerWidget(),
       body: videoAsync.when(
-        loading: () => const AppLoader(),
-        error: (err, stack) => AppErrorWidget(message: err.toString()),
+        loading: () => const AppLoader(message: 'Loading video...'),
+        error: (err, stack) => AppErrorWidget(
+          message: err.toString(),
+          onRetry: () => ref.refresh(videoDetailsProvider(id)),
+        ),
         data: (video) => SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -30,20 +38,44 @@ class VideoDetailsView extends ConsumerWidget {
                 thumbnailUrl: video.thumbnailUrl,
                 onPlay: () => UrlHelper.launchURL(video.videoUrl),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               Text(
                 video.title,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: GoogleFonts.poppins(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  const Icon(Icons.visibility_outlined, size: 14, color: AppColors.textSecondaryDark),
+                  const SizedBox(width: 4),
+                  Text('${video.views} views', style: GoogleFonts.inter(fontSize: 13, color: AppColors.textSecondaryDark)),
+                  const SizedBox(width: 16),
+                  const Icon(Icons.calendar_today_outlined, size: 13, color: AppColors.textSecondaryDark),
+                  const SizedBox(width: 4),
+                  Text(video.publishDate, style: GoogleFonts.inter(fontSize: 13, color: AppColors.textSecondaryDark)),
+                ],
+              ),
+              const Divider(height: 32, color: AppColors.borderDark),
               Text(
-                '${video.views} views • ${video.publishDate}',
-                style: const TextStyle(fontSize: 12, color: Colors.grey),
+                'Description',
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
               ),
-              const Divider(height: 32),
+              const SizedBox(height: 8),
               Text(
                 video.description,
-                style: const TextStyle(fontSize: 14, height: 1.5),
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  height: 1.6,
+                  color: AppColors.textSecondaryDark,
+                ),
               ),
             ],
           ),

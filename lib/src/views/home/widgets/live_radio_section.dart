@@ -1,76 +1,172 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../../const/app_colors.dart';
-import '../../../../const/app_sizes.dart';
-import '../../../../common/widgets/network_image.dart';
+import '../../../../const/app_assets.dart';
 import '../../../providers/radio_player_provider.dart';
+import '../../../models/show_model.dart';
 
+/// ON AIR NOW card matching the exact designer reference in Home Screen.png:
+/// Dark navy card with DJ Ace presenter thumbnail, ON AIR title, with DJ Ace,
+/// time slot, and round blue audio visualizer waveform button.
 class LiveRadioSectionWidget extends ConsumerWidget {
-  const LiveRadioSectionWidget({super.key});
+  final ShowModel show;
+  const LiveRadioSectionWidget({super.key, required this.show});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final playerService = ref.watch(audioPlayerServiceProvider);
-    final currentTrack = playerService.currentTrack;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isPlaying = playerService.isPlaying;
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.surfaceDark : Colors.white,
-        borderRadius: BorderRadius.circular(AppSizes.r16),
-        border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
-      ),
-      child: Row(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomNetworkImage(
-            imageUrl: currentTrack.coverUrl,
-            width: 70,
-            height: 70,
-            borderRadius: BorderRadius.circular(AppSizes.r12),
+          // Section Header Row
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'ON AIR NOW',
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              GestureDetector(
+                child: Text(
+                  'See All',
+                  style: GoogleFonts.poppins(
+                    color: AppColors.primary,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: AppColors.error,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: const Text('LIVE STREAM', style: TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold)),
-                    ),
-                    const SizedBox(width: 8),
-                    const Text('93.5 FM', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.primary)),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  currentTrack.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                ),
-                Text(
-                  currentTrack.artist,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+          const SizedBox(height: 12),
+          // Show Card Container
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: const Color(0xFF071228),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: const Color(0xFF0F264A)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.3),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
                 ),
               ],
             ),
-          ),
-          IconButton(
-            icon: Icon(
-              playerService.isPlaying ? Icons.pause_circle_filled_rounded : Icons.play_circle_fill_rounded,
-              size: 48,
-              color: AppColors.primary,
+            child: Row(
+              children: [
+                // Presenter photo thumbnail
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset(
+                    AppAssets.djAceOnAir,
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Container(
+                      width: 80,
+                      height: 80,
+                      color: const Color(0xFF00246B),
+                      child: const Icon(Icons.person, color: Colors.white70),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 14),
+                // Show info details
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Small Orange ON AIR Tag
+                      Text(
+                        'ON AIR',
+                        style: GoogleFonts.inter(
+                          color: AppColors.primary,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 1.0,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      // Title: The Morning Rush
+                      Text(
+                        'The Morning Rush',
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 2),
+                      // Presenter: with DJ Ace
+                      Text(
+                        'with DJ Ace',
+                        style: GoogleFonts.inter(
+                          color: const Color(0xFF8A99B5),
+                          fontSize: 13,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      // Time Slot: 🕒 6:00 AM - 10:00 AM
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.access_time_rounded,
+                            size: 13,
+                            color: Color(0xFF8A99B5),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '6:00 AM - 10:00 AM',
+                            style: GoogleFonts.inter(
+                              color: const Color(0xFF8A99B5),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                // Blue Waveform Equalizer Action Button
+                GestureDetector(
+                  onTap: () => playerService.togglePlayPause(),
+                  child: Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: isPlaying ? AppColors.primary : const Color(0xFF0044B4),
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: (isPlaying ? AppColors.primary : const Color(0xFF0044B4)).withValues(alpha: 0.4),
+                          blurRadius: 8,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Icon(
+                      isPlaying ? Icons.pause_rounded : Icons.graphic_eq_rounded,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            onPressed: () => playerService.togglePlayPause(),
           ),
         ],
       ),

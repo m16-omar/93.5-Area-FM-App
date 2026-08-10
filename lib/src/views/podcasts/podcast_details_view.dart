@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../common/components/custom_app_bar.dart';
 import '../../../common/widgets/app_loader.dart';
 import '../../../common/widgets/app_error.dart';
 import '../../../common/widgets/network_image.dart';
+import '../../../common/widgets/mini_player.dart';
+import '../../../const/app_colors.dart';
 import '../../providers/podcast_provider.dart';
 import '../../providers/radio_player_provider.dart';
 import '../../models/radio_stream_model.dart';
@@ -19,42 +22,66 @@ class PodcastDetailsView extends ConsumerWidget {
     final podcastAsync = ref.watch(podcastDetailsProvider(id));
 
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Podcast Show'),
+      backgroundColor: AppColors.backgroundDark,
+      appBar: const AreaFMAppBar(title: 'Podcast Show', showBack: true),
+      bottomNavigationBar: const MiniPlayerWidget(),
       body: podcastAsync.when(
-        loading: () => const AppLoader(),
-        error: (err, stack) => AppErrorWidget(message: err.toString()),
+        loading: () => const AppLoader(message: 'Loading podcast...'),
+        error: (err, stack) => AppErrorWidget(
+          message: err.toString(),
+          onRetry: () => ref.refresh(podcastDetailsProvider(id)),
+        ),
         data: (podcast) => SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomNetworkImage(
-                    imageUrl: podcast.coverImage,
-                    width: 120,
-                    height: 120,
+                  ClipRRect(
                     borderRadius: BorderRadius.circular(16),
+                    child: CustomNetworkImage(
+                      imageUrl: podcast.coverImage,
+                      width: 120,
+                      height: 120,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withValues(alpha: 0.2),
+                            borderRadius: BorderRadius.circular(4),
+                            border: Border.all(color: AppColors.primary.withValues(alpha: 0.5)),
+                          ),
+                          child: Text(
+                            podcast.category.toUpperCase(),
+                            style: GoogleFonts.inter(
+                              color: AppColors.primary,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 6),
                         Text(
                           podcast.title,
-                          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'Hosted by ${podcast.host}',
-                          style: const TextStyle(fontSize: 13, color: Colors.grey),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          podcast.category,
-                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.green),
+                          style: GoogleFonts.inter(fontSize: 13, color: AppColors.textSecondaryDark),
                         ),
                       ],
                     ),
@@ -64,12 +91,20 @@ class PodcastDetailsView extends ConsumerWidget {
               const SizedBox(height: 16),
               Text(
                 podcast.description,
-                style: const TextStyle(fontSize: 14, height: 1.5),
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  height: 1.5,
+                  color: AppColors.textSecondaryDark,
+                ),
               ),
-              const Divider(height: 32),
+              const Divider(height: 32, color: AppColors.borderDark),
               Text(
                 'Episodes (${podcast.episodes.length})',
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(height: 12),
               Column(

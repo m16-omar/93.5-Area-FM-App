@@ -20,4 +20,12 @@ class StorageService {
   static bool getThemeMode() {
     return settingsBox.get('isDarkMode', defaultValue: false);
   }
+
+  static bool isFirstLaunch() {
+    return settingsBox.get('firstLaunchDone', defaultValue: false) == false;
+  }
+
+  static Future<void> setFirstLaunchDone() async {
+    await settingsBox.put('firstLaunchDone', true);
+  }
 }

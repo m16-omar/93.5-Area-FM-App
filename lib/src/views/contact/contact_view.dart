@@ -11,7 +11,7 @@ class ContactView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Contact Us'),
+      appBar: const AreaFMAppBar(title: 'Contact Us', showBack: true),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(

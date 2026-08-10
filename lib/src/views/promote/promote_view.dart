@@ -16,7 +16,7 @@ class PromoteView extends ConsumerWidget {
     final packagesAsync = ref.watch(promotionPackagesProvider);
 
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Advertise With Us'),
+      appBar: const AreaFMAppBar(title: 'Advertise With Us', showBack: true),
       body: packagesAsync.when(
         loading: () => const AppLoader(message: 'Loading packages...'),
         error: (err, stack) => AppErrorWidget(message: err.toString()),

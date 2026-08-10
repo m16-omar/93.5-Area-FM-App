@@ -19,7 +19,7 @@ class TeamMemberDetailsView extends ConsumerWidget {
     final memberAsync = ref.watch(teamMemberDetailsProvider(id));
 
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Executive Profile'),
+      appBar: const AreaFMAppBar(title: 'Executive Profile', showBack: true),
       body: memberAsync.when(
         loading: () => const AppLoader(),
         error: (err, stack) => AppErrorWidget(message: err.toString()),

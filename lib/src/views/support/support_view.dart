@@ -12,7 +12,7 @@ class SupportView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Help & Support'),
+      appBar: const AreaFMAppBar(title: 'Help & Support', showBack: true),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
