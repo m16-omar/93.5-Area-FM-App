@@ -26,7 +26,6 @@ import '../views/promote/promote_view.dart';
 import '../views/contact/contact_view.dart';
 import '../views/notifications/notifications_view.dart';
 import '../views/settings/settings_view.dart';
-import '../views/support/support_view.dart';
 import '../views/radio_player/radio_player_view.dart';
 import '../../common/widgets/app_bottom_navigation.dart';
 import '../../common/widgets/mini_player.dart';
