@@ -14,7 +14,8 @@ class AppBottomNavigation extends StatelessWidget {
 
   static final List<_NavItem> _items = [
     const _NavItem(label: 'Home', icon: Icons.home_outlined, activeIcon: Icons.home_rounded),
-    const _NavItem(label: 'Shows', icon: Icons.radio_outlined, activeIcon: Icons.radio_rounded),
+    const _NavItem(label: 'Shows', icon: Icons.mic_none_rounded, activeIcon: Icons.mic_rounded),
+    const _NavItem(label: '', icon: Icons.mic_rounded, activeIcon: Icons.mic_rounded, isCenter: true),
     const _NavItem(label: 'Podcasts', icon: Icons.headphones_outlined, activeIcon: Icons.headphones_rounded),
     const _NavItem(label: 'Settings', icon: Icons.settings_outlined, activeIcon: Icons.settings_rounded),
   ];
@@ -48,6 +49,44 @@ class AppBottomNavigation extends StatelessWidget {
               children: List.generate(_items.length, (i) {
                 final item = _items[i];
                 final isActive = currentIndex == i;
+
+                if (item.isCenter) {
+                  return Expanded(
+                    child: GestureDetector(
+                      onTap: () => onTap(i),
+                      behavior: HitTestBehavior.opaque,
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        alignment: Alignment.center,
+                        children: [
+                          Positioned(
+                            top: -22,
+                            child: Container(
+                              width: 54,
+                              height: 54,
+                              decoration: BoxDecoration(
+                                color: AppColors.primary,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.primary.withValues(alpha: 0.55),
+                                    blurRadius: 16,
+                                    spreadRadius: 3,
+                                  ),
+                                ],
+                              ),
+                              child: const Icon(
+                                Icons.mic_rounded,
+                                color: Colors.white,
+                                size: 28,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
 
                 return Expanded(
                   child: GestureDetector(
@@ -85,14 +124,15 @@ class AppBottomNavigation extends StatelessWidget {
   /// Resolve index from current route
   static int indexFromLocation(String location) {
     if (location.startsWith('/shows')) { return 1; }
-    if (location.startsWith('/podcasts')) { return 2; }
+    if (location.startsWith('/radio_player') || location.startsWith('/live')) { return 2; }
+    if (location.startsWith('/podcasts')) { return 3; }
     if (location.startsWith('/settings') ||
         location.startsWith('/more') ||
         location.startsWith('/events') ||
         location.startsWith('/charts') ||
         location.startsWith('/presenters') ||
         location.startsWith('/notifications') ||
-        location.startsWith('/blog')) { return 3; }
+        location.startsWith('/blog')) { return 4; }
     return 0; // home
   }
 }
@@ -101,10 +141,12 @@ class _NavItem {
   final String label;
   final IconData icon;
   final IconData activeIcon;
+  final bool isCenter;
 
   const _NavItem({
     required this.label,
     required this.icon,
     required this.activeIcon,
+    this.isCenter = false,
   });
 }
