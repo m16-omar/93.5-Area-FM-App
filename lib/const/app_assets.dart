@@ -15,6 +15,10 @@ class AppAssets {
   static const String homeHeroMic = 'assets/images/home_hero_mic.png';
   static const String djAceOnAir = 'assets/images/dj_ace_onair.png';
   static const String banner = 'assets/images/banner.png';
+  static const String show1 = 'assets/images/show1.png';
+  static const String show2 = 'assets/images/show2.png';
+  static const String show3 = 'assets/images/show3.png';
+  static const String show4 = 'assets/images/show4.png';
 
   // ── Network Placeholders ──────────────────────────────────────
   static const String presenterPlaceholder =
