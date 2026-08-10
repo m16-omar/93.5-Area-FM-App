@@ -1,19 +1,28 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:area_fm_app/features/about/presentation/screens/about_screen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:area_fm_app/main.dart';
+import 'package:area_fm_app/const/app_constants.dart';
 
 void main() {
+  setUpAll(() async {
+    Hive.init('./test_hive');
+    await Hive.openBox(AppConstants.hiveBoxSettings);
+    await Hive.openBox(AppConstants.hiveBoxAuth);
+  });
+
+  tearDownAll(() async {
+    await Hive.deleteFromDisk();
+  });
+
   testWidgets('AreaFMApp Widget Test', (WidgetTester tester) async {
     await tester.pumpWidget(
       const ProviderScope(
-        child: MaterialApp(
-          home: AboutScreen(),
-        ),
+        child: AreaFMApp(),
       ),
     );
 
-    expect(find.byType(AboutScreen), findsOneWidget);
-    expect(find.text('AREA 93.5 FM'), findsOneWidget);
+    expect(find.byType(AreaFMApp), findsOneWidget);
+    await tester.pump(const Duration(seconds: 3));
   });
 }

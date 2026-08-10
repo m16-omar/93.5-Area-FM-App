@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'core/theme/app_theme.dart';
-import 'core/routes/app_router.dart';
-import 'core/services/storage_service.dart';
-import 'features/settings/presentation/screens/settings_screen.dart';
+import 'const/app_colors.dart';
+import 'const/app_text_styles.dart';
+import 'src/routes/app_routes.dart';
+import 'src/services/storage_service.dart';
+import 'src/controllers/settings_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,10 +20,42 @@ class AreaFMApp extends ConsumerWidget {
     final isDarkMode = ref.watch(themeModeProvider);
 
     return MaterialApp.router(
-      title: 'Area 93.5 FM',
+      title: '93.5 Area FM',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: AppColors.primary,
+        scaffoldBackgroundColor: AppColors.backgroundLight,
+        colorScheme: const ColorScheme.light(
+          primary: AppColors.primary,
+          secondary: AppColors.accent,
+          surface: AppColors.surfaceLight,
+          error: AppColors.error,
+        ),
+        textTheme: TextTheme(
+          titleLarge: AppTextStyles.headingLarge(color: AppColors.textPrimaryLight),
+          titleMedium: AppTextStyles.headingMedium(color: AppColors.textPrimaryLight),
+          bodyLarge: AppTextStyles.bodyLarge(color: AppColors.textPrimaryLight),
+          bodyMedium: AppTextStyles.bodyMedium(color: AppColors.textPrimaryLight),
+        ),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: AppColors.primary,
+        scaffoldBackgroundColor: AppColors.backgroundDark,
+        colorScheme: const ColorScheme.dark(
+          primary: AppColors.primary,
+          secondary: AppColors.accent,
+          surface: AppColors.surfaceDark,
+          error: AppColors.error,
+        ),
+        textTheme: TextTheme(
+          titleLarge: AppTextStyles.headingLarge(color: AppColors.textPrimaryDark),
+          titleMedium: AppTextStyles.headingMedium(color: AppColors.textPrimaryDark),
+          bodyLarge: AppTextStyles.bodyLarge(color: AppColors.textPrimaryDark),
+          bodyMedium: AppTextStyles.bodyMedium(color: AppColors.textPrimaryDark),
+        ),
+      ),
       themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
       routerConfig: appRouter,
     );
