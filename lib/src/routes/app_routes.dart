@@ -82,7 +82,7 @@ class MainShellScaffold extends StatelessWidget {
 
 final appRouter = GoRouter(
   navigatorKey: rootNavigatorKey,
-  initialLocation: RouteNames.home,
+  initialLocation: RouteNames.splash,
   routes: [
     GoRoute(
       path: RouteNames.splash,
