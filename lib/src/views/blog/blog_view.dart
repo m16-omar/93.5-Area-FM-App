@@ -130,13 +130,13 @@ class _BlogHeader extends StatelessWidget {
           Container(decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [AppColors.backgroundDark, Colors.transparent, AppColors.backgroundDark], stops: const [0.0, 0.4, 1.0]))),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 70, 20, 16),
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('NEWS &', style: GoogleFonts.bebasNeue(fontSize: 52, color: Colors.white, letterSpacing: 2)),
-                  Text('BLOG', style: GoogleFonts.bebasNeue(fontSize: 52, color: AppColors.primary, letterSpacing: 2, height: 0.85)),
+                  Text('NEWS &', style: GoogleFonts.bebasNeue(fontSize: 40, color: Colors.white, letterSpacing: 2)),
+                  Text('BLOG', style: GoogleFonts.bebasNeue(fontSize: 40, color: AppColors.primary, letterSpacing: 2, height: 0.85)),
                   RichText(
                     text: TextSpan(children: [
                       TextSpan(text: 'Stories from ', style: GoogleFonts.inter(color: Colors.white70, fontSize: 13)),

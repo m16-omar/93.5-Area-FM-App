@@ -123,12 +123,12 @@ class _VideosHeader extends StatelessWidget {
           Container(decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [AppColors.backgroundDark, Colors.transparent, AppColors.backgroundDark], stops: const [0.0, 0.4, 1.0]))),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 70, 20, 16),
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('VIDEOS', style: GoogleFonts.bebasNeue(fontSize: 52, color: Colors.white, letterSpacing: 2)),
+                  Text('VIDEOS', style: GoogleFonts.bebasNeue(fontSize: 42, color: Colors.white, letterSpacing: 2)),
                   RichText(
                     text: TextSpan(children: [
                       TextSpan(text: 'Studio sessions, interviews and more from ', style: GoogleFonts.inter(color: Colors.white70, fontSize: 13)),

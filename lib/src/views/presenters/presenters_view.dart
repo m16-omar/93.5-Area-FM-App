@@ -148,7 +148,7 @@ class _PresentersHeader extends StatelessWidget {
           ),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 70, 20, 16),
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -156,7 +156,7 @@ class _PresentersHeader extends StatelessWidget {
                   Text(
                     'TEAM',
                     style: GoogleFonts.bebasNeue(
-                      fontSize: 52,
+                      fontSize: 40,
                       color: Colors.white,
                       letterSpacing: 2,
                     ),

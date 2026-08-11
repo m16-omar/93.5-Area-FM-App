@@ -147,12 +147,12 @@ class _EventsHeader extends StatelessWidget {
           ),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 70, 20, 16),
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('EVENTS', style: GoogleFonts.bebasNeue(fontSize: 52, color: Colors.white, letterSpacing: 2)),
+                  Text('EVENTS', style: GoogleFonts.bebasNeue(fontSize: 42, color: Colors.white, letterSpacing: 2)),
                   RichText(
                     text: TextSpan(children: [
                       TextSpan(text: 'Raves, concerts & station events — ', style: GoogleFonts.inter(color: Colors.white70, fontSize: 13)),

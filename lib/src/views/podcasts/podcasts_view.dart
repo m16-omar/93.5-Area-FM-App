@@ -194,7 +194,7 @@ class _PodcastsHeader extends StatelessWidget {
           ),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 40, 20, 16),
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -202,7 +202,7 @@ class _PodcastsHeader extends StatelessWidget {
                   Text(
                     'PODCASTS',
                     style: GoogleFonts.bebasNeue(
-                      fontSize: 44,
+                      fontSize: 42,
                       color: Colors.white,
                       letterSpacing: 2,
                       height: 1.0,
