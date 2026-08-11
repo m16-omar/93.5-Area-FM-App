@@ -70,7 +70,7 @@ class _OnboardingViewState extends ConsumerState<OnboardingView> {
 
   void _finishOnboarding() {
     StorageService.setFirstLaunchDone();
-    context.go(RouteNames.login);
+    context.go(RouteNames.home);
   }
 
   @override

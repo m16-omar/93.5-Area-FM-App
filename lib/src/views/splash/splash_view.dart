@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../const/app_colors.dart';
 import '../../../const/app_assets.dart';
 import '../../routes/route_names.dart';
-import '../../services/storage_service.dart';
 
 class SplashView extends ConsumerStatefulWidget {
   const SplashView({super.key});
@@ -37,12 +36,7 @@ class _SplashViewState extends ConsumerState<SplashView>
   Future<void> _navigateToNext() async {
     await Future.delayed(const Duration(milliseconds: 3000));
     if (!mounted) return;
-    final isFirstLaunch = StorageService.isFirstLaunch();
-    if (isFirstLaunch) {
-      context.go(RouteNames.onboarding);
-    } else {
-      context.go(RouteNames.login);
-    }
+    context.go(RouteNames.onboarding);
   }
 
   @override
