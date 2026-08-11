@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  // ── Brand Primary ─────────────────────────────────────────────
-  static const Color primary = Color(0xFFFF5500);      // Brand orange
-  static const Color primaryDark = Color(0xFFCC4400);  // Orange pressed
-  static const Color primaryLight = Color(0xFFFF7733); // Orange lighter
+  // ── Brand Primary (Real Station Red) ──────────────────────────
+  static const Color primary = Color(0xFFE50914);      // Real Station Red
+  static const Color primaryDark = Color(0xFFB91C1C);  // Deep Red pressed
+  static const Color primaryLight = Color(0xFFEF4444); // Bright Accent Red
 
   // ── Brand Secondary ───────────────────────────────────────────
   static const Color navyBlue = Color(0xFF0D1B3E);     // Dark navy blue (hero banners)
@@ -34,9 +34,9 @@ class AppColors {
   static const Color textSecondaryLight = Color(0xFF4B5563);
 
   // ── Accent / Status ───────────────────────────────────────────
-  static const Color accent = Color(0xFFFF5500);          // Alias of primary orange
+  static const Color accent = Color(0xFFE50914);          // Real Red accent
   static const Color onAirRed = Color(0xFFEF4444);       // LIVE/ON AIR dot
-  static const Color onAirOrange = Color(0xFFFF6B35);    // ON AIR badge text
+  static const Color onAirOrange = Color(0xFFEF4444);    // ON AIR badge text
   static const Color success = Color(0xFF22C55E);         // Chart up arrow
   static const Color error = Color(0xFFEF4444);           // Chart down, errors
   static const Color warning = Color(0xFFF59E0B);
@@ -55,8 +55,8 @@ class AppColors {
   ];
 
   static const List<Color> primaryGradient = [
-    Color(0xFFFF5500),
-    Color(0xFFCC4400),
+    Color(0xFFE50914),
+    Color(0xFFB91C1C),
   ];
 
   static const List<Color> darkGradient = [
@@ -65,7 +65,7 @@ class AppColors {
   ];
 
   static const List<Color> orangeBlueGradient = [
-    Color(0xFFFF5500),
+    Color(0xFFE50914),
     Color(0xFF0D1B3E),
   ];
 

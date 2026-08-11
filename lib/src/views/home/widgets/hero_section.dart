@@ -41,7 +41,7 @@ class _HeroSectionWidgetState extends ConsumerState<HeroSectionWidget> {
       titleSuffix: '',
       subtitle: 'Weekdays 6:00 AM - 10:00 AM\nHosted by DJ Ace',
       ctaText: 'TUNE IN NOW',
-      gradientColors: [Color(0xFF8B0000), Color(0xFFFF5500)],
+      gradientColors: [Color(0xFF8B0000), Color(0xFFE50914)],
       imageAsset: AppAssets.homeHeroMic,
     ),
     _HeroSlideData(
