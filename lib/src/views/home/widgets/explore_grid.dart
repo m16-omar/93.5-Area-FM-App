@@ -11,11 +11,31 @@ class ExploreGridWidget extends StatelessWidget {
   const ExploreGridWidget({super.key});
 
   static const _items = [
-    _ExploreItem(icon: Icons.mic_rounded, label: 'Shows', route: RouteNames.shows),
-    _ExploreItem(icon: Icons.calendar_month_rounded, label: 'Schedule', route: RouteNames.shows),
-    _ExploreItem(icon: Icons.headphones_rounded, label: 'Podcasts', route: RouteNames.podcasts),
-    _ExploreItem(icon: Icons.bar_chart_rounded, label: 'Charts', route: RouteNames.charts),
-    _ExploreItem(icon: Icons.confirmation_number_outlined, label: 'Events', route: RouteNames.events),
+    _ExploreItem(
+      icon: Icons.mic_rounded,
+      label: 'Shows',
+      route: RouteNames.shows,
+    ),
+    _ExploreItem(
+      icon: Icons.calendar_month_rounded,
+      label: 'Schedule',
+      route: RouteNames.shows,
+    ),
+    _ExploreItem(
+      icon: Icons.headphones_rounded,
+      label: 'Podcasts',
+      route: RouteNames.podcasts,
+    ),
+    _ExploreItem(
+      icon: Icons.bar_chart_rounded,
+      label: 'Charts',
+      route: RouteNames.charts,
+    ),
+    _ExploreItem(
+      icon: Icons.confirmation_number_outlined,
+      label: 'Events',
+      route: RouteNames.events,
+    ),
   ];
 
   @override
@@ -30,7 +50,7 @@ class ExploreGridWidget extends StatelessWidget {
           style: GoogleFonts.bebasNeue(
             color: isDark ? Colors.white : AppColors.textPrimaryLight,
             fontSize: 22,
-            letterSpacing: 1.2,
+            letterSpacing: 1,
           ),
         ),
         const SizedBox(height: 12),
@@ -61,10 +81,7 @@ class _ExploreButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: isDark ? const Color(0xFF071329) : const Color(0xFF071329),
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: const Color(0xFF0F264E),
-              width: 1,
-            ),
+            border: Border.all(color: const Color(0xFF0F264E), width: 1),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
@@ -77,11 +94,7 @@ class _ExploreButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                item.icon,
-                color: const Color(0xFF0055FF),
-                size: 28,
-              ),
+              Icon(item.icon, color: const Color(0xFF0055FF), size: 28),
               const SizedBox(height: 8),
               Text(
                 item.label,
@@ -106,5 +119,9 @@ class _ExploreItem {
   final IconData icon;
   final String label;
   final String route;
-  const _ExploreItem({required this.icon, required this.label, required this.route});
+  const _ExploreItem({
+    required this.icon,
+    required this.label,
+    required this.route,
+  });
 }

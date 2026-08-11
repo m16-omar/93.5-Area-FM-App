@@ -42,13 +42,13 @@ class _HeroSectionWidgetState extends ConsumerState<HeroSectionWidget> {
       subtitle: 'Weekdays 6:00 AM - 10:00 AM\nHosted by DJ Ace',
       ctaText: 'TUNE IN NOW',
       gradientColors: [Color(0xFF8B0000), Color(0xFFFF5500)],
-      imageAsset: AppAssets.djAceOnAir,
+      imageAsset: AppAssets.homeHeroMic,
     ),
     _HeroSlideData(
       badge: 'FEATURED',
       titlePrefix: 'AREA ',
-      titleAccent: 'CHARTS ',
-      titleSuffix: 'TOP 20',
+      titleAccent: 'MUSIC ',
+      titleSuffix: 'CHARTS ',
       subtitle: 'Counting down the biggest hits\nacross Africa & the globe',
       ctaText: 'VIEW CHARTS',
       gradientColors: [Color(0xFF0F172A), Color(0xFF1E293B)],
@@ -139,7 +139,9 @@ class _HeroSectionWidgetState extends ConsumerState<HeroSectionWidget> {
                               end: Alignment.centerRight,
                               colors: [
                                 slide.gradientColors.first,
-                                slide.gradientColors.first.withValues(alpha: 0.92),
+                                slide.gradientColors.first.withValues(
+                                  alpha: 0.92,
+                                ),
                                 Colors.transparent,
                               ],
                               stops: const [0.0, 0.55, 1.0],
@@ -156,11 +158,17 @@ class _HeroSectionWidgetState extends ConsumerState<HeroSectionWidget> {
                           children: [
                             // LIVE Badge
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 9,
+                                vertical: 3,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.white.withValues(alpha: 0.12),
                                 borderRadius: BorderRadius.circular(20),
-                                border: Border.all(color: Colors.white.withValues(alpha: 0.4), width: 1),
+                                border: Border.all(
+                                  color: Colors.white.withValues(alpha: 0.4),
+                                  width: 1,
+                                ),
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -235,13 +243,18 @@ class _HeroSectionWidgetState extends ConsumerState<HeroSectionWidget> {
                             GestureDetector(
                               onTap: () => playerService.togglePlayPause(),
                               child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 8,
+                                ),
                                 decoration: BoxDecoration(
                                   color: AppColors.primary,
                                   borderRadius: BorderRadius.circular(25),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: AppColors.primary.withValues(alpha: 0.4),
+                                      color: AppColors.primary.withValues(
+                                        alpha: 0.4,
+                                      ),
                                       blurRadius: 6,
                                       offset: const Offset(0, 3),
                                     ),
@@ -298,7 +311,9 @@ class _HeroSectionWidgetState extends ConsumerState<HeroSectionWidget> {
               width: _currentPage == index ? 20 : 6,
               height: 6,
               decoration: BoxDecoration(
-                color: _currentPage == index ? AppColors.primary : Colors.white24,
+                color: _currentPage == index
+                    ? AppColors.primary
+                    : Colors.white24,
                 borderRadius: BorderRadius.circular(3),
               ),
             ),
