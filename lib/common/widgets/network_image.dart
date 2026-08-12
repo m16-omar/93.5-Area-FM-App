@@ -8,6 +8,7 @@ class CustomNetworkImage extends StatelessWidget {
   final double? width;
   final double? height;
   final BoxFit fit;
+  final Alignment alignment;
   final BorderRadius? borderRadius;
 
   const CustomNetworkImage({
@@ -16,6 +17,7 @@ class CustomNetworkImage extends StatelessWidget {
     this.width,
     this.height,
     this.fit = BoxFit.cover,
+    this.alignment = Alignment.centerLeft,
     this.borderRadius,
   });
 
@@ -23,7 +25,23 @@ class CustomNetworkImage extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget imageWidget;
 
-    if (imageUrl.isEmpty || !imageUrl.startsWith('http')) {
+    if (imageUrl.startsWith('assets/')) {
+      imageWidget = Image.asset(
+        imageUrl,
+        width: width,
+        height: height,
+        fit: fit,
+        alignment: alignment,
+        errorBuilder: (context, error, stackTrace) => Container(
+          width: width,
+          height: height,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppColors.cardDark
+              : AppColors.cardLight,
+          child: const Icon(Icons.radio, color: AppColors.primary, size: 32),
+        ),
+      );
+    } else if (imageUrl.isEmpty || !imageUrl.startsWith('http')) {
       imageWidget = Container(
         width: width,
         height: height,
@@ -38,6 +56,7 @@ class CustomNetworkImage extends StatelessWidget {
         width: width,
         height: height,
         fit: fit,
+        alignment: alignment,
         placeholder: (context, url) => Shimmer.fromColors(
           baseColor: Theme.of(context).brightness == Brightness.dark
               ? AppColors.cardDark

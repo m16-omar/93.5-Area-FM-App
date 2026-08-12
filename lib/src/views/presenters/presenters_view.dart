@@ -103,7 +103,7 @@ class _PresentersHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: size.height * 0.28,
       child: Stack(
         fit: StackFit.expand,

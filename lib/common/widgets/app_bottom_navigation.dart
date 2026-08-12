@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../const/app_colors.dart';
+import '../../src/providers/radio_player_provider.dart';
 
-class AppBottomNavigation extends StatelessWidget {
+class AppBottomNavigation extends ConsumerWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
 
@@ -14,18 +16,22 @@ class AppBottomNavigation extends StatelessWidget {
 
   static final List<_NavItem> _items = [
     const _NavItem(label: 'Home', icon: Icons.home_outlined, activeIcon: Icons.home_rounded),
-    const _NavItem(label: 'Shows', icon: Icons.mic_none_rounded, activeIcon: Icons.mic_rounded),
-    const _NavItem(label: '', icon: Icons.mic_rounded, activeIcon: Icons.mic_rounded, isCenter: true),
+    const _NavItem(label: 'Shows', icon: Icons.radio_outlined, activeIcon: Icons.radio_rounded),
+    const _NavItem(label: '', icon: Icons.headphones_rounded, activeIcon: Icons.headphones_rounded, isCenter: true),
     const _NavItem(label: 'Podcasts', icon: Icons.headphones_outlined, activeIcon: Icons.headphones_rounded),
     const _NavItem(label: 'Settings', icon: Icons.settings_outlined, activeIcon: Icons.settings_rounded),
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bg = isDark ? AppColors.surfaceDark : Colors.white;
     final borderColor = isDark ? AppColors.borderDark.withValues(alpha: 0.6) : AppColors.borderLight;
     final unselectedColor = isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight;
+
+    final audioService = ref.watch(audioPlayerServiceProvider);
+    final isPlaying = audioService.isPlaying;
+    final isBuffering = audioService.isBuffering;
 
     return Container(
       decoration: BoxDecoration(
@@ -58,7 +64,10 @@ class AppBottomNavigation extends StatelessWidget {
                 if (item.isCenter) {
                   return Expanded(
                     child: GestureDetector(
-                      onTap: () => onTap(i),
+                      onTap: () {
+                        audioService.togglePlayPause();
+                        onTap(i);
+                      },
                       behavior: HitTestBehavior.opaque,
                       child: Stack(
                         clipBehavior: Clip.none,
@@ -66,7 +75,8 @@ class AppBottomNavigation extends StatelessWidget {
                         children: [
                           Positioned(
                             top: -22,
-                            child: Container(
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 250),
                               width: 54,
                               height: 54,
                               decoration: BoxDecoration(
@@ -74,17 +84,25 @@ class AppBottomNavigation extends StatelessWidget {
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
-                                    color: AppColors.primary.withValues(alpha: 0.55),
-                                    blurRadius: 16,
-                                    spreadRadius: 3,
+                                    color: AppColors.primary.withValues(alpha: isPlaying ? 0.75 : 0.55),
+                                    blurRadius: isPlaying ? 20 : 16,
+                                    spreadRadius: isPlaying ? 4 : 3,
                                   ),
                                 ],
                               ),
-                              child: const Icon(
-                                Icons.mic_rounded,
-                                color: Colors.white,
-                                size: 28,
-                              ),
+                              child: isBuffering
+                                  ? const Padding(
+                                      padding: EdgeInsets.all(14),
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                        strokeWidth: 2.5,
+                                      ),
+                                    )
+                                  : Icon(
+                                      isPlaying ? Icons.pause_rounded : Icons.headphones_rounded,
+                                      color: Colors.white,
+                                      size: 28,
+                                    ),
                             ),
                           ),
                         ],

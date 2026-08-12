@@ -32,7 +32,7 @@ class _HeroSectionWidgetState extends ConsumerState<HeroSectionWidget> {
       subtitle: 'Where Music Lives\n& the Beat Never Stops',
       ctaText: 'LISTEN LIVE',
       gradientColors: [Color(0xFF001F54), Color(0xFF003882)],
-      imageAsset: AppAssets.homeHeroMic,
+      imageAsset: AppAssets.studioMicOnly,
     ),
     _HeroSlideData(
       badge: 'ON AIR',
@@ -42,7 +42,7 @@ class _HeroSectionWidgetState extends ConsumerState<HeroSectionWidget> {
       subtitle: 'Weekdays 6:00 AM - 10:00 AM\nHosted by DJ Ace',
       ctaText: 'TUNE IN NOW',
       gradientColors: [Color(0xFF8B0000), Color(0xFFE50914)],
-      imageAsset: AppAssets.homeHeroMic,
+      imageAsset: AppAssets.studioMicOnly,
     ),
     _HeroSlideData(
       badge: 'FEATURED',
@@ -120,10 +120,10 @@ class _HeroSectionWidgetState extends ConsumerState<HeroSectionWidget> {
                     children: [
                       // Right Side Hero Artwork
                       Positioned(
-                        right: -10,
+                        right: -5,
                         top: -10,
                         bottom: -10,
-                        width: size.width * 0.45,
+                        width: size.width * 0.48,
                         child: Image.asset(
                           slide.imageAsset,
                           fit: BoxFit.contain,

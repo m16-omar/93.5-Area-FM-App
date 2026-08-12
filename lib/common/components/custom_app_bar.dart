@@ -13,6 +13,7 @@ class AreaFMAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool showSearch;
   final String? title; // optional plain text title (e.g. "Presenter Profile")
   final VoidCallback? onNotificationTap;
+  final VoidCallback? onSearchTap;
   final VoidCallback? onMenuTap;
   final int notificationCount;
   final List<Widget>? actions;
@@ -24,6 +25,7 @@ class AreaFMAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.showSearch = false,
     this.title,
     this.onNotificationTap,
+    this.onSearchTap,
     this.onMenuTap,
     this.notificationCount = 1,
     this.actions,
@@ -38,6 +40,7 @@ class AreaFMAppBar extends StatelessWidget implements PreferredSizeWidget {
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+        statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
       ),
       child: AppBar(
         backgroundColor: Colors.transparent,
@@ -47,6 +50,7 @@ class AreaFMAppBar extends StatelessWidget implements PreferredSizeWidget {
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
           statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+          statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
         ),
         leading: showBack
             ? IconButton(
@@ -72,8 +76,8 @@ class AreaFMAppBar extends StatelessWidget implements PreferredSizeWidget {
             [
               if (showSearch)
                 IconButton(
-                  icon: Icon(Icons.search, color: iconColor, size: 24),
-                  onPressed: () {},
+                  icon: Icon(Icons.search_rounded, color: iconColor, size: 24),
+                  onPressed: onSearchTap ?? () {},
                 ),
               if (showNotification)
                 _NotificationBell(

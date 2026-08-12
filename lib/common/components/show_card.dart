@@ -41,6 +41,7 @@ class ShowCard extends StatelessWidget {
               imageUrl: show.image,
               height: 120,
               width: double.infinity,
+              fit: BoxFit.fill,
               borderRadius: const BorderRadius.vertical(top: Radius.circular(AppSizes.r16)),
             ),
             Padding(

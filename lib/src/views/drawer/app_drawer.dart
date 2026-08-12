@@ -12,15 +12,60 @@ class AppDrawer extends ConsumerWidget {
   const AppDrawer({super.key});
 
   static const _navItems = [
-    _DrawerNavItem(icon: Icons.home_rounded, label: 'Home', route: RouteNames.home, isGo: true),
-    _DrawerNavItem(icon: Icons.mic_rounded, label: 'Shows', route: RouteNames.shows, isGo: true),
-    _DrawerNavItem(icon: Icons.headphones_rounded, label: 'Podcasts', route: RouteNames.podcasts, isGo: true),
-    _DrawerNavItem(icon: Icons.play_circle_fill_rounded, label: 'Videos', route: RouteNames.videos, isGo: true),
-    _DrawerNavItem(icon: Icons.bar_chart_rounded, label: 'Charts', route: RouteNames.charts, isGo: true),
-    _DrawerNavItem(icon: Icons.local_activity_outlined, label: 'Events', route: RouteNames.events, isGo: true),
-    _DrawerNavItem(icon: Icons.people_outline_rounded, label: 'Team Members', route: RouteNames.presenters, isGo: true),
-    _DrawerNavItem(icon: Icons.newspaper_rounded, label: 'News & Blog', route: RouteNames.blog, isGo: true),
-    _DrawerNavItem(icon: Icons.notifications_outlined, label: 'Notifications', route: RouteNames.notifications, badge: 3),
+    _DrawerNavItem(
+      icon: Icons.home_rounded,
+      label: 'Home',
+      route: RouteNames.home,
+      isGo: true,
+    ),
+    _DrawerNavItem(
+      icon: Icons.mic_rounded,
+      label: 'Shows',
+      route: RouteNames.shows,
+      isGo: true,
+    ),
+    _DrawerNavItem(
+      icon: Icons.headphones_rounded,
+      label: 'Podcasts',
+      route: RouteNames.podcasts,
+      isGo: true,
+    ),
+    _DrawerNavItem(
+      icon: Icons.play_circle_fill_rounded,
+      label: 'Videos',
+      route: RouteNames.videos,
+      isGo: true,
+    ),
+    _DrawerNavItem(
+      icon: Icons.bar_chart_rounded,
+      label: 'Charts',
+      route: RouteNames.charts,
+      isGo: true,
+    ),
+    _DrawerNavItem(
+      icon: Icons.local_activity_outlined,
+      label: 'Events',
+      route: RouteNames.events,
+      isGo: true,
+    ),
+    _DrawerNavItem(
+      icon: Icons.people_outline_rounded,
+      label: 'Team Members',
+      route: RouteNames.presenters,
+      isGo: true,
+    ),
+    _DrawerNavItem(
+      icon: Icons.newspaper_rounded,
+      label: 'News & Blog',
+      route: RouteNames.blog,
+      isGo: true,
+    ),
+    _DrawerNavItem(
+      icon: Icons.notifications_outlined,
+      label: 'Notifications',
+      route: RouteNames.notifications,
+      badge: 3,
+    ),
   ];
 
   @override
@@ -30,8 +75,12 @@ class AppDrawer extends ConsumerWidget {
 
     final bg = isDark ? AppColors.surfaceDark : Colors.white;
     final textPrimary = isDark ? Colors.white : const Color(0xFF111827);
-    final textSecondary = isDark ? AppColors.textSecondaryDark : const Color(0xFF6B7280);
-    final dividerColor = isDark ? AppColors.borderDark : const Color(0xFFE5E7EB);
+    final textSecondary = isDark
+        ? AppColors.textSecondaryDark
+        : const Color(0xFF6B7280);
+    final dividerColor = isDark
+        ? AppColors.borderDark
+        : const Color(0xFFE5E7EB);
 
     return Drawer(
       backgroundColor: bg,
@@ -55,15 +104,27 @@ class AppDrawer extends ConsumerWidget {
                         children: [
                           TextSpan(
                             text: '93.5 ',
-                            style: GoogleFonts.bebasNeue(fontSize: 18, color: textPrimary, letterSpacing: 2),
+                            style: GoogleFonts.bebasNeue(
+                              fontSize: 18,
+                              color: textPrimary,
+                              letterSpacing: 2,
+                            ),
                           ),
                           TextSpan(
                             text: 'AREA ',
-                            style: GoogleFonts.bebasNeue(fontSize: 26, color: AppColors.primary, letterSpacing: 2),
+                            style: GoogleFonts.bebasNeue(
+                              fontSize: 26,
+                              color: AppColors.primary,
+                              letterSpacing: 2,
+                            ),
                           ),
                           TextSpan(
                             text: 'FM',
-                            style: GoogleFonts.bebasNeue(fontSize: 26, color: textPrimary, letterSpacing: 2),
+                            style: GoogleFonts.bebasNeue(
+                              fontSize: 26,
+                              color: textPrimary,
+                              letterSpacing: 2,
+                            ),
                           ),
                         ],
                       ),
@@ -77,10 +138,18 @@ class AppDrawer extends ConsumerWidget {
                         width: 48,
                         height: 48,
                         decoration: BoxDecoration(
-                          color: isDark ? AppColors.surfaceDark2 : const Color(0xFFE5E7EB),
+                          color: isDark
+                              ? AppColors.surfaceDark2
+                              : const Color(0xFFE5E7EB),
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(Icons.person_rounded, color: isDark ? Colors.white70 : const Color(0xFF9CA3AF), size: 28),
+                        child: Icon(
+                          Icons.person_rounded,
+                          color: isDark
+                              ? Colors.white70
+                              : const Color(0xFF9CA3AF),
+                          size: 28,
+                        ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
@@ -88,7 +157,7 @@ class AppDrawer extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              user?.name ?? 'Big P',
+                              user?.name ?? 'Guest Name',
                               style: GoogleFonts.poppins(
                                 color: textPrimary,
                                 fontSize: 15,
@@ -96,7 +165,7 @@ class AppDrawer extends ConsumerWidget {
                               ),
                             ),
                             Text(
-                              user?.email ?? 'bigp@areafm.ng',
+                              user?.email ?? 'guest@areafm.ng',
                               style: GoogleFonts.inter(
                                 color: textSecondary,
                                 fontSize: 12,
@@ -105,7 +174,11 @@ class AppDrawer extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      const Icon(Icons.chevron_right_rounded, color: AppColors.primary, size: 22),
+                      const Icon(
+                        Icons.chevron_right_rounded,
+                        color: AppColors.primary,
+                        size: 22,
+                      ),
                     ],
                   ),
                   const SizedBox(height: 16),
@@ -119,7 +192,9 @@ class AppDrawer extends ConsumerWidget {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                ..._navItems.map((item) => _DrawerTile(item: item, isDark: isDark)),
+                ..._navItems.map(
+                  (item) => _DrawerTile(item: item, isDark: isDark),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Divider(height: 24, color: dividerColor),
@@ -143,10 +218,19 @@ class AppDrawer extends ConsumerWidget {
                 ),
                 // Dark mode toggle
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 8,
+                  ),
                   child: Row(
                     children: [
-                      Icon(Icons.dark_mode_outlined, size: 22, color: isDark ? Colors.white70 : const Color(0xFF374151)),
+                      Icon(
+                        Icons.dark_mode_outlined,
+                        size: 22,
+                        color: isDark
+                            ? Colors.white70
+                            : const Color(0xFF374151),
+                      ),
                       const SizedBox(width: 14),
                       Expanded(
                         child: Text(
@@ -160,9 +244,13 @@ class AppDrawer extends ConsumerWidget {
                       ),
                       Switch(
                         value: isDark,
-                        onChanged: (v) => ref.read(settingsNotifierProvider.notifier).toggleTheme(v),
+                        onChanged: (v) => ref
+                            .read(settingsNotifierProvider.notifier)
+                            .toggleTheme(v),
                         activeTrackColor: AppColors.primary,
-                        inactiveTrackColor: isDark ? AppColors.surfaceDark2 : const Color(0xFFE5E7EB),
+                        inactiveTrackColor: isDark
+                            ? AppColors.surfaceDark2
+                            : const Color(0xFFE5E7EB),
                       ),
                     ],
                   ),
@@ -173,7 +261,10 @@ class AppDrawer extends ConsumerWidget {
                 ),
                 // Logout
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 8,
+                  ),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
@@ -182,7 +273,11 @@ class AppDrawer extends ConsumerWidget {
                     },
                     child: Row(
                       children: [
-                        const Icon(Icons.logout_rounded, color: AppColors.primary, size: 22),
+                        const Icon(
+                          Icons.logout_rounded,
+                          color: AppColors.primary,
+                          size: 22,
+                        ),
                         const SizedBox(width: 14),
                         Text(
                           'Log Out',
@@ -224,16 +319,14 @@ class _DrawerTile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
       decoration: BoxDecoration(
-        color: isActive ? AppColors.primary.withValues(alpha: 0.12) : Colors.transparent,
+        color: isActive
+            ? AppColors.primary.withValues(alpha: 0.12)
+            : Colors.transparent,
         borderRadius: BorderRadius.circular(10),
       ),
       child: ListTile(
         dense: true,
-        leading: Icon(
-          item.icon,
-          size: 22,
-          color: iconColor,
-        ),
+        leading: Icon(item.icon, size: 22, color: iconColor),
         title: Text(
           item.label,
           style: GoogleFonts.inter(

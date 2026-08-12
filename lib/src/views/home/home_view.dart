@@ -27,7 +27,11 @@ class HomeView extends ConsumerWidget {
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       extendBodyBehindAppBar: false,
       drawer: const AppDrawer(),
-      appBar: const AreaFMAppBar(notificationCount: 3),
+      appBar: AreaFMAppBar(
+        notificationCount: 3,
+        showSearch: true,
+        onSearchTap: () => context.push('/shows'),
+      ),
       body: homeDataAsync.when(
         loading: () => const AppLoader(message: 'Loading station content...'),
         error: (err, stack) => AppErrorWidget(

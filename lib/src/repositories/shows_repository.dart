@@ -1,5 +1,6 @@
 import '../models/show_model.dart';
 import '../models/schedule_model.dart';
+import '../../const/app_assets.dart';
 
 class ShowsRepository {
   Future<List<ShowModel>> getShows() async {
@@ -10,7 +11,7 @@ class ShowsRepository {
         presenter: 'DJ Big Shaq',
         airTime: '06:00 AM - 10:00 AM',
         days: 'Mon - Fri',
-        image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=600&q=80',
+        image: AppAssets.show1,
         description: 'Start your day with high energy music, morning traffic updates, and hot topics.',
         genre: 'Entertainment & Hype',
       ),
@@ -20,7 +21,7 @@ class ShowsRepository {
         presenter: 'Sarah Jenkins',
         airTime: '10:00 AM - 02:00 PM',
         days: 'Mon - Fri',
-        image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80',
+        image: AppAssets.show2,
         description: 'Smooth tunes, listener requests, celebrity gossip, and workplace lounge vibes.',
         genre: 'R&B & Afrobeats',
       ),
@@ -30,9 +31,19 @@ class ShowsRepository {
         presenter: 'MC Sparkle',
         airTime: '04:00 PM - 08:00 PM',
         days: 'Mon - Fri',
-        image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=600&q=80',
+        image: AppAssets.show3,
         description: 'Unwind on your commute home with club bangers, sports banter, and live listener call-ins.',
         genre: 'Urban & Hip-Hop',
+      ),
+      ShowModel(
+        id: 'show4',
+        title: 'Area Nights Late Show',
+        presenter: 'DJ Switch',
+        airTime: '08:00 PM - 12:00 AM',
+        days: 'Mon - Fri',
+        image: AppAssets.show4,
+        description: 'Late night vibes, chill R&B, intimate talk, and deep bass grooves to end your night right.',
+        genre: 'Night Vibes',
       ),
     ];
   }

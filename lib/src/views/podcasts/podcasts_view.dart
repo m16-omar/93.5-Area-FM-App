@@ -149,7 +149,7 @@ class _PodcastsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: size.height * 0.28,
       child: Stack(
         fit: StackFit.expand,
@@ -246,7 +246,7 @@ class _FeaturedPodcastCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 155,
+        width: 165,
         margin: const EdgeInsets.only(right: 12),
         decoration: BoxDecoration(
           color: AppColors.navyBlue,
@@ -316,26 +316,34 @@ class _FeaturedPodcastCard extends StatelessWidget {
                   Row(
                     children: [
                       // Frequency badge
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.25),
-                          borderRadius: BorderRadius.circular(4),
-                          border: Border.all(color: AppColors.primary.withValues(alpha: 0.5)),
-                        ),
-                        child: Text(
-                          podcast.category,
-                          style: GoogleFonts.inter(
-                            color: AppColors.primary,
-                            fontSize: 9,
-                            fontWeight: FontWeight.w700,
+                      Flexible(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withValues(alpha: 0.25),
+                            borderRadius: BorderRadius.circular(4),
+                            border: Border.all(color: AppColors.primary.withValues(alpha: 0.5)),
+                          ),
+                          child: Text(
+                            podcast.category,
+                            style: GoogleFonts.inter(
+                              color: AppColors.primary,
+                              fontSize: 9,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ),
                       const SizedBox(width: 6),
-                      Text(
-                        '${podcast.episodesCount} Episodes',
-                        style: GoogleFonts.inter(color: Colors.white60, fontSize: 10),
+                      Flexible(
+                        child: Text(
+                          '${podcast.episodesCount} Episodes',
+                          style: GoogleFonts.inter(color: Colors.white60, fontSize: 10),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   ),

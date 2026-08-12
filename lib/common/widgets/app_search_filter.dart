@@ -75,20 +75,20 @@ class AppFilterChips extends StatelessWidget {
             onTap: () => onChanged(f),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
               decoration: BoxDecoration(
-                color: isSelected ? AppColors.primary : AppColors.surfaceDark,
-                borderRadius: BorderRadius.circular(20),
+                color: isSelected ? const Color(0xFFE24600) : const Color(0xFF0B1528),
+                borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: isSelected ? AppColors.primary : AppColors.borderDark,
+                  color: isSelected ? const Color(0xFFE24600) : const Color(0xFF1E3A8A).withValues(alpha: 0.6),
                 ),
               ),
               child: Text(
                 f,
                 style: GoogleFonts.inter(
-                  color: isSelected ? Colors.white : AppColors.textSecondaryDark,
-                  fontSize: 13,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                 ),
               ),
             ),

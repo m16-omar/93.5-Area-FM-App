@@ -12,13 +12,14 @@ class AppAssets {
   static const String onboarding2Bg = 'assets/images/onboarding2_bg.png';
   static const String onboarding3Bg = 'assets/images/onboarding3_bg.png';
   static const String studioMicOnly = 'assets/images/studio_mic_only.png';
-  static const String homeHeroMic = 'assets/images/home_hero_mic.png';
+  static const String homeHeroMic = 'assets/images/home_hero_mic.jpeg';
   static const String djAceOnAir = 'assets/images/dj_ace_onair.png';
   static const String banner = 'assets/images/banner.png';
   static const String show1 = 'assets/images/show1.png';
   static const String show2 = 'assets/images/show2.png';
   static const String show3 = 'assets/images/show3.png';
   static const String show4 = 'assets/images/show4.png';
+  static const String showsScreenCarousel = 'assets/images/shows_screen_carousel.png';
 
   // ── Network Placeholders ──────────────────────────────────────
   static const String presenterPlaceholder =
