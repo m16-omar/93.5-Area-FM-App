@@ -1,77 +1,551 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../common/components/custom_app_bar.dart';
-import '../../providers/settings_provider.dart';
-import 'widgets/settings_section.dart';
-import 'widgets/settings_tile.dart';
-import 'widgets/dark_mode_tile.dart';
-import 'widgets/settings_switch.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../../const/app_colors.dart';
+import '../../../const/app_assets.dart';
+import '../../controllers/settings_controller.dart';
+import '../drawer/app_drawer.dart';
 
-class SettingsView extends ConsumerWidget {
+class SettingsView extends ConsumerStatefulWidget {
   const SettingsView({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SettingsView> createState() => _SettingsViewState();
+}
+
+class _SettingsViewState extends ConsumerState<SettingsView> {
+  bool _downloadWifiOnly = false;
+
+  @override
+  Widget build(BuildContext context) {
     final settings = ref.watch(settingsNotifierProvider);
     final notifier = ref.read(settingsNotifierProvider.notifier);
+    final size = MediaQuery.of(context).size;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: const AreaFMAppBar(title: 'App Settings', showBack: true),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
+      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+      drawer: const AppDrawer(),
+      body: SafeArea(
+        top: true,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.only(bottom: 30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header Graphic Banner with Logo & Studio Mic
+              _SettingsHeaderBanner(size: size),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // ACCOUNT SECTION
+                    _SectionTitle(title: 'ACCOUNT', isDark: isDark),
+                    _SettingsGroupCard(
+                      isDark: isDark,
+                      children: [
+                        _SettingTileItem(
+                          isDark: isDark,
+                          icon: Icons.person_outline_rounded,
+                          iconBgColor: const Color(0xFF0055FF),
+                          title: 'My Account',
+                          subtitle: 'View and manage your profile',
+                          onTap: () => context.push('/profile'),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+
+                    // PREFERENCES SECTION
+                    _SectionTitle(title: 'PREFERENCES', isDark: isDark),
+                    _SettingsGroupCard(
+                      isDark: isDark,
+                      children: [
+                        _SettingTileItem(
+                          isDark: isDark,
+                          icon: Icons.notifications_outlined,
+                          iconBgColor: AppColors.primary,
+                          title: 'Notifications',
+                          subtitle: 'Manage push notifications',
+                          trailing: Switch.adaptive(
+                            value: settings.pushNotifications,
+                            activeThumbColor: AppColors.primary,
+                            onChanged: (val) => notifier.toggleNotifications(val),
+                          ),
+                        ),
+                        _TileDivider(isDark: isDark),
+                        _SettingTileItem(
+                          isDark: isDark,
+                          icon: Icons.volume_up_outlined,
+                          iconBgColor: const Color(0xFF0055FF),
+                          title: 'Streaming Quality',
+                          subtitle: 'Choose your streaming quality',
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'High',
+                                style: GoogleFonts.inter(
+                                  color: AppColors.primary,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              Icon(
+                                Icons.chevron_right_rounded,
+                                color: isDark ? Colors.white54 : AppColors.textSecondaryLight,
+                                size: 20,
+                              ),
+                            ],
+                          ),
+                          onTap: () {
+                            final newQuality = settings.audioQuality == 'HD (320kbps)'
+                                ? 'Standard (128kbps)'
+                                : 'HD (320kbps)';
+                            notifier.setAudioQuality(newQuality);
+                          },
+                        ),
+                        _TileDivider(isDark: isDark),
+                        _SettingTileItem(
+                          isDark: isDark,
+                          icon: Icons.download_rounded,
+                          iconBgColor: AppColors.primary,
+                          title: 'Download over Wi-Fi only',
+                          subtitle: 'Save mobile data',
+                          trailing: Switch.adaptive(
+                            value: _downloadWifiOnly,
+                            activeThumbColor: AppColors.primary,
+                            onChanged: (val) {
+                              setState(() {
+                                _downloadWifiOnly = val;
+                              });
+                            },
+                          ),
+                        ),
+                        _TileDivider(isDark: isDark),
+                        _SettingTileItem(
+                          isDark: isDark,
+                          icon: Icons.dark_mode_outlined,
+                          iconBgColor: const Color(0xFF0055FF),
+                          title: 'Dark Mode',
+                          subtitle: 'Use dark theme',
+                          trailing: Switch.adaptive(
+                            value: settings.isDarkMode,
+                            activeThumbColor: AppColors.primary,
+                            onChanged: (val) => notifier.toggleTheme(val),
+                          ),
+                        ),
+                        _TileDivider(isDark: isDark),
+                        _SettingTileItem(
+                          isDark: isDark,
+                          icon: Icons.translate_rounded,
+                          iconBgColor: AppColors.primary,
+                          title: 'Language',
+                          subtitle: 'Choose your preferred language',
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'English',
+                                style: GoogleFonts.inter(
+                                  color: AppColors.primary,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              Icon(
+                                Icons.chevron_right_rounded,
+                                color: isDark ? Colors.white54 : AppColors.textSecondaryLight,
+                                size: 20,
+                              ),
+                            ],
+                          ),
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+
+                    // APP SECTION
+                    _SectionTitle(title: 'APP', isDark: isDark),
+                    _SettingsGroupCard(
+                      isDark: isDark,
+                      children: [
+                        _SettingTileItem(
+                          isDark: isDark,
+                          icon: Icons.tune_rounded,
+                          iconBgColor: const Color(0xFF0055FF),
+                          title: 'Equalizer',
+                          subtitle: 'Customize your audio experience',
+                          onTap: () {},
+                        ),
+                        _TileDivider(isDark: isDark),
+                        _SettingTileItem(
+                          isDark: isDark,
+                          icon: Icons.access_time_rounded,
+                          iconBgColor: AppColors.primary,
+                          title: 'Sleep Timer',
+                          subtitle: 'Set timer to stop playback',
+                          onTap: () {},
+                        ),
+                        _TileDivider(isDark: isDark),
+                        _SettingTileItem(
+                          isDark: isDark,
+                          icon: Icons.directions_car_rounded,
+                          iconBgColor: const Color(0xFF0055FF),
+                          title: 'Car Mode',
+                          subtitle: 'Optimized experience for driving',
+                          onTap: () {},
+                        ),
+                        _TileDivider(isDark: isDark),
+                        _SettingTileItem(
+                          isDark: isDark,
+                          icon: Icons.info_outline_rounded,
+                          iconBgColor: AppColors.primary,
+                          title: 'About AREA 93.5 FM',
+                          subtitle: 'Learn more about us',
+                          onTap: () => context.push('/team'),
+                        ),
+                        _TileDivider(isDark: isDark),
+                        _SettingTileItem(
+                          isDark: isDark,
+                          icon: Icons.share_rounded,
+                          iconBgColor: const Color(0xFF0055FF),
+                          title: 'Share the App',
+                          subtitle: 'Tell your friends about AREA FM',
+                          onTap: () {},
+                        ),
+                        _TileDivider(isDark: isDark),
+                        _SettingTileItem(
+                          isDark: isDark,
+                          icon: Icons.logout_rounded,
+                          iconBgColor: const Color(0xFFFF3B30),
+                          title: 'Log Out',
+                          titleColor: const Color(0xFFFF3B30),
+                          subtitle: 'Sign out of your account',
+                          onTap: () => context.go('/login'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SettingsHeaderBanner extends StatelessWidget {
+  final Size size;
+  const _SettingsHeaderBanner({required this.size});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+      height: 155,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        gradient: const LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: [
+            Color(0xFF001F54),
+            Color(0xFF003882),
+          ],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF001F54).withValues(alpha: 0.4),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Stack(
+          fit: StackFit.expand,
           children: [
-            SettingsSectionWidget(
-              title: 'Preferences',
-              children: [
-                const DarkModeTileWidget(),
-                SettingsSwitchWidget(
-                  icon: Icons.notifications_active_outlined,
-                  title: 'Push Notifications',
-                  subtitle: 'Receive alerts when live shows start',
-                  value: settings.pushNotifications,
-                  onChanged: (val) => notifier.toggleNotifications(val),
+            // Right Studio Microphone image with horizontal fade mask
+            Positioned(
+              right: 0,
+              top: -10,
+              bottom: -10,
+              width: size.width * 0.52,
+              child: ShaderMask(
+                shaderCallback: (rect) {
+                  return const LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [Colors.transparent, Colors.white],
+                    stops: [0.0, 0.35],
+                  ).createShader(rect);
+                },
+                blendMode: BlendMode.dstIn,
+                child: Image.asset(
+                  AppAssets.studioMicOnly,
+                  fit: BoxFit.cover,
+                  alignment: Alignment.centerRight,
+                  errorBuilder: (context, error, stackTrace) => const SizedBox(),
                 ),
-                SettingsSwitchWidget(
-                  icon: Icons.play_circle_outline_rounded,
-                  title: 'Auto-play Stream',
-                  subtitle: 'Start radio streaming when app launches',
-                  value: settings.autoPlayStream,
-                  onChanged: (val) => notifier.toggleAutoPlay(val),
+              ),
+            ),
+            // Smooth Gradient Overlay for text contrast
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      const Color(0xFF001F54),
+                      const Color(0xFF001F54).withValues(alpha: 0.75),
+                      Colors.transparent,
+                    ],
+                    stops: const [0.0, 0.48, 0.88],
+                  ),
+                ),
+              ),
+            ),
+            // Content Layout Column
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Top Navigation & Centered Logo Bar
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          if (context.canPop()) {
+                            context.pop();
+                          } else {
+                            context.go('/home');
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.12),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.arrow_back_rounded,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                      Image.asset(
+                        AppAssets.logo,
+                        height: 34,
+                        errorBuilder: (context, error, stackTrace) => Text(
+                          '93.5 AREA FM',
+                          style: GoogleFonts.outfit(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 32),
+                    ],
+                  ),
+                  const Spacer(),
+                  // Settings Title & Subtitle
+                  Text(
+                    'Settings',
+                    style: GoogleFonts.outfit(
+                      fontSize: 32,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                      height: 1.1,
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+                  Text(
+                    'Manage your preferences and app settings.',
+                    style: GoogleFonts.inter(
+                      color: Colors.white70,
+                      fontSize: 12.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SectionTitle extends StatelessWidget {
+  final String title;
+  final bool isDark;
+  const _SectionTitle({required this.title, required this.isDark});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 4, bottom: 8),
+      child: Text(
+        title,
+        style: GoogleFonts.inter(
+          color: isDark ? Colors.white54 : AppColors.textSecondaryLight,
+          fontSize: 12,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 1.2,
+        ),
+      ),
+    );
+  }
+}
+
+class _SettingsGroupCard extends StatelessWidget {
+  final List<Widget> children;
+  final bool isDark;
+
+  const _SettingsGroupCard({required this.children, required this.isDark});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF0C1728) : Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: isDark ? const Color(0xFF162742) : const Color(0xFFE2E8F0),
+          width: 1,
+        ),
+        boxShadow: isDark
+            ? [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.25),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ]
+            : [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.04),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
                 ),
               ],
+      ),
+      child: Column(
+        children: children,
+      ),
+    );
+  }
+}
+
+class _TileDivider extends StatelessWidget {
+  final bool isDark;
+  const _TileDivider({required this.isDark});
+
+  @override
+  Widget build(BuildContext context) {
+    return Divider(
+      height: 1,
+      thickness: 1,
+      indent: 62,
+      color: isDark ? const Color(0xFF162742) : const Color(0xFFF1F5F9),
+    );
+  }
+}
+
+class _SettingTileItem extends StatelessWidget {
+  final bool isDark;
+  final IconData icon;
+  final Color iconBgColor;
+  final String title;
+  final Color? titleColor;
+  final String subtitle;
+  final Widget? trailing;
+  final VoidCallback? onTap;
+
+  const _SettingTileItem({
+    required this.isDark,
+    required this.icon,
+    required this.iconBgColor,
+    required this.title,
+    this.titleColor,
+    required this.subtitle,
+    this.trailing,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            // Circular Colored Icon Container
+            Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                color: iconBgColor,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                icon,
+                color: Colors.white,
+                size: 20,
+              ),
             ),
-            SettingsSectionWidget(
-              title: 'Audio Quality',
-              children: [
-                SettingsTileWidget(
-                  icon: Icons.high_quality_rounded,
-                  title: 'Stream Quality',
-                  subtitle: settings.audioQuality,
-                  onTap: () {
-                    notifier.setAudioQuality(
-                      settings.audioQuality == 'HD (320kbps)' ? 'Standard (128kbps)' : 'HD (320kbps)',
-                    );
-                  },
-                ),
-              ],
+            const SizedBox(width: 14),
+            // Title + Subtitle Column
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: GoogleFonts.inter(
+                      color: titleColor ?? (isDark ? Colors.white : AppColors.textPrimaryLight),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    style: GoogleFonts.inter(
+                      color: isDark ? Colors.white60 : AppColors.textSecondaryLight,
+                      fontSize: 11.5,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            SettingsSectionWidget(
-              title: 'Support & Station',
-              children: [
-                SettingsTileWidget(
-                  icon: Icons.help_outline_rounded,
-                  title: 'Help & Support',
-                  onTap: () => context.push('/support'),
-                ),
-                SettingsTileWidget(
-                  icon: Icons.info_outline_rounded,
-                  title: 'About 93.5 Area FM',
-                  onTap: () => context.push('/team'),
-                ),
-              ],
-            ),
+            // Trailing Widget or Default Chevron
+            if (trailing != null)
+              trailing!
+            else
+              Icon(
+                Icons.chevron_right_rounded,
+                color: isDark ? Colors.white54 : AppColors.textSecondaryLight,
+                size: 20,
+              ),
           ],
         ),
       ),
