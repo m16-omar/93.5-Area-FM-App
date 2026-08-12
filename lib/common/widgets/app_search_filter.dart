@@ -6,42 +6,95 @@ import '../../const/app_colors.dart';
 class AppSearchBar extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
-  const AppSearchBar({super.key, required this.controller, required this.hint});
+  final ValueChanged<String>? onChanged;
+  final VoidCallback? onFilterTap;
+
+  const AppSearchBar({
+    super.key,
+    required this.controller,
+    required this.hint,
+    this.onChanged,
+    this.onFilterTap,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Row(
       children: [
         Expanded(
           child: Container(
+            height: 42,
             decoration: BoxDecoration(
-              color: AppColors.surfaceDark,
-              borderRadius: BorderRadius.circular(28),
-              border: Border.all(color: AppColors.borderDark),
+              color: isDark ? const Color(0xFF0C1728) : Colors.white,
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(
+                color: isDark ? const Color(0xFF162742) : const Color(0xFFE2E8F0),
+              ),
+              boxShadow: isDark
+                  ? null
+                  : [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.04),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
             ),
             child: TextField(
               controller: controller,
-              style: GoogleFonts.inter(color: Colors.white, fontSize: 14),
+              onChanged: onChanged,
+              style: GoogleFonts.inter(
+                color: isDark ? Colors.white : AppColors.textPrimaryLight,
+                fontSize: 13,
+              ),
               decoration: InputDecoration(
                 hintText: hint,
-                hintStyle: GoogleFonts.inter(color: AppColors.textMutedDark, fontSize: 14),
-                prefixIcon: const Icon(Icons.search_rounded, color: AppColors.textMutedDark, size: 20),
+                hintStyle: GoogleFonts.inter(
+                  color: isDark ? AppColors.textMutedDark : AppColors.textSecondaryLight,
+                  fontSize: 13,
+                ),
+                prefixIcon: Icon(
+                  Icons.search_rounded,
+                  color: isDark ? AppColors.textMutedDark : AppColors.textSecondaryLight,
+                  size: 18,
+                ),
                 border: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(vertical: 14),
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(vertical: 11),
               ),
             ),
           ),
         ),
         const SizedBox(width: 10),
-        Container(
-          width: 48,
-          height: 48,
-          decoration: BoxDecoration(
-            color: AppColors.navyBlue,
-            shape: BoxShape.circle,
-            border: Border.all(color: AppColors.royalBlue),
+        GestureDetector(
+          onTap: onFilterTap,
+          child: Container(
+            width: 42,
+            height: 42,
+            decoration: BoxDecoration(
+              color: isDark ? const Color(0xFF0C1728) : Colors.white,
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: isDark ? const Color(0xFF162742) : const Color(0xFFE2E8F0),
+              ),
+              boxShadow: isDark
+                  ? null
+                  : [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.04),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+            ),
+            child: Icon(
+              Icons.tune_rounded,
+              color: isDark ? Colors.white : AppColors.textPrimaryLight,
+              size: 18,
+            ),
           ),
-          child: const Icon(Icons.tune_rounded, color: Colors.white, size: 20),
         ),
       ],
     );
