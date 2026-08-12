@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../const/app_colors.dart';
 import '../../../const/app_assets.dart';
+import '../../../common/components/custom_app_bar.dart';
 import '../../controllers/settings_controller.dart';
 import '../drawer/app_drawer.dart';
 
@@ -27,16 +28,15 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       drawer: const AppDrawer(),
-      body: SafeArea(
-        top: true,
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.only(bottom: 30),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header Graphic Banner with Logo & Studio Mic
-              _SettingsHeaderBanner(size: size),
+      appBar: const AreaFMAppBar(notificationCount: 3),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.only(bottom: 30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header Graphic Banner with Studio Mic
+            _SettingsHeaderBanner(size: size),
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -239,7 +239,6 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
             ],
           ),
         ),
-      ),
     );
   }
 }
@@ -252,7 +251,7 @@ class _SettingsHeaderBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-      height: 155,
+      height: 145,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         gradient: const LinearGradient(
@@ -281,7 +280,7 @@ class _SettingsHeaderBanner extends StatelessWidget {
               right: 0,
               top: -10,
               bottom: -10,
-              width: size.width * 0.52,
+              width: size.width * 0.55,
               child: ShaderMask(
                 shaderCallback: (rect) {
                   return const LinearGradient(
@@ -300,7 +299,7 @@ class _SettingsHeaderBanner extends StatelessWidget {
                 ),
               ),
             ),
-            // Smooth Gradient Overlay for text contrast
+            // Smooth Left Gradient for crisp text readability
             Positioned.fill(
               child: Container(
                 decoration: BoxDecoration(
@@ -317,64 +316,23 @@ class _SettingsHeaderBanner extends StatelessWidget {
                 ),
               ),
             ),
-            // Content Layout Column
+            // Settings Title & Subtitle Column
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(18),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Top Navigation & Centered Logo Bar
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          if (context.canPop()) {
-                            context.pop();
-                          } else {
-                            context.go('/home');
-                          }
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.12),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(
-                            Icons.arrow_back_rounded,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                        ),
-                      ),
-                      Image.asset(
-                        AppAssets.logo,
-                        height: 34,
-                        errorBuilder: (context, error, stackTrace) => Text(
-                          '93.5 AREA FM',
-                          style: GoogleFonts.outfit(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 32),
-                    ],
-                  ),
-                  const Spacer(),
-                  // Settings Title & Subtitle
                   Text(
                     'Settings',
                     style: GoogleFonts.outfit(
-                      fontSize: 32,
+                      fontSize: 34,
                       fontWeight: FontWeight.w900,
                       color: Colors.white,
-                      height: 1.1,
+                      height: 1.0,
                     ),
                   ),
-                  const SizedBox(height: 3),
+                  const SizedBox(height: 6),
                   Text(
                     'Manage your preferences and app settings.',
                     style: GoogleFonts.inter(
