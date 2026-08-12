@@ -87,7 +87,7 @@ class _PodcastsViewState extends ConsumerState<PodcastsView> {
             // Featured podcasts horizontal scroll
             SliverToBoxAdapter(
               child: SizedBox(
-                height: 230,
+                height: 265,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -275,114 +275,172 @@ class _FeaturedPodcastCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDaily = podcast.category.toLowerCase().contains('daily');
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 165,
+        width: 175,
         margin: const EdgeInsets.only(right: 12),
         decoration: BoxDecoration(
-          color: AppColors.navyBlue,
-          borderRadius: BorderRadius.circular(14),
+          color: isDark ? const Color(0xFF0C1728) : Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: isDark ? const Color(0xFF162742) : const Color(0xFFE2E8F0),
+            width: 1,
+          ),
+          boxShadow: isDark
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.35),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
         ),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(14),
-              child: CustomNetworkImage(
-                imageUrl: podcast.coverImage,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(14),
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.black.withValues(alpha: 0.2),
-                    Colors.black.withValues(alpha: 0.88),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Top Cover Artwork Image & Play Button
+              SizedBox(
+                height: 165,
+                width: double.infinity,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    CustomNetworkImage(
+                      imageUrl: podcast.coverImage,
+                      fit: BoxFit.cover,
+                    ),
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              Colors.black.withValues(alpha: 0.65),
+                            ],
+                            stops: const [0.5, 1.0],
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Floating Red Play Button
+                    Positioned(
+                      right: 10,
+                      bottom: 10,
+                      child: Container(
+                        width: 38,
+                        height: 38,
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.primary.withValues(alpha: 0.45),
+                              blurRadius: 8,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: const Icon(
+                          Icons.play_arrow_rounded,
+                          color: Colors.white,
+                          size: 22,
+                        ),
+                      ),
+                    ),
                   ],
-                  stops: const [0.4, 1.0],
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Spacer(),
-                  // Orange play button
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Container(
-                      width: 36,
-                      height: 36,
-                      decoration: const BoxDecoration(
-                        color: AppColors.primary,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 20),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    podcast.showName,
-                    style: GoogleFonts.poppins(
-                      color: Colors.white,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    'with ${podcast.host}',
-                    style: GoogleFonts.inter(color: Colors.white70, fontSize: 11),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 6),
-                  Row(
+              // Bottom Card Details Column
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Frequency badge
-                      Flexible(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: AppColors.primary.withValues(alpha: 0.25),
-                            borderRadius: BorderRadius.circular(4),
-                            border: Border.all(color: AppColors.primary.withValues(alpha: 0.5)),
-                          ),
-                          child: Text(
-                            podcast.category,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            podcast.showName,
                             style: GoogleFonts.inter(
-                              color: AppColors.primary,
-                              fontSize: 9,
+                              color: isDark ? Colors.white : AppColors.textPrimaryLight,
+                              fontSize: 14,
                               fontWeight: FontWeight.w700,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                        ),
+                          const SizedBox(height: 2),
+                          Text(
+                            'with ${podcast.host}',
+                            style: GoogleFonts.inter(
+                              color: isDark ? Colors.white70 : AppColors.textSecondaryLight,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 6),
-                      Flexible(
-                        child: Text(
-                          '${podcast.episodesCount} Episodes',
-                          style: GoogleFonts.inter(color: Colors.white60, fontSize: 10),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                      // Bottom Row: Pill badge + episode count
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: isDaily
+                                  ? (isDark ? const Color(0xFF001B44) : const Color(0xFFEFF6FF))
+                                  : (isDark ? const Color(0xFF381000) : const Color(0xFFFFF0EB)),
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                color: isDaily
+                                    ? const Color(0xFF0055FF).withValues(alpha: 0.4)
+                                    : AppColors.primary.withValues(alpha: 0.4),
+                              ),
+                            ),
+                            child: Text(
+                              podcast.category,
+                              style: GoogleFonts.inter(
+                                color: isDaily ? const Color(0xFF0055FF) : AppColors.primary,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            '${podcast.episodesCount} Episodes',
+                            style: GoogleFonts.inter(
+                              color: isDark ? Colors.white60 : AppColors.textSecondaryLight,
+                              fontSize: 10.5,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
