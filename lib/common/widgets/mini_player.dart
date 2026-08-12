@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../const/app_colors.dart';
+import '../../const/app_assets.dart';
 import '../../src/providers/radio_player_provider.dart';
 import '../../src/routes/route_names.dart';
 
@@ -45,37 +46,24 @@ class MiniPlayerWidget extends ConsumerWidget {
             GestureDetector(
               onTap: () => context.push(RouteNames.radioPlayer),
               child: Container(
-                width: 44,
-                height: 44,
+                width: 46,
+                height: 46,
                 decoration: BoxDecoration(
                   color: AppColors.royalBlue,
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: AppColors.brandBlue.withValues(alpha: 0.5), width: 1),
                 ),
-                child: Center(
-                  child: RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: '93.5\n',
-                          style: GoogleFonts.bebasNeue(
-                            fontSize: 8,
-                            color: Colors.white,
-                            letterSpacing: 1,
-                            height: 1.3,
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'AREA',
-                          style: GoogleFonts.bebasNeue(
-                            fontSize: 12,
-                            color: AppColors.primary,
-                            letterSpacing: 1,
-                            height: 1.0,
-                          ),
-                        ),
-                      ],
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Image.asset(
+                      AppAssets.logo,
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) => Image.asset(
+                        AppAssets.logoWhite,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ),
