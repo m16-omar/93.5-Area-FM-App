@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../const/app_colors.dart';
+import '../../../const/app_assets.dart';
 import '../../../common/components/custom_app_bar.dart';
 import '../../../common/widgets/app_loader.dart';
 import '../../../common/widgets/app_error.dart';
@@ -36,7 +37,7 @@ class _PodcastsViewState extends ConsumerState<PodcastsView> {
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
-      extendBodyBehindAppBar: true,
+      extendBodyBehindAppBar: false,
       drawer: const AppDrawer(),
       appBar: const AreaFMAppBar(notificationCount: 3),
       body: podcastsAsync.when(
@@ -54,7 +55,7 @@ class _PodcastsViewState extends ConsumerState<PodcastsView> {
             // Search bar
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
                 child: AppSearchBar(controller: _searchController, hint: 'Search podcasts, shows, episodes...'),
               ),
             ),
@@ -68,7 +69,9 @@ class _PodcastsViewState extends ConsumerState<PodcastsView> {
                     Text(
                       'Featured Podcasts',
                       style: GoogleFonts.poppins(
-                        color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700,
+                        color: isDark ? Colors.white : AppColors.textPrimaryLight,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                     Text(
@@ -106,7 +109,9 @@ class _PodcastsViewState extends ConsumerState<PodcastsView> {
                     Text(
                       'Latest Episodes',
                       style: GoogleFonts.poppins(
-                        color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700,
+                        color: isDark ? Colors.white : AppColors.textPrimaryLight,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                     Text(
@@ -149,78 +154,105 @@ class _PodcastsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: size.height * 0.28,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Positioned(
-            right: -20,
-            top: 0,
-            bottom: 0,
-            child: Image.network(
-              'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=400&q=80',
-              fit: BoxFit.cover,
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+      height: 145,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        gradient: const LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: [
+            Color(0xFF001F54),
+            Color(0xFF003882),
+          ],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF001F54).withValues(alpha: 0.4),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            // Studio Mic Artwork with smooth fade mask on left edge
+            Positioned(
+              right: 0,
+              top: -10,
+              bottom: -10,
               width: size.width * 0.55,
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [
-                  AppColors.backgroundDark,
-                  AppColors.backgroundDark.withValues(alpha: 0.85),
-                  Colors.transparent,
-                ],
-                stops: const [0.0, 0.5, 1.0],
+              child: ShaderMask(
+                shaderCallback: (rect) {
+                  return const LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [Colors.transparent, Colors.white],
+                    stops: [0.0, 0.35],
+                  ).createShader(rect);
+                },
+                blendMode: BlendMode.dstIn,
+                child: Image.asset(
+                  AppAssets.studioMicOnly,
+                  fit: BoxFit.cover,
+                  alignment: Alignment.centerRight,
+                  errorBuilder: (context, error, stackTrace) => const SizedBox(),
+                ),
               ),
             ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  AppColors.backgroundDark,
-                  Colors.transparent,
-                  AppColors.backgroundDark,
-                ],
-                stops: const [0.0, 0.4, 1.0],
+            // Smooth Left Gradient for crisp text readability
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      const Color(0xFF001F54),
+                      const Color(0xFF001F54).withValues(alpha: 0.7),
+                      Colors.transparent,
+                    ],
+                    stops: const [0.0, 0.45, 0.85],
+                  ),
+                ),
               ),
             ),
-          ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+            // PODCASTS Header Content Column
+            Padding(
+              padding: const EdgeInsets.all(18),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'PODCASTS',
-                    style: GoogleFonts.bebasNeue(
-                      fontSize: 42,
+                    style: GoogleFonts.outfit(
+                      fontSize: 34,
+                      fontWeight: FontWeight.w900,
+                      fontStyle: FontStyle.italic,
                       color: Colors.white,
-                      letterSpacing: 2,
+                      letterSpacing: 1.5,
                       height: 1.0,
                     ),
                   ),
+                  const SizedBox(height: 6),
                   RichText(
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: 'Listen to all your favourite shows ',
-                          style: GoogleFonts.inter(color: Colors.white70, fontSize: 13),
+                          text: 'Listen to your favourite podcasts on\n',
+                          style: GoogleFonts.inter(color: Colors.white70, fontSize: 12.5),
                         ),
                         TextSpan(
-                          text: 'anytime, anywhere.',
+                          text: '93.5 AREA FM.',
                           style: GoogleFonts.inter(
                             color: AppColors.primary,
                             fontSize: 13,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ],
@@ -229,8 +261,8 @@ class _PodcastsHeader extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -364,13 +396,26 @@ class _EpisodeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.surfaceDark,
+          color: isDark ? AppColors.surfaceDark : Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.borderDark.withValues(alpha: 0.5)),
+          border: Border.all(
+            color: isDark ? AppColors.borderDark.withValues(alpha: 0.5) : AppColors.borderLight,
+          ),
+          boxShadow: isDark
+              ? null
+              : [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.04),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
         ),
         child: Row(
           children: [
@@ -414,7 +459,7 @@ class _EpisodeTile extends StatelessWidget {
                     Text(
                       podcast.title,
                       style: GoogleFonts.poppins(
-                        color: Colors.white,
+                        color: isDark ? Colors.white : AppColors.textPrimaryLight,
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
                       ),
@@ -425,7 +470,7 @@ class _EpisodeTile extends StatelessWidget {
                     Text(
                       podcast.showName,
                       style: GoogleFonts.inter(
-                        color: AppColors.textSecondaryDark,
+                        color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
                         fontSize: 11,
                       ),
                     ),
@@ -435,7 +480,7 @@ class _EpisodeTile extends StatelessWidget {
                           ? podcast.description
                           : 'Recently added',
                       style: GoogleFonts.inter(
-                        color: AppColors.textMutedDark,
+                        color: isDark ? AppColors.textMutedDark : AppColors.textSecondaryLight,
                         fontSize: 10,
                       ),
                       maxLines: 1,
@@ -455,14 +500,18 @@ class _EpisodeTile extends StatelessWidget {
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: AppColors.navyBlue,
+                      color: isDark ? AppColors.navyBlue : const Color(0xFFEFF6FF),
                       shape: BoxShape.circle,
                       border: Border.all(color: AppColors.primary.withValues(alpha: 0.5)),
                     ),
                     child: const Icon(Icons.play_arrow_rounded, color: AppColors.primary, size: 20),
                   ),
                   const SizedBox(height: 4),
-                  const Icon(Icons.more_vert, color: AppColors.textMutedDark, size: 18),
+                  Icon(
+                    Icons.more_vert,
+                    color: isDark ? AppColors.textMutedDark : AppColors.textSecondaryLight,
+                    size: 18,
+                  ),
                 ],
               ),
             ),
