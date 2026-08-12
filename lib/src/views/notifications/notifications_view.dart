@@ -165,7 +165,7 @@ class _NotificationsViewState extends ConsumerState<NotificationsView> {
                               child: Text(
                                 item.timeGroup.toUpperCase(),
                                 style: GoogleFonts.inter(
-                                  color: isDark ? Colors.white50 : AppColors.textSecondaryLight,
+                                  color: isDark ? Colors.white54 : AppColors.textSecondaryLight,
                                   fontSize: 11.5,
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: 1.2,
