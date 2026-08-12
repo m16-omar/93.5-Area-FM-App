@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../const/app_colors.dart';
 import '../../const/app_assets.dart';
+import '../../src/controllers/notification_controller.dart';
+import '../../src/routes/route_names.dart';
 
 /// Centered logo app bar matching the designer spec.
 /// Shows hamburger (drawer) on left, prominent brand logo in center,
 /// and notification bell on right by default. Theme-aware for light/dark modes.
-class AreaFMAppBar extends StatelessWidget implements PreferredSizeWidget {
+class AreaFMAppBar extends ConsumerWidget implements PreferredSizeWidget {
   final bool showBack;
   final bool showNotification;
   final bool showSearch;
@@ -15,7 +19,7 @@ class AreaFMAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onNotificationTap;
   final VoidCallback? onSearchTap;
   final VoidCallback? onMenuTap;
-  final int notificationCount;
+  final int? notificationCount;
   final List<Widget>? actions;
 
   const AreaFMAppBar({
@@ -27,14 +31,16 @@ class AreaFMAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.onNotificationTap,
     this.onSearchTap,
     this.onMenuTap,
-    this.notificationCount = 1,
+    this.notificationCount,
     this.actions,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final iconColor = isDark ? Colors.white : AppColors.textPrimaryLight;
+    final dynamicUnreadCount = ref.watch(unreadNotificationCountProvider);
+    final count = notificationCount ?? dynamicUnreadCount;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
@@ -55,7 +61,13 @@ class AreaFMAppBar extends StatelessWidget implements PreferredSizeWidget {
         leading: showBack
             ? IconButton(
                 icon: Icon(Icons.arrow_back_ios, color: iconColor, size: 22),
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () {
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.of(context).pop();
+                  } else {
+                    context.go(RouteNames.home);
+                  }
+                },
               )
             : IconButton(
                 icon: Icon(Icons.menu, color: iconColor, size: 26),
@@ -81,9 +93,9 @@ class AreaFMAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               if (showNotification)
                 _NotificationBell(
-                  count: notificationCount,
+                  count: count,
                   iconColor: iconColor,
-                  onTap: onNotificationTap,
+                  onTap: onNotificationTap ?? () => context.push(RouteNames.notifications),
                 ),
               const SizedBox(width: 8),
             ],
@@ -142,6 +154,7 @@ class _NotificationBell extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+      behavior: HitTestBehavior.opaque,
       child: Stack(
         clipBehavior: Clip.none,
         children: [
