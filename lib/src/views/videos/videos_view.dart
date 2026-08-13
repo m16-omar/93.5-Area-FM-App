@@ -496,11 +496,22 @@ class _FeaturedMainCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 3),
-                  Text(
-                    '${video.views} views • ${video.publishDate}',
-                    style: GoogleFonts.inter(
-                      color: Colors.white70,
-                      fontSize: 11,
+                  RichText(
+                    text: TextSpan(
+                      style: GoogleFonts.inter(fontSize: 11),
+                      children: [
+                        TextSpan(
+                          text: '${video.views} views • ',
+                          style: const TextStyle(color: Colors.white70),
+                        ),
+                        TextSpan(
+                          text: video.publishDate,
+                          style: const TextStyle(
+                            color: Color(0xFF0055FF),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -619,11 +630,22 @@ class _FeaturedSubCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 2),
-                  Text(
-                    '${video.views} views • ${video.publishDate}',
-                    style: GoogleFonts.inter(
-                      color: Colors.white70,
-                      fontSize: 10,
+                  RichText(
+                    text: TextSpan(
+                      style: GoogleFonts.inter(fontSize: 10),
+                      children: [
+                        TextSpan(
+                          text: '${video.views} views • ',
+                          style: const TextStyle(color: Colors.white70),
+                        ),
+                        TextSpan(
+                          text: video.publishDate,
+                          style: const TextStyle(
+                            color: Color(0xFF0055FF),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -727,11 +749,24 @@ class _LatestVideoTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    '${video.views} views • ${video.publishDate}',
-                    style: GoogleFonts.inter(
-                      fontSize: 11,
-                      color: isDark ? Colors.white54 : const Color(0xFF9CA3AF),
+                  RichText(
+                    text: TextSpan(
+                      style: GoogleFonts.inter(fontSize: 11),
+                      children: [
+                        TextSpan(
+                          text: '${video.views} views • ',
+                          style: TextStyle(
+                            color: isDark ? Colors.white54 : const Color(0xFF9CA3AF),
+                          ),
+                        ),
+                        TextSpan(
+                          text: video.publishDate,
+                          style: const TextStyle(
+                            color: Color(0xFF0055FF),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
