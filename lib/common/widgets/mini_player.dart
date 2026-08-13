@@ -28,10 +28,10 @@ class MiniPlayerWidget extends ConsumerWidget {
     return Container(
       height: 72,
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF071224) : Colors.white,
+        color: isDark ? const Color(0xFF071216) : Colors.white,
         border: Border(
           top: BorderSide(
-            color: isDark ? const Color(0xFF162742) : const Color(0xFFE2E8F0),
+            color: isDark ? const Color(0xFF14303D) : const Color(0xFFE2E8F0),
             width: 1,
           ),
         ),
