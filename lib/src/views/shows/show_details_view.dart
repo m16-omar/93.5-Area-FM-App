@@ -265,7 +265,6 @@ class ShowDetailsView extends ConsumerWidget {
                   title: 'Midweek Mix',
                   subtitle: 'Great hits to keep you going this Wednesday.',
                   timeAgo: 'May 7, 2025 • 2h 58m',
-                  onPlay: () {},
                 ),
                 _EpisodeListItem(
                   isDark: isDark,
@@ -274,7 +273,6 @@ class ShowDetailsView extends ConsumerWidget {
                   title: 'Traffic + Vibes',
                   subtitle: 'Traffic updates, new music and good vibes all the way.',
                   timeAgo: 'May 6, 2025 • 2h 45m',
-                  onPlay: () {},
                 ),
                 _EpisodeListItem(
                   isDark: isDark,
@@ -283,7 +281,6 @@ class ShowDetailsView extends ConsumerWidget {
                   title: 'Feel Good Friday',
                   subtitle: "It's Friday! Let's end the week on a high note.",
                   timeAgo: 'May 2, 2025 • 2h 50m',
-                  onPlay: () {},
                 ),
                 _EpisodeListItem(
                   isDark: isDark,
@@ -292,7 +289,6 @@ class ShowDetailsView extends ConsumerWidget {
                   title: 'Throwback Thursday',
                   subtitle: 'Classic throwbacks and nostalgic jams from the vault.',
                   timeAgo: 'Apr 28, 2025 • 2h 30m',
-                  onPlay: () {},
                 ),
               ],
             ),
@@ -599,8 +595,6 @@ class _EpisodeListItem extends StatelessWidget {
   final String title;
   final String subtitle;
   final String timeAgo;
-  final VoidCallback onPlay;
-
   const _EpisodeListItem({
     required this.isDark,
     required this.isUnread,
@@ -608,7 +602,6 @@ class _EpisodeListItem extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.timeAgo,
-    required this.onPlay,
   });
 
   @override
@@ -699,28 +692,6 @@ class _EpisodeListItem extends StatelessWidget {
             ),
 
             const SizedBox(width: 8),
-
-            // Play Circular Outline Button
-            GestureDetector(
-              onTap: onPlay,
-              child: Container(
-                width: 34,
-                height: 34,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color(0xFF0055FF).withValues(alpha: 0.6),
-                    width: 1.5,
-                  ),
-                ),
-                child: const Icon(
-                  Icons.play_arrow_rounded,
-                  color: Color(0xFF0055FF),
-                  size: 20,
-                ),
-              ),
-            ),
-            const SizedBox(width: 4),
 
             // 3 Vertical Dots Overflow Menu
             Icon(
