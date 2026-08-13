@@ -23,16 +23,21 @@ class MiniPlayerWidget extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       height: 72,
       decoration: BoxDecoration(
-        color: AppColors.navyBlue,
-        border: const Border(
-          top: BorderSide(color: AppColors.royalBlue, width: 0.5),
+        color: isDark ? const Color(0xFF071224) : Colors.white,
+        border: Border(
+          top: BorderSide(
+            color: isDark ? const Color(0xFF162742) : const Color(0xFFE2E8F0),
+            width: 1,
+          ),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.5),
+            color: isDark ? Colors.black.withValues(alpha: 0.4) : Colors.black.withValues(alpha: 0.06),
             blurRadius: 16,
             offset: const Offset(0, -4),
           ),
@@ -49,9 +54,12 @@ class MiniPlayerWidget extends ConsumerWidget {
                 width: 46,
                 height: 46,
                 decoration: BoxDecoration(
-                  color: AppColors.royalBlue,
+                  color: isDark ? const Color(0xFF002966) : const Color(0xFFF1F5F9),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: AppColors.brandBlue.withValues(alpha: 0.5), width: 1),
+                  border: Border.all(
+                    color: isDark ? const Color(0xFF0055FF).withValues(alpha: 0.6) : const Color(0xFFCBD5E1),
+                    width: 1,
+                  ),
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
@@ -84,7 +92,7 @@ class MiniPlayerWidget extends ConsumerWidget {
                           ? currentTrack.title
                           : '93.5 AREA FM',
                       style: GoogleFonts.poppins(
-                        color: Colors.white,
+                        color: isDark ? Colors.white : const Color(0xFF111827),
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
                       ),
@@ -97,7 +105,7 @@ class MiniPlayerWidget extends ConsumerWidget {
                           ? currentTrack.artist
                           : 'Where Music Lives & the Beat Never Stops',
                       style: GoogleFonts.inter(
-                        color: AppColors.textSecondaryDark,
+                        color: isDark ? AppColors.textSecondaryDark : const Color(0xFF6B7280),
                         fontSize: 11,
                       ),
                       maxLines: 1,
@@ -110,7 +118,7 @@ class MiniPlayerWidget extends ConsumerWidget {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
-                              color: AppColors.primary,
+                              color: const Color(0xFFFF4500),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
@@ -138,7 +146,7 @@ class MiniPlayerWidget extends ConsumerWidget {
                 width: 40,
                 height: 40,
                 decoration: const BoxDecoration(
-                  color: AppColors.primary,
+                  color: Color(0xFFFF4500),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
@@ -162,7 +170,7 @@ class MiniPlayerWidget extends ConsumerWidget {
                 padding: const EdgeInsets.all(4),
                 child: Icon(
                   isPlaying ? Icons.keyboard_arrow_up_rounded : Icons.close_rounded,
-                  color: AppColors.textSecondaryDark,
+                  color: isDark ? Colors.white54 : const Color(0xFF6B7280),
                   size: 22,
                 ),
               ),
