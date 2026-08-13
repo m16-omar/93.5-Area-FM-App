@@ -211,15 +211,6 @@ class ShowDetailsView extends ConsumerWidget {
                           value: displayCategory,
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: _InfoGridCard(
-                          isDark: isDark,
-                          icon: Icons.share_outlined,
-                          label: 'Language',
-                          value: 'English',
-                        ),
-                      ),
                     ],
                   ),
                 ),

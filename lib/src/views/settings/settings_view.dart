@@ -140,34 +140,6 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                             onChanged: (val) => notifier.toggleTheme(val),
                           ),
                         ),
-                        _TileDivider(isDark: isDark),
-                        _SettingTileItem(
-                          isDark: isDark,
-                          icon: Icons.translate_rounded,
-                          iconBgColor: AppColors.primary,
-                          title: 'Language',
-                          subtitle: 'Choose your preferred language',
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'English',
-                                style: GoogleFonts.inter(
-                                  color: AppColors.primary,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              const SizedBox(width: 4),
-                              Icon(
-                                Icons.chevron_right_rounded,
-                                color: isDark ? Colors.white54 : AppColors.textSecondaryLight,
-                                size: 20,
-                              ),
-                            ],
-                          ),
-                          onTap: () {},
-                        ),
                       ],
                     ),
                     const SizedBox(height: 20),
