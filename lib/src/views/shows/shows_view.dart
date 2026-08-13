@@ -206,8 +206,8 @@ class _SliverHeaderGraphic extends StatelessWidget {
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                     colors: [
-                      const Color(0xFF001F54),
-                      const Color(0xFF001F54).withValues(alpha: 0.7),
+                      const Color(0xFF085264),
+                      const Color(0xFF085264).withValues(alpha: 0.7),
                       Colors.transparent,
                     ],
                     stops: const [0.0, 0.45, 0.85],

@@ -51,7 +51,7 @@ class FeaturedShowsWidget extends StatelessWidget {
                   height: 150,
                   fit: BoxFit.fill,
                   errorBuilder: (context, error, stackTrace) => Container(
-                    color: const Color(0xFF001F54),
+                    color: const Color(0xFF085264),
                     child: const Center(
                       child: Icon(Icons.mic, color: Colors.white, size: 36),
                     ),
