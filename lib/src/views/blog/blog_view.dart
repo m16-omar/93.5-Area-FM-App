@@ -35,6 +35,7 @@ class _BlogViewState extends ConsumerState<BlogView> {
       drawer: const AppDrawer(),
       appBar: const AreaFMAppBar(notificationCount: 3),
       body: postsAsync.when(
+        skipLoadingOnRefresh: true,
         loading: () => const AppLoader(message: 'Loading news...'),
         error: (err, stack) => AppErrorWidget(
           message: err.toString(),
@@ -45,62 +46,68 @@ class _BlogViewState extends ConsumerState<BlogView> {
               ? posts
               : posts.where((p) => p.category.toLowerCase() == _selectedCategory.toLowerCase()).toList();
 
-          return CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(child: _BlogHeader(size: size)),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                  child: AppFilterChips(
-                    filters: _categories,
-                    selected: _selectedCategory,
-                    onChanged: (v) => setState(() => _selectedCategory = v),
-                  ),
-                ),
-              ),
-              // Featured post (first item)
-              if (filtered.isNotEmpty)
+          return RefreshIndicator(
+            color: AppColors.primary,
+            onRefresh: () async {
+              ref.invalidate(blogPostsProvider);
+              await ref.read(blogPostsProvider.future);
+            },
+            child: CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
+                SliverToBoxAdapter(child: _BlogHeader(size: size)),
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-                    child: _FeaturedPostCard(
-                      post: filtered.first,
-                      onTap: () => context.push('/post_details/${filtered.first.id}'),
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                    child: AppFilterChips(
+                      filters: _categories,
+                      selected: _selectedCategory,
+                      onChanged: (v) => setState(() => _selectedCategory = v),
                     ),
                   ),
                 ),
-              // Latest heading
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Latest Stories', style: GoogleFonts.poppins(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700)),
-                      Text('See All', style: GoogleFonts.inter(color: AppColors.primary, fontSize: 13, fontWeight: FontWeight.w600)),
-                    ],
+                if (filtered.isNotEmpty)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      child: _FeaturedPostCard(
+                        post: filtered.first,
+                        onTap: () => context.push('/post_details/${filtered.first.id}'),
+                      ),
+                    ),
+                  ),
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Latest News', style: GoogleFonts.poppins(color: isDark ? Colors.white : AppColors.textPrimaryLight, fontSize: 16, fontWeight: FontWeight.w700)),
+                        Text('See All', style: GoogleFonts.inter(color: AppColors.primary, fontSize: 13, fontWeight: FontWeight.w600)),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              // Post list
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, i) {
-                    if (i == 0 && filtered.isNotEmpty) return const SizedBox.shrink();
-                    final post = filtered[i];
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
-                      child: _PostTile(
-                        post: post,
-                        onTap: () => context.push('/post_details/${post.id}'),
-                      ),
-                    );
-                  },
-                  childCount: filtered.length,
+                // Post list
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, i) {
+                      if (i == 0 && filtered.isNotEmpty) return const SizedBox.shrink();
+                      final post = filtered[i];
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+                        child: _PostTile(
+                          post: post,
+                          onTap: () => context.push('/post_details/${post.id}'),
+                        ),
+                      );
+                    },
+                    childCount: filtered.length,
+                  ),
                 ),
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 20)),
-            ],
+                const SliverToBoxAdapter(child: SizedBox(height: 20)),
+              ],
+            ),
           );
         },
       ),

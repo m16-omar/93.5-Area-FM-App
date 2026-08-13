@@ -117,6 +117,7 @@ class _NotificationsViewState extends ConsumerState<NotificationsView>
         ),
       ),
       body: notificationsAsync.when(
+        skipLoadingOnRefresh: true,
         loading: () => const AppLoader(message: 'Loading notifications...'),
         error: (err, stack) => AppErrorWidget(
           message: err.toString(),
@@ -124,25 +125,39 @@ class _NotificationsViewState extends ConsumerState<NotificationsView>
         ),
         data: (notifications) {
           if (notifications.isEmpty) {
-            return const EmptyStateWidget(
-              title: 'No Notifications',
-              message: 'You have no new notifications right now.',
+            return RefreshIndicator(
+              color: const Color(0xFFFF4500),
+              onRefresh: () async => ref.refresh(notificationsListProvider),
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  child: const EmptyStateWidget(
+                    title: 'No Notifications',
+                    message: 'You have no new notifications right now.',
+                  ),
+                ),
+              ),
             );
           }
 
-          return TabBarView(
-            controller: _tabController,
-            children: [
-              _NotificationList(
-                notifications: notifications.where((n) => !n.isMention).toList(),
-                isDark: isDark,
-              ),
-              _NotificationList(
-                notifications: notifications.where((n) => n.isMention).toList(),
-                isDark: isDark,
-                isMentionsTab: true,
-              ),
-            ],
+          return RefreshIndicator(
+            color: const Color(0xFFFF4500),
+            onRefresh: () async => ref.refresh(notificationsListProvider),
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                _NotificationList(
+                  notifications: notifications.where((n) => !n.isMention).toList(),
+                  isDark: isDark,
+                ),
+                _NotificationList(
+                  notifications: notifications.where((n) => n.isMention).toList(),
+                  isDark: isDark,
+                  isMentionsTab: true,
+                ),
+              ],
+            ),
           );
         },
       ),
@@ -185,7 +200,7 @@ class _NotificationList extends ConsumerWidget {
     final groupKeys = grouped.keys.toList();
 
     return ListView.builder(
-      physics: const BouncingScrollPhysics(),
+      physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.only(top: 8, bottom: 40),
       itemCount: groupKeys.length + (isMentionsTab ? 1 : 0),
       itemBuilder: (context, gi) {

@@ -43,54 +43,63 @@ class _PresentersViewState extends ConsumerState<PresentersView> {
       drawer: const AppDrawer(),
       appBar: const AreaFMAppBar(notificationCount: 3),
       body: presentersAsync.when(
+        skipLoadingOnRefresh: true,
         loading: () => const AppLoader(message: 'Loading team...'),
         error: (err, stack) => AppErrorWidget(
           message: err.toString(),
           onRetry: () => ref.refresh(presentersListProvider),
         ),
-        data: (presenters) => CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(child: _PresentersHeader(size: size)),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
-                child: Column(
-                  children: [
-                    AppSearchBar(controller: _searchController, hint: 'Search team members...'),
-                    const SizedBox(height: 14),
-                    AppFilterChips(
-                      filters: _filters,
-                      selected: _selectedFilter,
-                      onChanged: (v) => setState(() => _selectedFilter = v),
-                    ),
-                  ],
+        data: (presenters) => RefreshIndicator(
+          color: AppColors.primary,
+          onRefresh: () async {
+            ref.invalidate(presentersListProvider);
+            await ref.read(presentersListProvider.future);
+          },
+          child: CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: [
+              SliverToBoxAdapter(child: _PresentersHeader(size: size)),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
+                  child: Column(
+                    children: [
+                      AppSearchBar(controller: _searchController, hint: 'Search team members...'),
+                      const SizedBox(height: 14),
+                      AppFilterChips(
+                        filters: _filters,
+                        selected: _selectedFilter,
+                        onChanged: (v) => setState(() => _selectedFilter = v),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            // 3-column presenter grid
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              sliver: SliverGrid(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 0.72,
-                ),
-                delegate: SliverChildBuilderDelegate(
-                  (context, i) {
-                    final presenter = presenters[i];
-                    return _PresenterGridCard(
-                      presenter: presenter,
-                      onTap: () => context.push('/presenter_details/${presenter.id}'),
-                    );
-                  },
-                  childCount: presenters.length,
+              // Presenters grid
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                sliver: SliverGrid(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    childAspectRatio: 0.8,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                    (context, i) {
+                      final presenter = presenters[i];
+                      return _PresenterGridCard(
+                        presenter: presenter,
+                        onTap: () => context.push('/presenter_details/${presenter.id}'),
+                      );
+                    },
+                    childCount: presenters.length,
+                  ),
                 ),
               ),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 20)),
-          ],
+              const SliverToBoxAdapter(child: SizedBox(height: 20)),
+            ],
+          ),
         ),
       ),
     );

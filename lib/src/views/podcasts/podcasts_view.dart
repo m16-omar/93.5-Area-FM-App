@@ -41,49 +41,57 @@ class _PodcastsViewState extends ConsumerState<PodcastsView> {
       drawer: const AppDrawer(),
       appBar: const AreaFMAppBar(notificationCount: 3),
       body: podcastsAsync.when(
+        skipLoadingOnRefresh: true,
         loading: () => const AppLoader(message: 'Loading podcasts...'),
         error: (err, stack) => AppErrorWidget(
           message: err.toString(),
           onRetry: () => ref.refresh(podcastsListProvider),
         ),
-        data: (podcasts) => CustomScrollView(
-          slivers: [
-            // Page header
-            SliverToBoxAdapter(
-              child: _PodcastsHeader(size: size),
-            ),
-            // Search bar
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
-                child: AppSearchBar(controller: _searchController, hint: 'Search podcasts, shows, episodes...'),
+        data: (podcasts) => RefreshIndicator(
+          color: AppColors.primary,
+          onRefresh: () async {
+            ref.invalidate(podcastsListProvider);
+            await ref.read(podcastsListProvider.future);
+          },
+          child: CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: [
+              // Page header
+              SliverToBoxAdapter(
+                child: _PodcastsHeader(size: size),
               ),
-            ),
-            // Featured Podcasts header
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Featured Podcasts',
-                      style: GoogleFonts.poppins(
-                        color: isDark ? Colors.white : AppColors.textPrimaryLight,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Text(
-                      'See All',
-                      style: GoogleFonts.poppins(
-                        color: AppColors.primary, fontSize: 13, fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
+              // Search bar
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
+                  child: AppSearchBar(controller: _searchController, hint: 'Search podcasts, shows, episodes...'),
                 ),
               ),
-            ),
+              // Featured Podcasts header
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Featured Podcasts',
+                        style: GoogleFonts.poppins(
+                          color: isDark ? Colors.white : AppColors.textPrimaryLight,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        'See All',
+                        style: GoogleFonts.poppins(
+                          color: AppColors.primary, fontSize: 13, fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             // Featured podcasts horizontal scroll
             SliverToBoxAdapter(
               child: SizedBox(
@@ -144,6 +152,7 @@ class _PodcastsViewState extends ConsumerState<PodcastsView> {
           ],
         ),
       ),
+    ),
     );
   }
 }

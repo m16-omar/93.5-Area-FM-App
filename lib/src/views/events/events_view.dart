@@ -35,74 +35,83 @@ class _EventsViewState extends ConsumerState<EventsView> {
       drawer: const AppDrawer(),
       appBar: const AreaFMAppBar(notificationCount: 3),
       body: eventsAsync.when(
+        skipLoadingOnRefresh: true,
         loading: () => const AppLoader(message: 'Loading events...'),
         error: (err, stack) => AppErrorWidget(
           message: err.toString(),
           onRetry: () => ref.refresh(eventsListProvider),
         ),
-        data: (events) => CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(child: _EventsHeader(size: size)),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                child: AppFilterChips(
-                  filters: _filters,
-                  selected: _selectedFilter,
-                  onChanged: (v) => setState(() => _selectedFilter = v),
-                ),
-              ),
-            ),
-            // Featured event banner (first event)
-            if (events.isNotEmpty)
+        data: (events) => RefreshIndicator(
+          color: AppColors.primary,
+          onRefresh: () async {
+            ref.invalidate(eventsListProvider);
+            await ref.read(eventsListProvider.future);
+          },
+          child: CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: [
+              SliverToBoxAdapter(child: _EventsHeader(size: size)),
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-                  child: _FeaturedEventBanner(
-                    event: events.first,
-                    onTap: () => context.push('/event_details/${events.first.id}'),
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                  child: AppFilterChips(
+                    filters: _filters,
+                    selected: _selectedFilter,
+                    onChanged: (v) => setState(() => _selectedFilter = v),
                   ),
                 ),
               ),
-            // Section header
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Upcoming Events',
-                      style: GoogleFonts.poppins(
-                        color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700,
+              // Featured event banner (first event)
+              if (events.isNotEmpty)
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+                    child: _FeaturedEventBanner(
+                      event: events.first,
+                      onTap: () => context.push('/event_details/${events.first.id}'),
+                    ),
+                  ),
+                ),
+              // Section header
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Upcoming Events',
+                        style: GoogleFonts.poppins(
+                          color: isDark ? Colors.white : AppColors.textPrimaryLight, fontSize: 16, fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ),
-                    Text(
-                      '${events.length} Events',
-                      style: GoogleFonts.inter(color: AppColors.textSecondaryDark, fontSize: 13),
-                    ),
-                  ],
+                      Text(
+                        '${events.length} Events',
+                        style: GoogleFonts.inter(color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight, fontSize: 13),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            // Events list
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, i) {
-                  final event = events[i];
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
-                    child: _EventTile(
-                      event: event,
-                      onTap: () => context.push('/event_details/${event.id}'),
-                    ),
-                  );
-                },
-                childCount: events.length,
+              // Events list
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, i) {
+                    final event = events[i];
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+                      child: _EventTile(
+                        event: event,
+                        onTap: () => context.push('/event_details/${event.id}'),
+                      ),
+                    );
+                  },
+                  childCount: events.length,
+                ),
               ),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 20)),
-          ],
+              const SliverToBoxAdapter(child: SizedBox(height: 20)),
+            ],
+          ),
         ),
       ),
     );

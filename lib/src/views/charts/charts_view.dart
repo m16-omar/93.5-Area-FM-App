@@ -36,88 +36,101 @@ class _ChartsViewState extends ConsumerState<ChartsView> {
       drawer: const AppDrawer(),
       appBar: const AreaFMAppBar(notificationCount: 3),
       body: chartsAsync.when(
+        skipLoadingOnRefresh: true,
         loading: () => const AppLoader(message: 'Loading charts...'),
         error: (err, stack) => AppErrorWidget(
           message: err.toString(),
           onRetry: () => ref.refresh(topChartsProvider),
         ),
-        data: (charts) => CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(child: _ChartsHeader(size: size)),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                child: AppFilterChips(
-                  filters: _categories,
-                  selected: _selectedCategory,
-                  onChanged: (v) => setState(() => _selectedCategory = v),
+        data: (charts) => RefreshIndicator(
+          color: AppColors.primary,
+          onRefresh: () async {
+            ref.invalidate(topChartsProvider);
+            await ref.read(topChartsProvider.future);
+          },
+          child: CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: [
+              SliverToBoxAdapter(child: _ChartsHeader(size: size)),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                  child: AppFilterChips(
+                    filters: _categories,
+                    selected: _selectedCategory,
+                    onChanged: (v) => setState(() => _selectedCategory = v),
+                  ),
                 ),
               ),
-            ),
-            // Updated time + share row
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                child: Row(
-                  children: [
-                    const Icon(Icons.calendar_today_outlined, size: 14, color: AppColors.textSecondaryDark),
-                    const SizedBox(width: 6),
-                    Text(
-                      'Updated Today, 8:00 AM',
-                      style: GoogleFonts.inter(
-                        color: AppColors.textSecondaryDark,
-                        fontSize: 12,
-                      ),
-                    ),
-                    const Spacer(),
-                    Row(
-                      children: [
-                        const Icon(Icons.share_outlined, size: 14, color: AppColors.primary),
-                        const SizedBox(width: 4),
-                        Text(
-                          'SHARE CHART',
-                          style: GoogleFonts.inter(
-                            color: AppColors.primary,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.5,
+              // Updated time + share row
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.update_rounded, size: 16, color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight),
+                          const SizedBox(width: 6),
+                          Text(
+                            'Updated 2 hours ago',
+                            style: GoogleFonts.inter(
+                              color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                              fontSize: 12,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.share_outlined, size: 16, color: AppColors.primary),
+                          const SizedBox(width: 4),
+                          Text(
+                            'SHARE',
+                            style: GoogleFonts.inter(
+                              color: AppColors.primary,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            // Chart list
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, i) {
-                  final track = charts[i];
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                    child: _ChartTile(
-                      track: track,
-                      onPlay: () {
-                        final radioStream = RadioStreamModel(
-                          id: 'chart_${track.rank}',
-                          title: track.title,
-                          artist: track.artist,
-                          showName: 'Top Chart #${track.rank}',
-                          coverUrl: track.albumCover,
-                          streamUrl: track.audioUrl,
-                          isLive: false,
-                        );
-                        ref.read(audioPlayerServiceProvider).playTrack(radioStream);
-                      },
-                    ),
-                  );
-                },
-                childCount: charts.length,
+              // Chart list
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, i) {
+                    final track = charts[i];
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                      child: _ChartTile(
+                        track: track,
+                        onPlay: () {
+                          final radioStream = RadioStreamModel(
+                            id: 'chart_${track.rank}',
+                            title: track.title,
+                            artist: track.artist,
+                            showName: 'Top Chart #${track.rank}',
+                            coverUrl: track.albumCover,
+                            streamUrl: track.audioUrl,
+                            isLive: false,
+                          );
+                          ref.read(audioPlayerServiceProvider).playTrack(radioStream);
+                        },
+                      ),
+                    );
+                  },
+                  childCount: charts.length,
+                ),
               ),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 20)),
-          ],
+              const SliverToBoxAdapter(child: SizedBox(height: 20)),
+            ],
+          ),
         ),
       ),
     );
