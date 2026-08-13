@@ -104,7 +104,7 @@ class AreaFMAppBar extends ConsumerWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(68);
+  Size get preferredSize => const Size.fromHeight(64);
 }
 
 class _AreaFMLogo extends StatelessWidget {
@@ -113,11 +113,13 @@ class _AreaFMLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      AppAssets.logo,
-      height: 64,
-      fit: BoxFit.contain,
-      errorBuilder: (context, error, stackTrace) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 6),
+      child: Image.asset(
+        AppAssets.logo,
+        height: 48,
+        fit: BoxFit.contain,
+        errorBuilder: (context, error, stackTrace) {
         final textColor = isDark ? Colors.white : AppColors.textPrimaryLight;
         return RichText(
           textAlign: TextAlign.center,
@@ -139,6 +141,7 @@ class _AreaFMLogo extends StatelessWidget {
           ),
         );
       },
+    ),
     );
   }
 }
