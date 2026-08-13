@@ -360,7 +360,7 @@ class _NotificationTile extends StatelessWidget {
                         width: 19,
                         height: 19,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF0055FF),
+                          color: const Color(0xFF0B6B82),
                           shape: BoxShape.circle,
                           border: Border.all(
                             color: isDark ? AppColors.backgroundDark : Colors.white,

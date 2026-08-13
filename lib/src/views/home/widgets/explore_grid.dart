@@ -79,10 +79,10 @@ class _ExploreButton extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 3),
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 2),
           decoration: BoxDecoration(
-            color: isDark ? const Color(0xFF071329) : Colors.white,
+            color: isDark ? const Color(0xFF0A1C24) : Colors.white,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: isDark ? const Color(0xFF0F264E) : const Color(0xFFE2E8F0),
+              color: isDark ? const Color(0xFF14303D) : const Color(0xFFE2E8F0),
               width: 1,
             ),
             boxShadow: [
@@ -97,7 +97,7 @@ class _ExploreButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(item.icon, color: const Color(0xFF0055FF), size: 28),
+              Icon(item.icon, color: const Color(0xFF0B6B82), size: 28),
               const SizedBox(height: 8),
               Text(
                 item.label,

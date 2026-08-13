@@ -157,13 +157,13 @@ class _SliverHeaderGraphic extends StatelessWidget {
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
           colors: [
-            Color(0xFF001F54),
-            Color(0xFF003882),
+            Color(0xFF085264),
+            Color(0xFF0B6B82),
           ],
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF001F54).withValues(alpha: 0.4),
+            color: const Color(0xFF085264).withValues(alpha: 0.4),
             blurRadius: 16,
             offset: const Offset(0, 6),
           ),

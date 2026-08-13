@@ -51,7 +51,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                         _SettingTileItem(
                           isDark: isDark,
                           icon: Icons.person_outline_rounded,
-                          iconBgColor: const Color(0xFF0055FF),
+                          iconBgColor: const Color(0xFF0B6B82),
                           title: 'My Account',
                           subtitle: 'View and manage your profile',
                           onTap: () => context.push('/profile'),
@@ -81,7 +81,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                         _SettingTileItem(
                           isDark: isDark,
                           icon: Icons.volume_up_outlined,
-                          iconBgColor: const Color(0xFF0055FF),
+                          iconBgColor: const Color(0xFF0B6B82),
                           title: 'Streaming Quality',
                           subtitle: 'Choose your streaming quality',
                           trailing: Row(
@@ -131,7 +131,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                         _SettingTileItem(
                           isDark: isDark,
                           icon: Icons.dark_mode_outlined,
-                          iconBgColor: const Color(0xFF0055FF),
+                          iconBgColor: const Color(0xFF0B6B82),
                           title: 'Dark Mode',
                           subtitle: 'Use dark theme',
                           trailing: Switch.adaptive(
@@ -152,7 +152,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                         _SettingTileItem(
                           isDark: isDark,
                           icon: Icons.tune_rounded,
-                          iconBgColor: const Color(0xFF0055FF),
+                          iconBgColor: const Color(0xFF0B6B82),
                           title: 'Equalizer',
                           subtitle: 'Customize your audio experience',
                           onTap: () {},
@@ -170,7 +170,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                         _SettingTileItem(
                           isDark: isDark,
                           icon: Icons.directions_car_rounded,
-                          iconBgColor: const Color(0xFF0055FF),
+                          iconBgColor: const Color(0xFF0B6B82),
                           title: 'Car Mode',
                           subtitle: 'Optimized experience for driving',
                           onTap: () {},
@@ -188,7 +188,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                         _SettingTileItem(
                           isDark: isDark,
                           icon: Icons.share_rounded,
-                          iconBgColor: const Color(0xFF0055FF),
+                          iconBgColor: const Color(0xFF0B6B82),
                           title: 'Share the App',
                           subtitle: 'Tell your friends about AREA FM',
                           onTap: () {},

@@ -53,10 +53,10 @@ class LiveRadioSectionWidget extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF071228) : Colors.white,
+              color: isDark ? const Color(0xFF0A1C24) : Colors.white,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: isDark ? const Color(0xFF0F264A) : const Color(0xFFE2E8F0),
+                color: isDark ? const Color(0xFF14303D) : const Color(0xFFE2E8F0),
               ),
               boxShadow: [
                 BoxShadow(
@@ -79,7 +79,7 @@ class LiveRadioSectionWidget extends ConsumerWidget {
                     errorBuilder: (context, error, stackTrace) => Container(
                       width: 80,
                       height: 80,
-                      color: const Color(0xFF00246B),
+                      color: const Color(0xFF0B6B82),
                       child: const Icon(Icons.person, color: Colors.white70),
                     ),
                   ),

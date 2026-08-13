@@ -164,7 +164,7 @@ class _VideosViewState extends ConsumerState<VideosView> {
                         width: 48,
                         height: 48,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF0055FF),
+                          color: const Color(0xFF0B6B82),
                           borderRadius: BorderRadius.circular(14),
                         ),
                         child: IconButton(
@@ -362,7 +362,7 @@ class _VideosHeroHeader extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               gradient: RadialGradient(
                 colors: [
-                  const Color(0xFF0055FF).withValues(alpha: 0.3),
+                  const Color(0xFF0B6B82).withValues(alpha: 0.3),
                   Colors.transparent,
                 ],
               ),
@@ -515,7 +515,7 @@ class _FeaturedMainCard extends StatelessWidget {
                         TextSpan(
                           text: video.publishDate,
                           style: const TextStyle(
-                            color: Color(0xFF0055FF),
+                            color: Color(0xFF0B6B82),
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -649,7 +649,7 @@ class _FeaturedSubCard extends StatelessWidget {
                         TextSpan(
                           text: video.publishDate,
                           style: const TextStyle(
-                            color: Color(0xFF0055FF),
+                            color: Color(0xFF0B6B82),
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -770,7 +770,7 @@ class _LatestVideoTile extends StatelessWidget {
                         TextSpan(
                           text: video.publishDate,
                           style: const TextStyle(
-                            color: Color(0xFF0055FF),
+                            color: Color(0xFF0B6B82),
                             fontWeight: FontWeight.w600,
                           ),
                         ),

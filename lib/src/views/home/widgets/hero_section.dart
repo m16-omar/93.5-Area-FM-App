@@ -31,7 +31,7 @@ class _HeroSectionWidgetState extends ConsumerState<HeroSectionWidget> {
       titleSuffix: 'FM',
       subtitle: 'Where Music Lives\n& the Beat Never Stops',
       ctaText: 'LISTEN LIVE',
-      gradientColors: [Color(0xFF001F54), Color(0xFF003882)],
+      gradientColors: [Color(0xFF085264), Color(0xFF0B6B82)],
       imageAsset: AppAssets.studioMicOnly,
     ),
     _HeroSlideData(
