@@ -21,6 +21,8 @@ class NotificationsNotifier extends AsyncNotifier<List<NotificationModel>> {
       isRead: true,
       type: n.type,
       imageUrl: n.imageUrl,
+      avatarUrl: n.avatarUrl,
+      isMention: n.isMention,
       hasAction: n.hasAction,
     )).toList();
     state = AsyncValue.data(updated);
@@ -39,6 +41,8 @@ class NotificationsNotifier extends AsyncNotifier<List<NotificationModel>> {
           isRead: true,
           type: n.type,
           imageUrl: n.imageUrl,
+          avatarUrl: n.avatarUrl,
+          isMention: n.isMention,
           hasAction: n.hasAction,
         );
       }

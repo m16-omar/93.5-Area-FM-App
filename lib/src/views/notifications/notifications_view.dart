@@ -133,10 +133,14 @@ class _NotificationsViewState extends ConsumerState<NotificationsView>
           return TabBarView(
             controller: _tabController,
             children: [
-              _NotificationList(notifications: notifications, isDark: isDark),
               _NotificationList(
-                notifications: notifications.where((n) => n.type == 'mention').toList(),
+                notifications: notifications.where((n) => !n.isMention).toList(),
                 isDark: isDark,
+              ),
+              _NotificationList(
+                notifications: notifications.where((n) => n.isMention).toList(),
+                isDark: isDark,
+                isMentionsTab: true,
               ),
             ],
           );
@@ -149,10 +153,12 @@ class _NotificationsViewState extends ConsumerState<NotificationsView>
 class _NotificationList extends ConsumerWidget {
   final List<NotificationModel> notifications;
   final bool isDark;
+  final bool isMentionsTab;
 
   const _NotificationList({
     required this.notifications,
     required this.isDark,
+    this.isMentionsTab = false,
   });
 
   Map<String, List<NotificationModel>> get _grouped {
@@ -167,9 +173,11 @@ class _NotificationList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (notifications.isEmpty) {
-      return const EmptyStateWidget(
-        title: 'No Mentions',
-        message: 'You have no mentions at this time.',
+      return EmptyStateWidget(
+        title: isMentionsTab ? 'No Mentions' : 'No Notifications',
+        message: isMentionsTab
+            ? 'You have no mentions at this time.'
+            : 'You have no new notifications right now.',
       );
     }
 
@@ -179,9 +187,24 @@ class _NotificationList extends ConsumerWidget {
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.only(top: 8, bottom: 40),
-      itemCount: groupKeys.length,
+      itemCount: groupKeys.length + (isMentionsTab ? 1 : 0),
       itemBuilder: (context, gi) {
-        final group = groupKeys[gi];
+        if (isMentionsTab && gi == 0) {
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+            child: Text(
+              "Notifications where you've been mentioned.",
+              style: GoogleFonts.inter(
+                color: isDark ? Colors.white70 : const Color(0xFF6B7280),
+                fontSize: 13.5,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          );
+        }
+
+        final groupIndex = isMentionsTab ? gi - 1 : gi;
+        final group = groupKeys[groupIndex];
         final items = grouped[group]!;
 
         return Column(
@@ -296,20 +319,68 @@ class _NotificationTile extends StatelessWidget {
                   : const SizedBox.shrink(),
             ),
 
-            // Icon Badge
-            Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                color: iconBg,
-                borderRadius: BorderRadius.circular(12),
+            // Icon Badge or Mention Avatar Badge
+            if (notification.isMention || notification.type == 'mention')
+              SizedBox(
+                width: 48,
+                height: 48,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(24),
+                      child: CustomNetworkImage(
+                        imageUrl: notification.avatarUrl.isNotEmpty
+                            ? notification.avatarUrl
+                            : notification.imageUrl,
+                        width: 48,
+                        height: 48,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                      right: -2,
+                      bottom: -2,
+                      child: Container(
+                        width: 19,
+                        height: 19,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF0055FF),
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: isDark ? AppColors.backgroundDark : Colors.white,
+                            width: 2,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            '@',
+                            style: GoogleFonts.inter(
+                              color: Colors.white,
+                              fontSize: 10.5,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: iconBg,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  icon,
+                  color: iconColor,
+                  size: 22,
+                ),
               ),
-              child: Icon(
-                icon,
-                color: iconColor,
-                size: 22,
-              ),
-            ),
             const SizedBox(width: 14),
 
             // Text Info Column

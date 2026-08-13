@@ -5,8 +5,10 @@ class NotificationModel {
   final String timeAgo;
   final String timeGroup;
   final bool isRead;
-  final String type;        // show, event, news, podcast, music, general
+  final String type; // show, event, news, podcast, music, general, mention
   final String imageUrl;
+  final String avatarUrl;
+  final bool isMention;
   final bool hasAction;
 
   const NotificationModel({
@@ -18,6 +20,8 @@ class NotificationModel {
     this.isRead = false,
     this.type = 'general',
     this.imageUrl = '',
+    this.avatarUrl = '',
+    this.isMention = false,
     this.hasAction = false,
   });
 
@@ -31,6 +35,8 @@ class NotificationModel {
       isRead: json['isRead'] ?? false,
       type: json['type'] ?? 'general',
       imageUrl: json['imageUrl'] ?? '',
+      avatarUrl: json['avatarUrl'] ?? '',
+      isMention: json['isMention'] ?? false,
       hasAction: json['hasAction'] ?? false,
     );
   }
@@ -45,6 +51,8 @@ class NotificationModel {
       'isRead': isRead,
       'type': type,
       'imageUrl': imageUrl,
+      'avatarUrl': avatarUrl,
+      'isMention': isMention,
       'hasAction': hasAction,
     };
   }
