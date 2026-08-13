@@ -226,14 +226,14 @@ class ShowDetailsView extends ConsumerWidget {
 
                 const SizedBox(height: 24),
 
-                // 4. RECENT EPISODES SECTION
+                // 4. TODAY'S SHOWS SECTION
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Recent Episodes',
+                        "Today's Shows",
                         style: GoogleFonts.inter(
                           fontSize: 17,
                           fontWeight: FontWeight.w700,
