@@ -7,8 +7,6 @@ import '../../../const/app_assets.dart';
 import '../../../common/widgets/app_loader.dart';
 import '../../../common/widgets/app_error.dart';
 import '../../../common/widgets/network_image.dart';
-import '../../../common/widgets/mini_player.dart';
-import '../../../common/widgets/app_bottom_navigation.dart';
 import '../../providers/videos_provider.dart';
 import '../../controllers/notification_controller.dart';
 import '../../models/video_model.dart';
@@ -93,34 +91,6 @@ class _VideosViewState extends ConsumerState<VideosView> {
             ],
           ),
           const SizedBox(width: 4),
-        ],
-      ),
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const MiniPlayerWidget(),
-          AppBottomNavigation(
-            currentIndex: 3,
-            onTap: (index) {
-              switch (index) {
-                case 0:
-                  context.go(RouteNames.home);
-                  break;
-                case 1:
-                  context.go(RouteNames.shows);
-                  break;
-                case 2:
-                  context.push(RouteNames.radioPlayer);
-                  break;
-                case 3:
-                  context.go(RouteNames.videos);
-                  break;
-                case 4:
-                  context.go(RouteNames.settings);
-                  break;
-              }
-            },
-          ),
         ],
       ),
       body: videosAsync.when(
@@ -583,36 +553,21 @@ class _FeaturedSubCard extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.black.withValues(alpha: 0.1),
-                    Colors.black.withValues(alpha: 0.85),
+                    Colors.black.withValues(alpha: 0.15),
+                    Colors.black.withValues(alpha: 0.9),
                   ],
-                  stops: const [0.3, 1.0],
+                  stops: const [0.2, 1.0],
                 ),
               ),
             ),
-            Center(
-              child: Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.3),
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 1.2),
-                ),
-                child: const Icon(
-                  Icons.play_arrow_rounded,
-                  color: Colors.white,
-                  size: 22,
-                ),
-              ),
-            ),
+            // Top Right Duration Pill
             Positioned(
-              right: 6,
-              bottom: 44,
+              top: 8,
+              right: 8,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                 decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.75),
+                  color: Colors.black.withValues(alpha: 0.8),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
@@ -625,6 +580,26 @@ class _FeaturedSubCard extends StatelessWidget {
                 ),
               ),
             ),
+            // Top Left Mini Play Icon
+            Positioned(
+              top: 8,
+              left: 8,
+              child: Container(
+                width: 28,
+                height: 28,
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.5),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.8), width: 1.2),
+                ),
+                child: const Icon(
+                  Icons.play_arrow_rounded,
+                  color: Colors.white,
+                  size: 18,
+                ),
+              ),
+            ),
+            // Bottom Info Column
             Positioned(
               left: 10,
               right: 10,

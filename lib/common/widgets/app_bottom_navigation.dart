@@ -148,7 +148,7 @@ class AppBottomNavigation extends ConsumerWidget {
   static int indexFromLocation(String location) {
     if (location.startsWith('/shows')) { return 1; }
     if (location.startsWith('/radio_player') || location.startsWith('/live')) { return 2; }
-    if (location.startsWith('/podcasts')) { return 3; }
+    if (location.startsWith('/podcasts') || location.startsWith('/videos')) { return 3; }
     if (location.startsWith('/settings') ||
         location.startsWith('/more') ||
         location.startsWith('/events') ||
