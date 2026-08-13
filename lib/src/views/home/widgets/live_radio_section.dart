@@ -53,12 +53,14 @@ class LiveRadioSectionWidget extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: const Color(0xFF071228),
+              color: isDark ? const Color(0xFF071228) : Colors.white,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFF0F264A)),
+              border: Border.all(
+                color: isDark ? const Color(0xFF0F264A) : const Color(0xFFE2E8F0),
+              ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.3),
+                  color: isDark ? Colors.black.withValues(alpha: 0.3) : Colors.black.withValues(alpha: 0.05),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -103,7 +105,7 @@ class LiveRadioSectionWidget extends ConsumerWidget {
                       Text(
                         'The Morning Rush',
                         style: GoogleFonts.poppins(
-                          color: Colors.white,
+                          color: isDark ? Colors.white : const Color(0xFF111827),
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),
@@ -115,7 +117,7 @@ class LiveRadioSectionWidget extends ConsumerWidget {
                       Text(
                         'with DJ Ace',
                         style: GoogleFonts.inter(
-                          color: const Color(0xFF8A99B5),
+                          color: isDark ? const Color(0xFF8A99B5) : const Color(0xFF6B7280),
                           fontSize: 13,
                         ),
                       ),
@@ -123,16 +125,16 @@ class LiveRadioSectionWidget extends ConsumerWidget {
                       // Time Slot: 🕒 6:00 AM - 10:00 AM
                       Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.access_time_rounded,
                             size: 13,
-                            color: Color(0xFF8A99B5),
+                            color: isDark ? const Color(0xFF8A99B5) : const Color(0xFF6B7280),
                           ),
                           const SizedBox(width: 4),
                           Text(
                             '6:00 AM - 10:00 AM',
                             style: GoogleFonts.inter(
-                              color: const Color(0xFF8A99B5),
+                              color: isDark ? const Color(0xFF8A99B5) : const Color(0xFF6B7280),
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                             ),

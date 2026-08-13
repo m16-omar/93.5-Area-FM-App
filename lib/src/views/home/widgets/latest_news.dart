@@ -12,6 +12,8 @@ class LatestNewsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: GridView.builder(
@@ -30,9 +32,19 @@ class LatestNewsWidget extends StatelessWidget {
             onTap: () => context.push('/post_details/${post.id}'),
             child: Container(
               decoration: BoxDecoration(
-                color: AppColors.surfaceDark,
+                color: isDark ? AppColors.surfaceDark : Colors.white,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.borderDark.withValues(alpha: 0.5)),
+                border: Border.all(
+                  color: isDark ? AppColors.borderDark.withValues(alpha: 0.5) : const Color(0xFFE2E8F0),
+                ),
+                boxShadow: [
+                  if (!isDark)
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.04),
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
+                    ),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +88,7 @@ class LatestNewsWidget extends StatelessWidget {
                         Text(
                           post.title,
                           style: GoogleFonts.poppins(
-                            color: Colors.white,
+                            color: isDark ? Colors.white : const Color(0xFF111827),
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                             height: 1.3,
@@ -88,7 +100,7 @@ class LatestNewsWidget extends StatelessWidget {
                         Text(
                           post.date,
                           style: GoogleFonts.inter(
-                            color: AppColors.textSecondaryDark,
+                            color: isDark ? AppColors.textSecondaryDark : const Color(0xFF6B7280),
                             fontSize: 10,
                           ),
                         ),

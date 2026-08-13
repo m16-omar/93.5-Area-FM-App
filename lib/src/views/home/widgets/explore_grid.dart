@@ -79,12 +79,15 @@ class _ExploreButton extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 3),
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 2),
           decoration: BoxDecoration(
-            color: isDark ? const Color(0xFF071329) : const Color(0xFF071329),
+            color: isDark ? const Color(0xFF071329) : Colors.white,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: const Color(0xFF0F264E), width: 1),
+            border: Border.all(
+              color: isDark ? const Color(0xFF0F264E) : const Color(0xFFE2E8F0),
+              width: 1,
+            ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.3),
+                color: isDark ? Colors.black.withValues(alpha: 0.3) : Colors.black.withValues(alpha: 0.05),
                 blurRadius: 6,
                 offset: const Offset(0, 3),
               ),
@@ -99,7 +102,7 @@ class _ExploreButton extends StatelessWidget {
               Text(
                 item.label,
                 style: GoogleFonts.inter(
-                  color: Colors.white,
+                  color: isDark ? Colors.white : const Color(0xFF111827),
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                 ),
