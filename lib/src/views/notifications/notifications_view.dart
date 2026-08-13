@@ -69,6 +69,11 @@ class _NotificationsViewState extends ConsumerState<NotificationsView>
         centerTitle: true,
         actions: [
           TextButton(
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
             onPressed: () {
               ref.read(notificationsListProvider.notifier).markAllAsRead();
             },
@@ -76,12 +81,12 @@ class _NotificationsViewState extends ConsumerState<NotificationsView>
               'Mark all as read',
               style: GoogleFonts.inter(
                 color: const Color(0xFFFF4500),
-                fontSize: 13.5,
-                fontWeight: FontWeight.w600,
+                fontSize: 11.5,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
-          const SizedBox(width: 4),
+          const SizedBox(width: 8),
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(49),
