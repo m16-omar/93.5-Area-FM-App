@@ -241,7 +241,9 @@ class ShowDetailsView extends ConsumerWidget {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          context.go('/shows');
+                        },
                         child: Text(
                           'See All',
                           style: GoogleFonts.inter(
@@ -257,38 +259,46 @@ class ShowDetailsView extends ConsumerWidget {
 
                 const SizedBox(height: 12),
 
-                // Episodes List
-                _EpisodeListItem(
+                // Real List of Today's Shows
+                _TodayShowListItem(
                   isDark: isDark,
-                  isUnread: true,
-                  image: displayImage,
-                  title: 'Midweek Mix',
-                  subtitle: 'Great hits to keep you going this Wednesday.',
-                  timeAgo: 'May 7, 2025 • 2h 58m',
+                  isLive: false,
+                  showId: 'show1',
+                  image: AppAssets.show1,
+                  title: 'Morning Drive & Hype',
+                  presenter: 'DJ Big Shaq',
+                  airTime: '06:00 AM - 10:00 AM',
+                  onTap: () => context.push('/shows/show1'),
                 ),
-                _EpisodeListItem(
+                _TodayShowListItem(
                   isDark: isDark,
-                  isUnread: true,
-                  image: displayImage,
-                  title: 'Traffic + Vibes',
-                  subtitle: 'Traffic updates, new music and good vibes all the way.',
-                  timeAgo: 'May 6, 2025 • 2h 45m',
+                  isLive: false,
+                  showId: 'show2',
+                  image: AppAssets.show2,
+                  title: 'Midday Cruise & Vibes',
+                  presenter: 'Sarah Jenkins',
+                  airTime: '10:00 AM - 02:00 PM',
+                  onTap: () => context.push('/shows/show2'),
                 ),
-                _EpisodeListItem(
+                _TodayShowListItem(
                   isDark: isDark,
-                  isUnread: true,
-                  image: displayImage,
-                  title: 'Feel Good Friday',
-                  subtitle: "It's Friday! Let's end the week on a high note.",
-                  timeAgo: 'May 2, 2025 • 2h 50m',
+                  isLive: true,
+                  showId: 'show3',
+                  image: AppAssets.show3,
+                  title: 'Drive Time',
+                  presenter: 'DJ Ace',
+                  airTime: '04:00 PM - 07:00 PM',
+                  onTap: () => context.push('/shows/show3'),
                 ),
-                _EpisodeListItem(
+                _TodayShowListItem(
                   isDark: isDark,
-                  isUnread: false,
-                  image: displayImage,
-                  title: 'Throwback Thursday',
-                  subtitle: 'Classic throwbacks and nostalgic jams from the vault.',
-                  timeAgo: 'Apr 28, 2025 • 2h 30m',
+                  isLive: false,
+                  showId: 'show4',
+                  image: AppAssets.show4,
+                  title: 'Area Nights Late Show',
+                  presenter: 'DJ Switch',
+                  airTime: '08:00 PM - 12:00 AM',
+                  onTap: () => context.push('/shows/show4'),
                 ),
               ],
             ),
@@ -588,118 +598,129 @@ class _InfoGridCard extends StatelessWidget {
   }
 }
 
-class _EpisodeListItem extends StatelessWidget {
+class _TodayShowListItem extends StatelessWidget {
   final bool isDark;
-  final bool isUnread;
+  final bool isLive;
+  final String showId;
   final String image;
   final String title;
-  final String subtitle;
-  final String timeAgo;
-  const _EpisodeListItem({
+  final String presenter;
+  final String airTime;
+  final VoidCallback onTap;
+
+  const _TodayShowListItem({
     required this.isDark,
-    required this.isUnread,
+    required this.isLive,
+    required this.showId,
     required this.image,
     required this.title,
-    required this.subtitle,
-    required this.timeAgo,
+    required this.presenter,
+    required this.airTime,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF0C1728) : Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: isDark ? const Color(0xFF162742) : const Color(0xFFE2E8F0),
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(14),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        decoration: BoxDecoration(
+          color: isDark ? const Color(0xFF0C1728) : Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: isDark ? const Color(0xFF162742) : const Color(0xFFE2E8F0),
+          ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Row(
-          children: [
-            // Left Unread Dot
-            SizedBox(
-              width: 12,
-              child: isUnread
-                  ? Container(
-                      width: 7,
-                      height: 7,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF0055FF),
-                        shape: BoxShape.circle,
-                      ),
-                    )
-                  : const SizedBox.shrink(),
-            ),
-
-            // Thumbnail Image
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: CustomNetworkImage(
-                imageUrl: image,
-                width: 56,
-                height: 56,
-                fit: BoxFit.cover,
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            children: [
+              // Left Unread / Live Dot
+              SizedBox(
+                width: 12,
+                child: isLive
+                    ? Container(
+                        width: 7,
+                        height: 7,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF0055FF),
+                          shape: BoxShape.circle,
+                        ),
+                      )
+                    : const SizedBox.shrink(),
               ),
-            ),
-            const SizedBox(width: 12),
 
-            // Text Info Column
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: isDark ? Colors.white : const Color(0xFF111827),
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    subtitle,
-                    style: GoogleFonts.inter(
-                      fontSize: 12,
-                      color: isDark ? Colors.white70 : const Color(0xFF6B7280),
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.access_time_rounded,
-                        size: 12,
-                        color: isDark ? Colors.white54 : const Color(0xFF9CA3AF),
+              // Thumbnail Image
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: CustomNetworkImage(
+                  imageUrl: image,
+                  width: 56,
+                  height: 56,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const SizedBox(width: 12),
+
+              // Text Info Column
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: isDark ? Colors.white : const Color(0xFF111827),
                       ),
-                      const SizedBox(width: 4),
-                      Text(
-                        timeAgo,
-                        style: GoogleFonts.inter(
-                          fontSize: 11.5,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      'with $presenter',
+                      style: GoogleFonts.inter(
+                        fontSize: 12,
+                        color: isDark ? Colors.white70 : const Color(0xFF6B7280),
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.access_time_rounded,
+                          size: 12,
                           color: isDark ? Colors.white54 : const Color(0xFF9CA3AF),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        const SizedBox(width: 4),
+                        Text(
+                          airTime,
+                          style: GoogleFonts.inter(
+                            fontSize: 11.5,
+                            color: isDark ? Colors.white54 : const Color(0xFF9CA3AF),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
 
-            const SizedBox(width: 8),
+              const SizedBox(width: 8),
 
-            // 3 Vertical Dots Overflow Menu
-            Icon(
-              Icons.more_vert_rounded,
-              color: isDark ? Colors.white54 : const Color(0xFF9CA3AF),
-              size: 20,
-            ),
-          ],
+              // 3 Vertical Dots Overflow Menu
+              Icon(
+                Icons.more_vert_rounded,
+                color: isDark ? Colors.white54 : const Color(0xFF9CA3AF),
+                size: 20,
+              ),
+            ],
+          ),
         ),
       ),
     );
