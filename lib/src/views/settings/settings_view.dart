@@ -230,13 +230,13 @@ class _SettingsHeaderBanner extends StatelessWidget {
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
           colors: [
-            Color(0xFF001F54),
-            Color(0xFF003882),
+            Color(0xFF085264),
+            Color(0xFF0B6B82),
           ],
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF001F54).withValues(alpha: 0.4),
+            color: const Color(0xFF085264).withValues(alpha: 0.4),
             blurRadius: 16,
             offset: const Offset(0, 6),
           ),
@@ -279,8 +279,8 @@ class _SettingsHeaderBanner extends StatelessWidget {
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                     colors: [
-                      const Color(0xFF001F54),
-                      const Color(0xFF001F54).withValues(alpha: 0.75),
+                      const Color(0xFF085264),
+                      const Color(0xFF085264).withValues(alpha: 0.75),
                       Colors.transparent,
                     ],
                     stops: const [0.0, 0.48, 0.88],
