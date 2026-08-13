@@ -2,8 +2,8 @@ class AppAssets {
   AppAssets._();
 
   // ── Logos ─────────────────────────────────────────────────────
-  static const String logo = 'assets/images/logo.png';
-  static const String logoWhite = 'assets/images/logo_white.png';
+  static const String logo = 'assets/images/area-logo.png';
+  static const String logoWhite = 'assets/images/area-logo.png';
 
   // ── Background images (extracted from designer screens) ───────
   static const String splashBg = 'assets/images/splash_bg.png';
