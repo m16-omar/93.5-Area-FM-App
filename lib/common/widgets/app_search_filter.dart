@@ -27,10 +27,10 @@ class AppSearchBar extends StatelessWidget {
           child: Container(
             height: 42,
             decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF0C1728) : Colors.white,
+              color: isDark ? const Color(0xFF0A1C24) : Colors.white,
               borderRadius: BorderRadius.circular(22),
               border: Border.all(
-                color: isDark ? const Color(0xFF162742) : const Color(0xFFE2E8F0),
+                color: isDark ? const Color(0xFF14303D) : const Color(0xFFE2E8F0),
               ),
               boxShadow: isDark
                   ? null
@@ -74,10 +74,10 @@ class AppSearchBar extends StatelessWidget {
             width: 42,
             height: 42,
             decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF0C1728) : Colors.white,
+              color: isDark ? const Color(0xFF0A1C24) : Colors.white,
               shape: BoxShape.circle,
               border: Border.all(
-                color: isDark ? const Color(0xFF162742) : const Color(0xFFE2E8F0),
+                color: isDark ? const Color(0xFF14303D) : const Color(0xFFE2E8F0),
               ),
               boxShadow: isDark
                   ? null
@@ -130,10 +130,10 @@ class AppFilterChips extends StatelessWidget {
               duration: const Duration(milliseconds: 200),
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
               decoration: BoxDecoration(
-                color: isSelected ? const Color(0xFFE24600) : const Color(0xFF0B1528),
+                color: isSelected ? AppColors.primary : const Color(0xFF0A1C24),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: isSelected ? const Color(0xFFE24600) : const Color(0xFF1E3A8A).withValues(alpha: 0.6),
+                  color: isSelected ? AppColors.primary : const Color(0xFF14303D),
                 ),
               ),
               child: Text(

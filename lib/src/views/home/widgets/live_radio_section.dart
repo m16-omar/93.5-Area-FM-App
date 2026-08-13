@@ -151,11 +151,11 @@ class LiveRadioSectionWidget extends ConsumerWidget {
                     width: 48,
                     height: 48,
                     decoration: BoxDecoration(
-                      color: isPlaying ? AppColors.primary : const Color(0xFF0044B4),
+                      color: isPlaying ? AppColors.primary : const Color(0xFF0B6B82),
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: (isPlaying ? AppColors.primary : const Color(0xFF0044B4)).withValues(alpha: 0.4),
+                          color: (isPlaying ? AppColors.primary : const Color(0xFF0B6B82)).withValues(alpha: 0.4),
                           blurRadius: 8,
                           offset: const Offset(0, 3),
                         ),

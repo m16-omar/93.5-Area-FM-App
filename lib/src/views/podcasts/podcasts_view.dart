@@ -221,8 +221,8 @@ class _PodcastsHeader extends StatelessWidget {
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                     colors: [
-                      const Color(0xFF001F54),
-                      const Color(0xFF001F54).withValues(alpha: 0.7),
+                      const Color(0xFF085264),
+                      const Color(0xFF085264).withValues(alpha: 0.7),
                       Colors.transparent,
                     ],
                     stops: const [0.0, 0.45, 0.85],
@@ -417,19 +417,19 @@ class _FeaturedPodcastCard extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
                             decoration: BoxDecoration(
                               color: isDaily
-                                  ? (isDark ? const Color(0xFF001B44) : const Color(0xFFEFF6FF))
+                                  ? (isDark ? const Color(0xFF0A1C24) : const Color(0xFFE0F7FA))
                                   : (isDark ? const Color(0xFF381000) : const Color(0xFFFFF0EB)),
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(
                                 color: isDaily
-                                    ? const Color(0xFF0055FF).withValues(alpha: 0.4)
+                                    ? const Color(0xFF0B6B82).withValues(alpha: 0.4)
                                     : AppColors.primary.withValues(alpha: 0.4),
                               ),
                             ),
                             child: Text(
                               podcast.category,
                               style: GoogleFonts.inter(
-                                color: isDaily ? const Color(0xFF0055FF) : AppColors.primary,
+                                color: isDaily ? const Color(0xFF0B6B82) : AppColors.primary,
                                 fontSize: 9.5,
                                 fontWeight: FontWeight.w700,
                               ),

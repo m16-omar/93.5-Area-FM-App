@@ -306,12 +306,12 @@ class _ShowsCategoryChips extends StatelessWidget {
               decoration: BoxDecoration(
                 color: isSelected
                     ? AppColors.primary
-                    : (isDark ? const Color(0xFF071329) : const Color(0xFFF1F5F9)),
+                    : (isDark ? const Color(0xFF0A1C24) : const Color(0xFFF1F5F9)),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
                   color: isSelected
                       ? AppColors.primary
-                      : (isDark ? const Color(0xFF0F264E) : const Color(0xFFE2E8F0)),
+                      : (isDark ? const Color(0xFF14303D) : const Color(0xFFE2E8F0)),
                 ),
                 boxShadow: isSelected
                     ? [
@@ -330,7 +330,7 @@ class _ShowsCategoryChips extends StatelessWidget {
                     Icon(
                       icon,
                       size: 11.5,
-                      color: isSelected ? Colors.white : const Color(0xFF0055FF),
+                      color: isSelected ? Colors.white : const Color(0xFF0B6B82),
                     ),
                     const SizedBox(width: 3),
                   ],
@@ -370,14 +370,14 @@ class _NowOnAirBanner extends StatelessWidget {
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
           colors: [
-            Color(0xFF00102B),
-            Color(0xFF001F54),
-            Color(0xFF0047AB),
+            Color(0xFF04181E),
+            Color(0xFF085264),
+            Color(0xFF0B6B82),
           ],
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF001F54).withValues(alpha: 0.4),
+            color: const Color(0xFF085264).withValues(alpha: 0.4),
             blurRadius: 16,
             offset: const Offset(0, 6),
           ),
@@ -402,7 +402,7 @@ class _NowOnAirBanner extends StatelessWidget {
                 fit: BoxFit.cover,
                 alignment: Alignment.centerRight,
                 errorBuilder: (context, error, stackTrace) => Container(
-                  color: const Color(0xFF001F54),
+                  color: const Color(0xFF085264),
                 ),
               ),
             ),
@@ -416,9 +416,9 @@ class _NowOnAirBanner extends StatelessWidget {
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                   colors: [
-                    const Color(0xFF000D22),
-                    const Color(0xFF00102B).withValues(alpha: 0.95),
-                    const Color(0xFF001F54).withValues(alpha: 0.5),
+                    const Color(0xFF031014),
+                    const Color(0xFF051D24).withValues(alpha: 0.95),
+                    const Color(0xFF085264).withValues(alpha: 0.5),
                     Colors.transparent,
                   ],
                   stops: const [0.0, 0.45, 0.7, 1.0],
@@ -591,10 +591,10 @@ class _ShowListTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: isDark ? const Color(0xFF0C1728) : Colors.white,
+          color: isDark ? const Color(0xFF0A1C24) : Colors.white,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: isDark ? const Color(0xFF162742) : const Color(0xFFE2E8F0),
+            color: isDark ? const Color(0xFF14303D) : const Color(0xFFE2E8F0),
           ),
           boxShadow: isDark
               ? null
@@ -644,7 +644,7 @@ class _ShowListTile extends StatelessWidget {
                     Text(
                       'with ${show.presenter}',
                       style: GoogleFonts.inter(
-                        color: const Color(0xFF3882FF), // Bright Blue presenter name matching mockup
+                        color: const Color(0xFF0B6B82), // Deep Teal presenter name
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                       ),
@@ -665,7 +665,7 @@ class _ShowListTile extends StatelessWidget {
                 ),
               ),
             ),
-            // Right Column: Air Time, Three dots & Blue Play Circle
+            // Right Column: Air Time, Three dots & Deep Teal Play Circle
             Padding(
               padding: const EdgeInsets.fromLTRB(8, 10, 12, 10),
               child: SizedBox(
@@ -684,7 +684,7 @@ class _ShowListTile extends StatelessWidget {
                               : show.airTime,
                           textAlign: TextAlign.right,
                           style: GoogleFonts.inter(
-                            color: const Color(0xFF3882FF),
+                            color: const Color(0xFF0B6B82), // Deep Teal air time
                             fontSize: 10,
                             fontWeight: FontWeight.w600,
                             height: 1.1,
@@ -698,12 +698,12 @@ class _ShowListTile extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // Blue Play Circle Button
+                    // Deep Teal Play Circle Button
                     Container(
                       width: 32,
                       height: 32,
                       decoration: const BoxDecoration(
-                        color: Color(0xFF1A60E8),
+                        color: Color(0xFF0B6B82),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 20),
