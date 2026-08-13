@@ -33,6 +33,7 @@ class _ShowsViewState extends ConsumerState<ShowsView> {
       drawer: const AppDrawer(),
       appBar: const AreaFMAppBar(notificationCount: 3, showSearch: true),
       body: showsAsync.when(
+        skipLoadingOnRefresh: true,
         loading: () => const AppLoader(message: 'Loading shows...'),
         error: (err, stack) => AppErrorWidget(
           message: err.toString(),
@@ -45,8 +46,15 @@ class _ShowsViewState extends ConsumerState<ShowsView> {
                   s.title.toLowerCase().contains(_selectedCategory.toLowerCase())).toList();
           final displayShows = filteredShows.isNotEmpty ? filteredShows : shows;
 
-          return CustomScrollView(
-            slivers: [
+          return RefreshIndicator(
+            color: AppColors.primary,
+            onRefresh: () async {
+              ref.invalidate(showsListProvider);
+              await ref.read(showsListProvider.future);
+            },
+            child: CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
               // Header title graphic
               SliverToBoxAdapter(
                 child: _SliverHeaderGraphic(size: size),
@@ -126,10 +134,11 @@ class _ShowsViewState extends ConsumerState<ShowsView> {
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 30)),
             ],
-          );
-        },
-      ),
-    );
+          ),
+        );
+      },
+    ),
+  );
   }
 }
 

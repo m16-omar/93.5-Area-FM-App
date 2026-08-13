@@ -94,6 +94,7 @@ class _VideosViewState extends ConsumerState<VideosView> {
         ],
       ),
       body: videosAsync.when(
+        skipLoadingOnRefresh: true,
         loading: () => const AppLoader(message: 'Loading videos...'),
         error: (err, stack) => AppErrorWidget(
           message: err.toString(),
@@ -103,10 +104,16 @@ class _VideosViewState extends ConsumerState<VideosView> {
           final featured = videos.take(3).toList();
           final latest = videos.skip(3).toList();
 
-          return SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.only(bottom: 30),
-            child: Column(
+          return RefreshIndicator(
+            color: AppColors.primary,
+            onRefresh: () async {
+              ref.invalidate(videosListProvider);
+              await ref.read(videosListProvider.future);
+            },
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.only(bottom: 30),
+              child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // 1. HERO HEADER SECTION
@@ -293,10 +300,11 @@ class _VideosViewState extends ConsumerState<VideosView> {
                 ),
               ],
             ),
-          );
-        },
-      ),
-    );
+          ),
+        );
+      },
+    ),
+  );
   }
 }
 

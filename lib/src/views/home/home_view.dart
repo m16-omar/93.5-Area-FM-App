@@ -33,6 +33,7 @@ class HomeView extends ConsumerWidget {
         onSearchTap: () => context.push('/shows'),
       ),
       body: homeDataAsync.when(
+        skipLoadingOnRefresh: true,
         loading: () => const AppLoader(message: 'Loading station content...'),
         error: (err, stack) => AppErrorWidget(
           message: err.toString(),
@@ -40,8 +41,12 @@ class HomeView extends ConsumerWidget {
         ),
         data: (data) => RefreshIndicator(
           color: AppColors.primary,
-          onRefresh: () async => ref.refresh(homeDataFutureProvider),
+          onRefresh: () async {
+            ref.invalidate(homeDataFutureProvider);
+            await ref.read(homeDataFutureProvider.future);
+          },
           child: CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
               // 1. Sliding Hero Header Banner Carousel
               SliverToBoxAdapter(child: HeroSectionWidget(data: data)),
