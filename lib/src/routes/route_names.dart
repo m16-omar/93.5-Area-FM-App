@@ -29,4 +29,5 @@ class RouteNames {
   static const String settings = '/settings';
   static const String support = '/support';
   static const String radioPlayer = '/radio_player';
+  static const String carMode = '/car_mode';
 }

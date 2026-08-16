@@ -27,6 +27,7 @@ import '../views/contact/contact_view.dart';
 import '../views/notifications/notifications_view.dart';
 import '../views/settings/settings_view.dart';
 import '../views/radio_player/radio_player_view.dart';
+import '../views/car_mode/car_mode_view.dart';
 import '../../common/widgets/app_bottom_navigation.dart';
 import '../../common/widgets/mini_player.dart';
 
@@ -107,6 +108,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: RouteNames.radioPlayer,
       builder: (context, state) => const RadioPlayerView(),
+    ),
+    GoRoute(
+      path: RouteNames.carMode,
+      builder: (context, state) => const CarModeView(),
     ),
     GoRoute(
       path: '/show_details/:id',

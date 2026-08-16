@@ -136,8 +136,121 @@ class AudioPlayerService extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Sleep Timer state
+  Timer? _sleepTimer;
+  Timer? _sleepTicker;
+  int? _sleepTimerSecondsRemaining;
+
+  int? get sleepTimerSecondsRemaining => _sleepTimerSecondsRemaining;
+  bool get hasActiveSleepTimer => _sleepTimerSecondsRemaining != null && _sleepTimerSecondsRemaining! > 0;
+
+  void startSleepTimer(int minutes) {
+    cancelSleepTimer();
+    _sleepTimerSecondsRemaining = minutes * 60;
+    notifyListeners();
+
+    _sleepTicker = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_sleepTimerSecondsRemaining == null || _sleepTimerSecondsRemaining! <= 1) {
+        timer.cancel();
+        _sleepTimerSecondsRemaining = 0;
+        _audioPlayer.pause();
+        notifyListeners();
+        _sleepTimerSecondsRemaining = null;
+        notifyListeners();
+      } else {
+        _sleepTimerSecondsRemaining = _sleepTimerSecondsRemaining! - 1;
+        notifyListeners();
+      }
+    });
+  }
+
+  void cancelSleepTimer() {
+    _sleepTicker?.cancel();
+    _sleepTimer?.cancel();
+    _sleepTicker = null;
+    _sleepTimer = null;
+    _sleepTimerSecondsRemaining = null;
+    notifyListeners();
+  }
+
+  // Equalizer State
+  bool _eqEnabled = true;
+  String _eqPreset = 'Flat';
+  final Map<String, double> _eqBands = {
+    '60Hz': 0.0,
+    '230Hz': 0.0,
+    '910Hz': 0.0,
+    '3.6kHz': 0.0,
+    '14kHz': 0.0,
+  };
+
+  bool get eqEnabled => _eqEnabled;
+  String get eqPreset => _eqPreset;
+  Map<String, double> get eqBands => Map.unmodifiable(_eqBands);
+
+  void toggleEqEnabled(bool enabled) {
+    _eqEnabled = enabled;
+    notifyListeners();
+  }
+
+  void setEqPreset(String preset) {
+    _eqPreset = preset;
+    switch (preset) {
+      case 'Bass Boost':
+        _eqBands['60Hz'] = 6.0;
+        _eqBands['230Hz'] = 4.0;
+        _eqBands['910Hz'] = 0.0;
+        _eqBands['3.6kHz'] = -1.0;
+        _eqBands['14kHz'] = -2.0;
+        break;
+      case 'Pop':
+        _eqBands['60Hz'] = -1.0;
+        _eqBands['230Hz'] = 2.0;
+        _eqBands['910Hz'] = 5.0;
+        _eqBands['3.6kHz'] = 3.0;
+        _eqBands['14kHz'] = -1.0;
+        break;
+      case 'Rock':
+        _eqBands['60Hz'] = 5.0;
+        _eqBands['230Hz'] = 3.0;
+        _eqBands['910Hz'] = -1.0;
+        _eqBands['3.6kHz'] = 3.0;
+        _eqBands['14kHz'] = 5.0;
+        break;
+      case 'Vocal':
+        _eqBands['60Hz'] = -2.0;
+        _eqBands['230Hz'] = 0.0;
+        _eqBands['910Hz'] = 4.0;
+        _eqBands['3.6kHz'] = 4.0;
+        _eqBands['14kHz'] = 1.0;
+        break;
+      case 'Jazz':
+        _eqBands['60Hz'] = 3.0;
+        _eqBands['230Hz'] = 2.0;
+        _eqBands['910Hz'] = -1.0;
+        _eqBands['3.6kHz'] = 2.0;
+        _eqBands['14kHz'] = 4.0;
+        break;
+      case 'Flat':
+      default:
+        _eqBands.updateAll((key, value) => 0.0);
+        break;
+    }
+    notifyListeners();
+  }
+
+  void setEqBand(String band, double gain) {
+    if (_eqBands.containsKey(band)) {
+      _eqBands[band] = gain;
+      _eqPreset = 'Custom';
+      notifyListeners();
+    }
+  }
+
   @override
   void dispose() {
+    _sleepTicker?.cancel();
+    _sleepTimer?.cancel();
     _playerStateSubscription?.cancel();
     _positionSubscription?.cancel();
     _durationSubscription?.cancel();
