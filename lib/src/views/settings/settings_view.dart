@@ -245,17 +245,30 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                  child: Container(
-                    width: 40,
-                    height: 5,
-                    decoration: BoxDecoration(
-                      color: isDark ? Colors.white24 : Colors.black12,
-                      borderRadius: BorderRadius.circular(10),
+                Stack(
+                  children: [
+                    Center(
+                      child: Container(
+                        width: 40,
+                        height: 5,
+                        margin: const EdgeInsets.only(top: 10),
+                        decoration: BoxDecoration(
+                          color: isDark ? Colors.white24 : Colors.black12,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
                     ),
-                  ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                        icon: const Icon(Icons.close_rounded, size: 22),
+                        color: isDark ? Colors.white70 : AppColors.textSecondaryLight,
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -438,17 +451,30 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                  child: Container(
-                    width: 40,
-                    height: 5,
-                    decoration: BoxDecoration(
-                      color: isDark ? Colors.white24 : Colors.black12,
-                      borderRadius: BorderRadius.circular(10),
+                Stack(
+                  children: [
+                    Center(
+                      child: Container(
+                        width: 40,
+                        height: 5,
+                        margin: const EdgeInsets.only(top: 10),
+                        decoration: BoxDecoration(
+                          color: isDark ? Colors.white24 : Colors.black12,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
                     ),
-                  ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                        icon: const Icon(Icons.close_rounded, size: 22),
+                        color: isDark ? Colors.white70 : AppColors.textSecondaryLight,
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 12),
                 Row(
                   children: [
                     Container(
@@ -605,13 +631,21 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
           borderRadius: BorderRadius.circular(24),
           side: BorderSide(color: isDark ? const Color(0xFF14303D) : const Color(0xFFE2E8F0)),
         ),
-        contentPadding: const EdgeInsets.all(24),
+        contentPadding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: const Icon(Icons.close_rounded, size: 22),
+                color: isDark ? Colors.white70 : AppColors.textSecondaryLight,
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
             Image.asset(
               AppAssets.logo,
-              height: 56,
+              height: 52,
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) => Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -763,23 +797,33 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
           side: BorderSide(color: isDark ? const Color(0xFF14303D) : const Color(0xFFE2E8F0)),
         ),
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: const Color(0xFFFF3B30).withValues(alpha: 0.15),
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(Icons.logout_rounded, color: Color(0xFFFF3B30), size: 22),
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFF3B30).withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.logout_rounded, color: Color(0xFFFF3B30), size: 22),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  'Log Out',
+                  style: GoogleFonts.poppins(
+                    color: isDark ? Colors.white : AppColors.textPrimaryLight,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(width: 12),
-            Text(
-              'Log Out',
-              style: GoogleFonts.poppins(
-                color: isDark ? Colors.white : AppColors.textPrimaryLight,
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-              ),
+            IconButton(
+              icon: const Icon(Icons.close_rounded, size: 22),
+              color: isDark ? Colors.white70 : AppColors.textSecondaryLight,
+              onPressed: () => Navigator.of(context).pop(),
             ),
           ],
         ),
