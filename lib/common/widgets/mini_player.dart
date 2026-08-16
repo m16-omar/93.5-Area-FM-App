@@ -103,7 +103,7 @@ class MiniPlayerWidget extends ConsumerWidget {
                     Text(
                       currentTrack.artist.isNotEmpty
                           ? currentTrack.artist
-                          : 'Where Music Lives & the Beat Never Stops',
+                          : 'One Voice, Every Area',
                       style: GoogleFonts.inter(
                         color: isDark ? AppColors.textSecondaryDark : const Color(0xFF6B7280),
                         fontSize: 11,

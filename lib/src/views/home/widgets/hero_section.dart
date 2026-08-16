@@ -29,7 +29,7 @@ class _HeroSectionWidgetState extends ConsumerState<HeroSectionWidget> {
       titlePrefix: '93.5 ',
       titleAccent: 'AREA ',
       titleSuffix: 'FM',
-      subtitle: 'Where Music Lives\n& the Beat Never Stops',
+      subtitle: 'One Voice, Every Area',
       ctaText: 'LISTEN LIVE',
       gradientColors: [Color(0xFF085264), Color(0xFF0B6B82)],
       imageAsset: AppAssets.studioMicOnly,

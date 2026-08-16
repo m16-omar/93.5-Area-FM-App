@@ -20,9 +20,9 @@ class _OnboardingViewState extends ConsumerState<OnboardingView> {
 
   final List<_OnboardingData> _pages = const [
     _OnboardingData(
-      title: 'WHERE',
-      titleAccent: 'MUSIC LIVES',
-      titleEnd: '& THE BEAT\nNEVER STOPS',
+      title: 'ONE VOICE,',
+      titleAccent: 'EVERY AREA',
+      titleEnd: '',
       subtitle: 'Your #1 hit music station bringing you the best shows, latest news and ',
       subtitleAccent: 'non-stop vibes.',
       features: [

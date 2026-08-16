@@ -94,7 +94,7 @@ class _SplashViewState extends ConsumerState<SplashView>
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Where ',
+                        text: 'One Voice, ',
                         style: GoogleFonts.inter(
                           color: Colors.white,
                           fontSize: 16,
@@ -102,23 +102,7 @@ class _SplashViewState extends ConsumerState<SplashView>
                         ),
                       ),
                       TextSpan(
-                        text: 'Music Lives\n',
-                        style: GoogleFonts.inter(
-                          color: AppColors.primary,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      TextSpan(
-                        text: '& the ',
-                        style: GoogleFonts.inter(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'Beat Never Stops',
+                        text: 'Every Area',
                         style: GoogleFonts.inter(
                           color: AppColors.primary,
                           fontSize: 16,
