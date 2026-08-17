@@ -19,9 +19,13 @@ class EventDetailsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final eventAsync = ref.watch(eventDetailsProvider(id));
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDark ? Colors.white : AppColors.textPrimaryLight;
+    final cardBg = isDark ? AppColors.surfaceDark : Colors.white;
+    final borderColor = isDark ? AppColors.borderDark : AppColors.borderLight;
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
+      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       appBar: const AreaFMAppBar(title: 'Event Details', showBack: true),
       bottomNavigationBar: const MiniPlayerWidget(),
       body: eventAsync.when(
@@ -42,16 +46,16 @@ class EventDetailsView extends ConsumerWidget {
                 style: GoogleFonts.poppins(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
-                  color: Colors.white,
+                  color: textColor,
                 ),
               ),
               const SizedBox(height: 14),
               Container(
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceDark,
+                  color: cardBg,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.borderDark.withValues(alpha: 0.5)),
+                  border: Border.all(color: borderColor.withValues(alpha: 0.5)),
                 ),
                 child: Column(
                   children: [

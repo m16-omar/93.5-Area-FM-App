@@ -18,9 +18,13 @@ class VideoDetailsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final videoAsync = ref.watch(videoDetailsProvider(id));
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDark ? Colors.white : AppColors.textPrimaryLight;
+    final subTextColor = isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight;
+    final borderColor = isDark ? AppColors.borderDark : AppColors.borderLight;
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
+      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       appBar: const AreaFMAppBar(title: 'Watch Video', showBack: true),
       bottomNavigationBar: const MiniPlayerWidget(),
       body: videoAsync.when(
@@ -44,22 +48,22 @@ class VideoDetailsView extends ConsumerWidget {
                 style: GoogleFonts.poppins(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: Colors.white,
+                  color: textColor,
                 ),
               ),
               const SizedBox(height: 8),
               Row(
                 children: [
-                  const Icon(Icons.visibility_outlined, size: 14, color: AppColors.textSecondaryDark),
+                  Icon(Icons.visibility_outlined, size: 14, color: subTextColor),
                   const SizedBox(width: 4),
-                  Text('${video.views} views', style: GoogleFonts.inter(fontSize: 13, color: AppColors.textSecondaryDark)),
+                  Text('${video.views} views', style: GoogleFonts.inter(fontSize: 13, color: subTextColor)),
                   const SizedBox(width: 16),
-                  const Icon(Icons.calendar_today_outlined, size: 13, color: AppColors.textSecondaryDark),
+                  Icon(Icons.calendar_today_outlined, size: 13, color: subTextColor),
                   const SizedBox(width: 4),
-                  Text(video.publishDate, style: GoogleFonts.inter(fontSize: 13, color: AppColors.textSecondaryDark)),
+                  Text(video.publishDate, style: GoogleFonts.inter(fontSize: 13, color: subTextColor)),
                 ],
               ),
-              const Divider(height: 32, color: AppColors.borderDark),
+              Divider(height: 32, color: borderColor),
               Text(
                 'Description',
                 style: GoogleFonts.poppins(

@@ -18,15 +18,19 @@ class PostDetailsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final postAsync = ref.watch(postDetailsProvider(id));
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDark ? Colors.white : AppColors.textPrimaryLight;
+    final subTextColor = isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight;
+    final borderColor = isDark ? AppColors.borderDark : AppColors.borderLight;
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
+      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       appBar: AreaFMAppBar(
         title: 'Article Details',
         showBack: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.share_rounded, color: Colors.white),
+            icon: Icon(Icons.share_rounded, color: textColor),
             onPressed: () {
               postAsync.whenData((post) => ShareService.shareNews(post.title, post.summary));
             },
@@ -77,28 +81,28 @@ class PostDetailsView extends ConsumerWidget {
                 style: GoogleFonts.poppins(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
-                  color: Colors.white,
+                  color: textColor,
                 ),
               ),
               const SizedBox(height: 10),
               Row(
                 children: [
-                  const Icon(Icons.person_outline_rounded, size: 14, color: AppColors.textSecondaryDark),
+                  Icon(Icons.person_outline_rounded, size: 14, color: subTextColor),
                   const SizedBox(width: 4),
-                  Text(post.author, style: GoogleFonts.inter(fontSize: 12, color: AppColors.textSecondaryDark)),
+                  Text(post.author, style: GoogleFonts.inter(fontSize: 12, color: subTextColor)),
                   const SizedBox(width: 16),
-                  const Icon(Icons.calendar_today_rounded, size: 13, color: AppColors.textSecondaryDark),
+                  Icon(Icons.calendar_today_rounded, size: 13, color: subTextColor),
                   const SizedBox(width: 4),
-                  Text(post.date, style: GoogleFonts.inter(fontSize: 12, color: AppColors.textSecondaryDark)),
+                  Text(post.date, style: GoogleFonts.inter(fontSize: 12, color: subTextColor)),
                 ],
               ),
-              const Divider(height: 32, color: AppColors.borderDark),
+              Divider(height: 32, color: borderColor),
               Text(
                 post.content,
                 style: GoogleFonts.inter(
                   fontSize: 15,
                   height: 1.7,
-                  color: Colors.white70,
+                  color: isDark ? Colors.white70 : AppColors.textPrimaryLight.withValues(alpha: 0.85),
                 ),
               ),
             ],
