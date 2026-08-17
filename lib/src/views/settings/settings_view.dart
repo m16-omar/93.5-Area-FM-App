@@ -224,12 +224,13 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
   void _showEqualizerSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      useRootNavigator: true,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (ctx) => Consumer(
-        builder: (context, ref, child) {
+      builder: (sheetCtx) => Consumer(
+        builder: (modalCtx, ref, child) {
           final playerService = ref.watch(audioPlayerServiceProvider);
-          final isDark = Theme.of(context).brightness == Brightness.dark;
+          final isDark = Theme.of(modalCtx).brightness == Brightness.dark;
           final presets = ['Flat', 'Bass Boost', 'Pop', 'Rock', 'Vocal', 'Jazz'];
 
           return Container(
@@ -263,7 +264,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                       child: IconButton(
                         icon: const Icon(Icons.close_rounded, size: 22),
                         color: isDark ? Colors.white70 : AppColors.textSecondaryLight,
-                        onPressed: () => Navigator.of(context).pop(),
+                        onPressed: () => Navigator.of(modalCtx, rootNavigator: true).pop(),
                       ),
                     ),
                   ],
@@ -430,12 +431,13 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
   void _showSleepTimerSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      useRootNavigator: true,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (ctx) => Consumer(
-        builder: (context, ref, child) {
+      builder: (sheetCtx) => Consumer(
+        builder: (modalCtx, ref, child) {
           final playerService = ref.watch(audioPlayerServiceProvider);
-          final isDark = Theme.of(context).brightness == Brightness.dark;
+          final isDark = Theme.of(modalCtx).brightness == Brightness.dark;
           final options = [15, 30, 45, 60, 90, 120];
 
           return Container(
@@ -469,7 +471,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                       child: IconButton(
                         icon: const Icon(Icons.close_rounded, size: 22),
                         color: isDark ? Colors.white70 : AppColors.textSecondaryLight,
-                        onPressed: () => Navigator.of(context).pop(),
+                        onPressed: () => Navigator.of(modalCtx, rootNavigator: true).pop(),
                       ),
                     ),
                   ],
@@ -583,7 +585,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                     return InkWell(
                       onTap: () {
                         playerService.startSleepTimer(mins);
-                        Navigator.of(context).pop();
+                        Navigator.of(modalCtx, rootNavigator: true).pop();
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Sleep timer set for $mins minutes')),
                         );
@@ -625,6 +627,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
 
     showDialog(
       context: context,
+      useRootNavigator: true,
       builder: (ctx) => AlertDialog(
         backgroundColor: isDark ? const Color(0xFF071216) : Colors.white,
         shape: RoundedRectangleBorder(
@@ -640,7 +643,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
               child: IconButton(
                 icon: const Icon(Icons.close_rounded, size: 22),
                 color: isDark ? Colors.white70 : AppColors.textSecondaryLight,
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => Navigator.of(ctx).pop(),
               ),
             ),
             Image.asset(
@@ -756,7 +759,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Navigator.of(ctx).pop();
                       context.push(RouteNames.team);
                     },
                     style: ElevatedButton.styleFrom(
@@ -790,6 +793,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
 
     showDialog(
       context: context,
+      useRootNavigator: true,
       builder: (ctx) => AlertDialog(
         backgroundColor: isDark ? const Color(0xFF071216) : Colors.white,
         shape: RoundedRectangleBorder(
@@ -823,7 +827,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
             IconButton(
               icon: const Icon(Icons.close_rounded, size: 22),
               color: isDark ? Colors.white70 : AppColors.textSecondaryLight,
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => Navigator.of(ctx).pop(),
             ),
           ],
         ),
@@ -838,7 +842,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
         actionsPadding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => Navigator.of(ctx).pop(),
             child: Text(
               'Cancel',
               style: GoogleFonts.inter(
@@ -849,7 +853,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(ctx).pop();
               context.go(RouteNames.login);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Logged out successfully')),
