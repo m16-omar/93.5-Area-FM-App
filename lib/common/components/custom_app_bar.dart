@@ -21,6 +21,7 @@ class AreaFMAppBar extends ConsumerWidget implements PreferredSizeWidget {
   final VoidCallback? onMenuTap;
   final int? notificationCount;
   final List<Widget>? actions;
+  final Color? foregroundColor;
 
   const AreaFMAppBar({
     super.key,
@@ -33,12 +34,14 @@ class AreaFMAppBar extends ConsumerWidget implements PreferredSizeWidget {
     this.onMenuTap,
     this.notificationCount,
     this.actions,
+    this.foregroundColor,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final iconColor = isDark ? Colors.white : AppColors.textPrimaryLight;
+    final defaultColor = isDark ? Colors.white : AppColors.textPrimaryLight;
+    final iconColor = foregroundColor ?? defaultColor;
     final dynamicUnreadCount = ref.watch(unreadNotificationCountProvider);
     final count = notificationCount ?? dynamicUnreadCount;
 

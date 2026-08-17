@@ -20,14 +20,14 @@ class PostDetailsView extends ConsumerWidget {
     final postAsync = ref.watch(postDetailsProvider(id));
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final textColor = isDark ? Colors.white : AppColors.textPrimaryLight;
-    final subTextColor = isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight;
-    final borderColor = isDark ? AppColors.borderDark : AppColors.borderLight;
+    final secondaryTextColor = isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight;
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       appBar: AreaFMAppBar(
         title: 'Article Details',
         showBack: true,
+        foregroundColor: textColor,
         actions: [
           IconButton(
             icon: Icon(Icons.share_rounded, color: textColor),
@@ -87,22 +87,22 @@ class PostDetailsView extends ConsumerWidget {
               const SizedBox(height: 10),
               Row(
                 children: [
-                  Icon(Icons.person_outline_rounded, size: 14, color: subTextColor),
+                  Icon(Icons.person_outline_rounded, size: 14, color: secondaryTextColor),
                   const SizedBox(width: 4),
-                  Text(post.author, style: GoogleFonts.inter(fontSize: 12, color: subTextColor)),
+                  Text(post.author, style: GoogleFonts.inter(fontSize: 12, color: secondaryTextColor)),
                   const SizedBox(width: 16),
-                  Icon(Icons.calendar_today_rounded, size: 13, color: subTextColor),
+                  Icon(Icons.calendar_today_rounded, size: 13, color: secondaryTextColor),
                   const SizedBox(width: 4),
-                  Text(post.date, style: GoogleFonts.inter(fontSize: 12, color: subTextColor)),
+                  Text(post.date, style: GoogleFonts.inter(fontSize: 12, color: secondaryTextColor)),
                 ],
               ),
-              Divider(height: 32, color: borderColor),
+              Divider(height: 32, color: isDark ? AppColors.borderDark : const Color(0xFFE2E8F0)),
               Text(
                 post.content,
                 style: GoogleFonts.inter(
                   fontSize: 15,
                   height: 1.7,
-                  color: isDark ? Colors.white70 : AppColors.textPrimaryLight.withValues(alpha: 0.85),
+                  color: isDark ? Colors.white70 : const Color(0xFF374151),
                 ),
               ),
             ],

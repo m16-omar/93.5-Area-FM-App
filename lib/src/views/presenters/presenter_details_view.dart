@@ -19,11 +19,16 @@ class PresenterDetailsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final presenterAsync = ref.watch(presenterDetailsProvider(id));
+
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
-      appBar: const AreaFMAppBar(title: 'Presenter Profile', showBack: true),
+      appBar: AreaFMAppBar(
+        title: 'Presenter Profile',
+        showBack: true,
+        foregroundColor: isDark ? Colors.white : AppColors.textPrimaryLight,
+      ),
       bottomNavigationBar: const MiniPlayerWidget(),
       body: presenterAsync.when(
         loading: () => const AppLoader(message: 'Loading profile...'),

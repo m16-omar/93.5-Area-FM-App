@@ -20,11 +20,16 @@ class PodcastDetailsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final podcastAsync = ref.watch(podcastDetailsProvider(id));
+
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
-      appBar: const AreaFMAppBar(title: 'Podcast Show', showBack: true),
+      appBar: AreaFMAppBar(
+        title: 'Podcast Show',
+        showBack: true,
+        foregroundColor: isDark ? Colors.white : AppColors.textPrimaryLight,
+      ),
       bottomNavigationBar: const MiniPlayerWidget(),
       body: podcastAsync.when(
         loading: () => const AppLoader(message: 'Loading podcast...'),
