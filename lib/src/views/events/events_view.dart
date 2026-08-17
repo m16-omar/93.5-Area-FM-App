@@ -7,7 +7,6 @@ import '../../../common/components/custom_app_bar.dart';
 import '../../../common/widgets/app_loader.dart';
 import '../../../common/widgets/app_error.dart';
 import '../../../common/widgets/network_image.dart';
-import '../../../common/widgets/mini_player.dart';
 import '../../providers/events_provider.dart';
 import '../../models/event_model.dart';
 import '../drawer/app_drawer.dart';
@@ -52,7 +51,6 @@ class _EventsViewState extends ConsumerState<EventsView> {
         showBack: true,
         notificationCount: 3,
       ),
-      bottomNavigationBar: const MiniPlayerWidget(),
       body: eventsAsync.when(
         skipLoadingOnRefresh: true,
         loading: () => const AppLoader(message: 'Loading events...'),
