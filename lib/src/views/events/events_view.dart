@@ -306,10 +306,11 @@ class _EventsHeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final topPadding = MediaQuery.of(context).padding.top;
+    final headerHeight = topPadding + kToolbarHeight + 85.0;
 
     return SizedBox(
-      height: size.height * 0.28,
+      height: headerHeight,
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -340,7 +341,7 @@ class _EventsHeaderSection extends StatelessWidget {
             right: -20,
             top: 20,
             bottom: 0,
-            width: size.width * 0.6,
+            width: MediaQuery.of(context).size.width * 0.6,
             child: Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -355,48 +356,48 @@ class _EventsHeaderSection extends StatelessWidget {
             ),
           ),
           // Text Content Overlay
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 48, 20, 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'EVENTS',
-                    style: GoogleFonts.inter(
-                      fontSize: 34,
-                      fontWeight: FontWeight.w900,
-                      fontStyle: FontStyle.italic,
-                      color: Colors.white,
-                      letterSpacing: 1.5,
-                    ),
+          Positioned(
+            left: 20,
+            right: 20,
+            bottom: 8,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'EVENTS',
+                  style: GoogleFonts.inter(
+                    fontSize: 32,
+                    fontWeight: FontWeight.w900,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.white,
+                    letterSpacing: 1.5,
                   ),
-                  const SizedBox(height: 4),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'Explore exciting events and experiences with ',
-                          style: GoogleFonts.inter(
-                            color: Colors.white70,
-                            fontSize: 13,
-                            height: 1.3,
-                          ),
+                ),
+                const SizedBox(height: 2),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Explore exciting events and experiences with ',
+                        style: GoogleFonts.inter(
+                          color: Colors.white70,
+                          fontSize: 12.5,
+                          height: 1.25,
                         ),
-                        TextSpan(
-                          text: '93.5 AREA FM',
-                          style: GoogleFonts.inter(
-                            color: const Color(0xFF00A3FF),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w800,
-                          ),
+                      ),
+                      TextSpan(
+                        text: '93.5 AREA FM',
+                        style: GoogleFonts.inter(
+                          color: const Color(0xFF00A3FF),
+                          fontSize: 12.5,
+                          fontWeight: FontWeight.w800,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
