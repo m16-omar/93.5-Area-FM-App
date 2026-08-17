@@ -699,7 +699,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                   ),
                 ),
                 Text(
-                  '93.5 MHz (FCT)',
+                  '93.5 MHz (Lagos)',
                   style: GoogleFonts.inter(
                     color: isDark ? Colors.white : AppColors.textPrimaryLight,
                     fontSize: 12,
