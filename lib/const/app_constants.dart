@@ -4,7 +4,7 @@ class AppConstants {
   static const String appName = '93.5 Area FM';
   static const String appTagline = 'The Pulse of the City';
   static const String stationFrequency = '93.5 FM';
-  static const String defaultStreamUrl = 'https://stream.zeno.fm/f3wvbbqmdg8uv';
+  static const String defaultStreamUrl = 'https://city1051-atunwadigital.streamguys1.com/city1051';
 
   static const String contactEmail = 'contact@area935fm.com';
   static const String contactPhone = '+234 800 935 0000';
