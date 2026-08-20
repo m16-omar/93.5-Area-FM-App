@@ -15,7 +15,7 @@ class EventsRepository {
         location: 'Eko Convention Centre, Lagos',
         bannerImage: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=600&q=80',
         description: 'The biggest music concert in the city is back! Live performances from top artists.',
-        ticketUrl: 'https://areafm.ng/tickets/concert2024',
+        ticketUrl: 'https://935areafm.com/tickets/concert2024',
         isUpcoming: true,
       ),
       EventModel(
@@ -29,7 +29,7 @@ class EventsRepository {
         location: 'Club Quilox, Victoria Island',
         bannerImage: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80',
         description: 'An unforgettable night of music, dance and good vibes with DJ Ace and friends.',
-        ticketUrl: 'https://areafm.ng/tickets/nightvibes',
+        ticketUrl: 'https://935areafm.com/tickets/nightvibes',
         isUpcoming: true,
       ),
       EventModel(
@@ -43,7 +43,7 @@ class EventsRepository {
         location: 'Agege Community Centre, Lagos',
         bannerImage: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=600&q=80',
         description: 'Join us as we give back to the community and make a difference together.',
-        ticketUrl: 'https://areafm.ng/tickets/outreach',
+        ticketUrl: 'https://935areafm.com/tickets/outreach',
         isUpcoming: true,
       ),
       // Past Events

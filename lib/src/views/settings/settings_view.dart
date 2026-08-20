@@ -623,7 +623,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
 
   void _shareApp(BuildContext context) {
     ShareService.shareContent(
-      'Tune in live to 93.5 AREA FM - One Voice, Every Area! Download our mobile app now: https://areafm.ng/app',
+      'Tune in live to 93.5 AREA FM - One Voice, Every Area! Download our mobile app now: https://935areafm.com/app',
       subject: '93.5 AREA FM App',
     );
   }

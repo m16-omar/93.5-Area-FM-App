@@ -9,7 +9,7 @@ class TeamRepository {
         role: 'General Manager',
         image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80',
         bio: 'Over 20 years of broadcast leadership driving innovation in urban radio streaming.',
-        email: 'gm@area935fm.com',
+        email: 'gm@935areafm.com',
       ),
       TeamMemberModel(
         id: 't2',
@@ -17,7 +17,7 @@ class TeamRepository {
         role: 'Head of Programs',
         image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80',
         bio: 'Curates hit radio programs, talent development, and daily broadcast schedules.',
-        email: 'programs@area935fm.com',
+        email: 'programs@935areafm.com',
       ),
     ];
   }

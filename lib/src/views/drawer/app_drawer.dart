@@ -165,7 +165,7 @@ class AppDrawer extends ConsumerWidget {
                               ),
                             ),
                             Text(
-                              user?.email ?? 'guest@areafm.ng',
+                              user?.email ?? 'guest@935areafm.com',
                               style: GoogleFonts.inter(
                                 color: textSecondary,
                                 fontSize: 12,

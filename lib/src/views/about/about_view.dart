@@ -317,8 +317,8 @@ class AboutView extends ConsumerWidget {
                     icon: Icons.language_rounded,
                     iconColor: const Color(0xFF00A3FF),
                     title: 'Visit Official Website',
-                    subtitle: 'areafm.ng',
-                    onTap: () => _launchExternalUrl('https://areafm.ng'),
+                    subtitle: '935areafm.com',
+                    onTap: () => _launchExternalUrl(AppConstants.websiteUrl),
                   ),
                   Divider(color: cardBorder, height: 1),
                   _ActionTile(
@@ -346,7 +346,7 @@ class AboutView extends ConsumerWidget {
                     title: 'Share 93.5 AREA FM App',
                     subtitle: 'Spread the word with family & friends',
                     onTap: () => ShareService.shareContent(
-                      'Listen to 93.5 AREA FM - One Voice, Every Area! Download our mobile app now: https://areafm.ng/app',
+                      'Listen to 93.5 AREA FM - One Voice, Every Area! Download our mobile app now: https://935areafm.com/app',
                       subject: '93.5 AREA FM App',
                     ),
                   ),
