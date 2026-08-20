@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../../const/app_colors.dart';
 import '../../../const/app_assets.dart';
 import '../../../common/components/custom_app_bar.dart';
@@ -188,8 +187,8 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                           icon: Icons.info_outline_rounded,
                           iconBgColor: AppColors.primary,
                           title: 'About AREA 93.5 FM',
-                          subtitle: 'Learn more about us',
-                          onTap: () => _showAboutDialog(context),
+                          subtitle: 'Learn more about our station',
+                          onTap: () => context.push(RouteNames.about),
                         ),
                         _TileDivider(isDark: isDark),
                         _SettingTileItem(
@@ -618,165 +617,6 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
             ),
           );
         },
-      ),
-    );
-  }
-
-  void _showAboutDialog(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    showDialog(
-      context: context,
-      useRootNavigator: true,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: isDark ? const Color(0xFF071216) : Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-          side: BorderSide(color: isDark ? const Color(0xFF14303D) : const Color(0xFFE2E8F0)),
-        ),
-        contentPadding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                icon: const Icon(Icons.close_rounded, size: 22),
-                color: isDark ? Colors.white70 : AppColors.textSecondaryLight,
-                onPressed: () => Navigator.of(ctx).pop(),
-              ),
-            ),
-            Image.asset(
-              AppAssets.logo,
-              height: 52,
-              fit: BoxFit.contain,
-              errorBuilder: (context, error, stackTrace) => Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                  color: AppColors.oceanBlue,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  '93.5 AREA FM',
-                  style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-              decoration: BoxDecoration(
-                color: const Color(0xFF0B6B82).withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                'One Voice, Every Area',
-                style: GoogleFonts.inter(
-                  color: const Color(0xFF0B6B82),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              '93.5 AREA FM is Nigeria\'s premier hit radio station bringing live radio, podcasts, exciting shows, latest news, and non-stop entertainment.',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
-                color: isDark ? Colors.white70 : AppColors.textSecondaryLight,
-                fontSize: 12.5,
-                height: 1.4,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Divider(color: isDark ? const Color(0xFF14303D) : const Color(0xFFE2E8F0)),
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Frequency',
-                  style: GoogleFonts.inter(
-                    color: isDark ? Colors.white60 : AppColors.textSecondaryLight,
-                    fontSize: 12,
-                  ),
-                ),
-                Text(
-                  '93.5 MHz (Lagos)',
-                  style: GoogleFonts.inter(
-                    color: isDark ? Colors.white : AppColors.textPrimaryLight,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 6),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'App Version',
-                  style: GoogleFonts.inter(
-                    color: isDark ? Colors.white60 : AppColors.textSecondaryLight,
-                    fontSize: 12,
-                  ),
-                ),
-                Text(
-                  'v1.2.0 (Build 108)',
-                  style: GoogleFonts.inter(
-                    color: isDark ? Colors.white : AppColors.textPrimaryLight,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () async {
-                      final url = Uri.parse('https://areafm.ng');
-                      if (await canLaunchUrl(url)) await launchUrl(url);
-                    },
-                    style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                      side: BorderSide(color: isDark ? const Color(0xFF14303D) : const Color(0xFFCBD5E1)),
-                    ),
-                    child: Text(
-                      'Website',
-                      style: GoogleFonts.inter(
-                        color: isDark ? Colors.white : AppColors.textPrimaryLight,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(ctx).pop();
-                      context.push(RouteNames.team);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF0B6B82),
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    ),
-                    child: Text(
-                      'Our Team',
-                      style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }

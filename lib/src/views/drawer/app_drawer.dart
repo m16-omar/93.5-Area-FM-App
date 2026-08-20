@@ -211,6 +211,14 @@ class AppDrawer extends ConsumerWidget {
                 _DrawerTile(
                   isDark: isDark,
                   item: const _DrawerNavItem(
+                    icon: Icons.info_outline_rounded,
+                    label: 'About 93.5 AREA FM',
+                    route: RouteNames.about,
+                  ),
+                ),
+                _DrawerTile(
+                  isDark: isDark,
+                  item: const _DrawerNavItem(
                     icon: Icons.help_outline_rounded,
                     label: 'Help & Support',
                     route: RouteNames.support,
