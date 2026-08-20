@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../common/helpers/url_helper.dart';
 
 class PresenterSocialsWidget extends StatelessWidget {
@@ -20,17 +21,17 @@ class PresenterSocialsWidget extends StatelessWidget {
       children: [
         if (instagram.isNotEmpty)
           IconButton(
-            icon: const Icon(Icons.camera_alt_outlined, color: Colors.purple),
+            icon: const FaIcon(FontAwesomeIcons.instagram, color: Color(0xFFE1306C), size: 20),
             onPressed: () => UrlHelper.launchURL(instagram),
           ),
         if (twitter.isNotEmpty)
           IconButton(
-            icon: const Icon(Icons.flutter_dash_outlined, color: Colors.lightBlue),
+            icon: const FaIcon(FontAwesomeIcons.xTwitter, size: 18),
             onPressed: () => UrlHelper.launchURL(twitter),
           ),
         if (facebook.isNotEmpty)
           IconButton(
-            icon: const Icon(Icons.facebook_outlined, color: Colors.blue),
+            icon: const FaIcon(FontAwesomeIcons.facebookF, color: Color(0xFF1877F2), size: 19),
             onPressed: () => UrlHelper.launchURL(facebook),
           ),
       ],

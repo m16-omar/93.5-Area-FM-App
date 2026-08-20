@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../const/app_colors.dart';
 import '../../../const/app_assets.dart';
 import '../../../const/app_constants.dart';
@@ -372,28 +373,47 @@ class AboutView extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _SocialCircleButton(
-                  icon: Icons.camera_alt_outlined,
-                  color: const Color(0xFFE1306C),
+                _SocialIconButton(
+                  icon: FontAwesomeIcons.instagram,
+                  gradient: const LinearGradient(
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    colors: [
+                      Color(0xFF833AB4),
+                      Color(0xFFFD1D1D),
+                      Color(0xFFFCAF45),
+                    ],
+                  ),
+                  tooltip: 'Instagram',
                   onTap: () => _launchExternalUrl(AppConstants.instagramUrl),
                 ),
-                const SizedBox(width: 16),
-                _SocialCircleButton(
-                  icon: Icons.alternate_email_rounded,
-                  color: const Color(0xFF1DA1F2),
+                const SizedBox(width: 14),
+                _SocialIconButton(
+                  icon: FontAwesomeIcons.xTwitter,
+                  color: isDark ? const Color(0xFF1E293B) : Colors.black,
+                  tooltip: 'X (Twitter)',
                   onTap: () => _launchExternalUrl(AppConstants.twitterUrl),
                 ),
-                const SizedBox(width: 16),
-                _SocialCircleButton(
-                  icon: Icons.facebook_rounded,
+                const SizedBox(width: 14),
+                _SocialIconButton(
+                  icon: FontAwesomeIcons.facebookF,
                   color: const Color(0xFF1877F2),
+                  tooltip: 'Facebook',
                   onTap: () => _launchExternalUrl(AppConstants.facebookUrl),
                 ),
-                const SizedBox(width: 16),
-                _SocialCircleButton(
-                  icon: Icons.play_arrow_rounded,
+                const SizedBox(width: 14),
+                _SocialIconButton(
+                  icon: FontAwesomeIcons.youtube,
                   color: const Color(0xFFFF0000),
+                  tooltip: 'YouTube',
                   onTap: () => _launchExternalUrl(AppConstants.youtubeUrl),
+                ),
+                const SizedBox(width: 14),
+                _SocialIconButton(
+                  icon: FontAwesomeIcons.tiktok,
+                  color: isDark ? const Color(0xFF0F172A) : const Color(0xFF010101),
+                  tooltip: 'TikTok',
+                  onTap: () => _launchExternalUrl('https://tiktok.com/@935areafm'),
                 ),
               ],
             ),
@@ -583,31 +603,51 @@ class _ActionTile extends StatelessWidget {
   }
 }
 
-class _SocialCircleButton extends StatelessWidget {
-  final IconData icon;
-  final Color color;
+class _SocialIconButton extends StatelessWidget {
+  final FaIconData icon;
+  final Color? color;
+  final Gradient? gradient;
+  final String tooltip;
   final VoidCallback onTap;
 
-  const _SocialCircleButton({
+  const _SocialIconButton({
     required this.icon,
-    required this.color,
+    this.color,
+    this.gradient,
+    required this.tooltip,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(24),
-      child: Container(
-        width: 44,
-        height: 44,
-        decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.15),
-          shape: BoxShape.circle,
-          border: Border.all(color: color.withValues(alpha: 0.3)),
+    return Tooltip(
+      message: tooltip,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(50),
+        child: Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: color,
+            gradient: gradient,
+            boxShadow: [
+              BoxShadow(
+                color: (color ?? const Color(0xFFFD1D1D)).withValues(alpha: 0.35),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Center(
+            child: FaIcon(
+              icon,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
         ),
-        child: Icon(icon, color: color, size: 20),
       ),
     );
   }
