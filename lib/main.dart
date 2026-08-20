@@ -6,6 +6,7 @@ import 'const/app_colors.dart';
 import 'src/routes/app_routes.dart';
 import 'src/services/storage_service.dart';
 import 'src/controllers/settings_controller.dart';
+import 'src/providers/radio_player_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +31,8 @@ class AreaFMApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Eagerly initialize and trigger auto-stream on app launch
+    ref.watch(audioPlayerServiceProvider);
     final isDarkMode = ref.watch(themeModeProvider);
 
     return MaterialApp.router(

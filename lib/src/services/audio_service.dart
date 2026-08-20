@@ -32,6 +32,23 @@ class AudioPlayerService extends ChangeNotifier {
 
   AudioPlayerService() {
     _initAudioPlayer();
+    autoPlayStream();
+  }
+
+  Future<void> autoPlayStream() async {
+    try {
+      _isDismissed = false;
+      _isBuffering = true;
+      notifyListeners();
+
+      await _audioPlayer.setUrl(_currentTrack.streamUrl);
+      await _audioPlayer.setVolume(_isMuted ? 0.0 : _volume);
+      await _audioPlayer.play();
+    } catch (e) {
+      if (kDebugMode) print('Auto-play stream error: $e');
+      _isBuffering = false;
+      notifyListeners();
+    }
   }
 
   RadioStreamModel get currentTrack => _currentTrack;
