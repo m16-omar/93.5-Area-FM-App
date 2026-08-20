@@ -92,7 +92,7 @@ class AreaFMAppBar extends ConsumerWidget implements PreferredSizeWidget {
               if (showSearch)
                 IconButton(
                   icon: Icon(Icons.search_rounded, color: iconColor, size: 24),
-                  onPressed: onSearchTap ?? () {},
+                  onPressed: onSearchTap ?? () => context.push(RouteNames.search),
                 ),
               if (showNotification)
                 _NotificationBell(

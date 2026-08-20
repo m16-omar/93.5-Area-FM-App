@@ -31,4 +31,5 @@ class RouteNames {
   static const String radioPlayer = '/radio_player';
   static const String carMode = '/car_mode';
   static const String about = '/about';
+  static const String search = '/search';
 }

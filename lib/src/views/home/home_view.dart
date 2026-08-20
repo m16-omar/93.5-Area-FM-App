@@ -30,7 +30,7 @@ class HomeView extends ConsumerWidget {
       appBar: AreaFMAppBar(
         notificationCount: 3,
         showSearch: true,
-        onSearchTap: () => context.push('/shows'),
+        onSearchTap: () => context.push(RouteNames.search),
       ),
       body: homeDataAsync.when(
         skipLoadingOnRefresh: true,

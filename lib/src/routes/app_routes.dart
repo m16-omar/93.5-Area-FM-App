@@ -27,6 +27,7 @@ import '../views/contact/contact_view.dart';
 import '../views/notifications/notifications_view.dart';
 import '../views/settings/settings_view.dart';
 import '../views/about/about_view.dart';
+import '../views/search/search_view.dart';
 import '../views/radio_player/radio_player_view.dart';
 import '../views/car_mode/car_mode_view.dart';
 import '../../common/widgets/app_bottom_navigation.dart';
@@ -178,6 +179,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: RouteNames.about,
       builder: (context, state) => const AboutView(),
+    ),
+    GoRoute(
+      path: RouteNames.search,
+      builder: (context, state) => const SearchView(),
     ),
     ShellRoute(
       builder: (context, state, child) => MainShellScaffold(child: child),
