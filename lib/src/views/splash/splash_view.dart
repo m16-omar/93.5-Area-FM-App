@@ -47,50 +47,105 @@ class _SplashViewState extends ConsumerState<SplashView>
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: const Color(0xFF030D18),
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // 1. Studio Background Artwork
-          Image.asset(
-            AppAssets.splashBg,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) => Image.asset(
-              AppAssets.studioMicOnly,
-              fit: BoxFit.cover,
+          // 1. Studio Microphone Artwork on top-right with smooth fade
+          Positioned(
+            right: -10,
+            top: 20,
+            width: size.width * 0.75,
+            height: size.height * 0.52,
+            child: ShaderMask(
+              shaderCallback: (Rect bounds) {
+                return const LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Colors.transparent,
+                    Colors.white,
+                  ],
+                  stops: [0.0, 0.4],
+                ).createShader(bounds);
+              },
+              blendMode: BlendMode.dstIn,
+              child: Image.asset(
+                AppAssets.studioMicTransparent,
+                fit: BoxFit.contain,
+                alignment: Alignment.topRight,
+                errorBuilder: (context, error, stackTrace) => Image.asset(
+                  AppAssets.studioMicOnly,
+                  fit: BoxFit.contain,
+                  alignment: Alignment.topRight,
+                ),
+              ),
             ),
           ),
 
-          // 2. Subtle Dark Gradient Overlay
+          // 2. Soundwave Equalizer Graphic in Center
+          Center(
+            child: Opacity(
+              opacity: 0.35,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(24, (i) {
+                  final heights = [
+                    0.2, 0.35, 0.5, 0.7, 0.4, 0.85, 0.6, 0.95, 0.75, 0.55, 0.9, 0.65,
+                    0.65, 0.9, 0.55, 0.75, 0.95, 0.6, 0.85, 0.4, 0.7, 0.5, 0.35, 0.2
+                  ];
+                  return Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 2.5),
+                    width: 2.5,
+                    height: 140 * heights[i % heights.length],
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFF5500),
+                      borderRadius: BorderRadius.circular(2),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFFFF5500).withValues(alpha: 0.4),
+                          blurRadius: 4,
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+              ),
+            ),
+          ),
+
+          // 3. Dark Gradient Overlay to ensure maximum contrast
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black.withValues(alpha: 0.25),
+                  const Color(0xFF030D18).withValues(alpha: 0.5),
                   Colors.transparent,
-                  Colors.black.withValues(alpha: 0.65),
-                  Colors.black.withValues(alpha: 0.95),
+                  const Color(0xFF030D18).withValues(alpha: 0.85),
+                  const Color(0xFF030D18),
                 ],
                 stops: const [0.0, 0.35, 0.75, 1.0],
               ),
             ),
           ),
 
-          // 3. Content
+          // 4. Content (Logo, Tagline, Loading Indicator)
           SafeArea(
             child: Column(
               children: [
                 const Spacer(flex: 3),
 
-                // Branded Image Logo
+                // Brand Logo
                 _SplashLogo(),
 
                 const SizedBox(height: 18),
 
-                // Tagline: "Where Music Lives & the Beat Never Stops"
+                // Tagline
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
@@ -128,12 +183,12 @@ class _SplashViewState extends ConsumerState<SplashView>
 
                 const Spacer(flex: 4),
 
-                // Loading Text (Bright, crisp white and on top of bar)
+                // LOADING Text (Bold & bright white above the progress bar)
                 Text(
                   'LOADING...',
                   style: GoogleFonts.inter(
                     color: Colors.white,
-                    fontSize: 13,
+                    fontSize: 13.5,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 2.0,
                   ),
@@ -141,7 +196,7 @@ class _SplashViewState extends ConsumerState<SplashView>
 
                 const SizedBox(height: 10),
 
-                // Animated Progress Bar (Thick, rounded, bright orange indicator with dark track)
+                // Animated Progress Bar
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 56),
                   child: AnimatedBuilder(
@@ -151,7 +206,7 @@ class _SplashViewState extends ConsumerState<SplashView>
                         height: 6.5,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF1E293B).withValues(alpha: 0.9),
+                          color: const Color(0xFF1E293B),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: FractionallySizedBox(
@@ -162,13 +217,13 @@ class _SplashViewState extends ConsumerState<SplashView>
                               gradient: const LinearGradient(
                                 colors: [
                                   Color(0xFFFF4500),
-                                  Color(0xFFFF6A00),
+                                  Color(0xFFFF7A00),
                                 ],
                               ),
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFFFF5500).withValues(alpha: 0.4),
+                                  color: const Color(0xFFFF5500).withValues(alpha: 0.5),
                                   blurRadius: 6,
                                   offset: const Offset(0, 1),
                                 ),
@@ -196,7 +251,7 @@ class _SplashLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.asset(
       AppAssets.logo,
-      height: 85,
+      height: 90,
       fit: BoxFit.contain,
       errorBuilder: (context, error, stackTrace) => RichText(
         textAlign: TextAlign.center,
