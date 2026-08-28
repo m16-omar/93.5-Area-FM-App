@@ -11,7 +11,7 @@ class PresenterRepository {
         timeSlot: '6:00 AM - 10:00 AM',
         days: 'Weekdays',
         category: 'Presenters',
-        isOnAir: true,
+        isOnAir: false,
         image: 'https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?auto=format&fit=crop&w=500&q=80',
         tagline: 'Waking up Lagos with the best music, good vibes and real talk every weekday morning.',
         about: 'Big P is one of Lagos\' most loved on-air personalities. He brings the perfect blend of music, entertainment and street vibes to get your day started right. Real, relatable and always on point.',

@@ -46,7 +46,7 @@ class _PresentersViewState extends ConsumerState<PresentersView> {
       // Category filter
       bool matchesCategory = true;
       if (_selectedFilter == 'On Air') {
-        matchesCategory = p.isOnAir || p.category == 'On Air';
+        matchesCategory = p.isLive() || p.category == 'On Air';
       } else if (_selectedFilter != 'All') {
         matchesCategory = p.category.toLowerCase() == _selectedFilter.toLowerCase();
       }
@@ -508,28 +508,28 @@ class _PresenterGridCard extends StatelessWidget {
               ),
 
               // ON AIR Badge
-              if (presenter.isOnAir)
+              if (presenter.isLive())
                 Positioned(
                   top: 7,
                   left: 7,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2.5),
                     decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.7),
-                      borderRadius: BorderRadius.circular(4),
+                      color: Colors.black.withValues(alpha: 0.65),
+                      borderRadius: BorderRadius.circular(6),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(
-                          width: 4.5,
-                          height: 4.5,
+                          width: 5,
+                          height: 5,
                           decoration: const BoxDecoration(
-                            color: Color(0xFFFF5500),
+                            color: Colors.white,
                             shape: BoxShape.circle,
                           ),
                         ),
-                        const SizedBox(width: 3),
+                        const SizedBox(width: 3.5),
                         Text(
                           'ON AIR',
                           style: GoogleFonts.inter(

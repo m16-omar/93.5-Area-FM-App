@@ -270,7 +270,7 @@ class _PresenterHeroCard extends StatelessWidget {
             ),
 
             // ON AIR Badge
-            if (presenter.isOnAir)
+            if (presenter.isLive())
               Positioned(
                 top: 14,
                 left: 14,
@@ -287,7 +287,7 @@ class _PresenterHeroCard extends StatelessWidget {
                         width: 5,
                         height: 5,
                         decoration: const BoxDecoration(
-                          color: Color(0xFFFF5500),
+                          color: Colors.white,
                           shape: BoxShape.circle,
                         ),
                       ),
@@ -310,7 +310,7 @@ class _PresenterHeroCard extends StatelessWidget {
             Positioned(
               left: 14,
               right: 14,
-              top: presenter.isOnAir ? 46 : 22,
+              top: presenter.isLive() ? 46 : 22,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -653,7 +653,7 @@ class _PresenterShowTile extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (presenter.isOnAir)
+                  if (presenter.isLive())
                     Positioned(
                       bottom: 4,
                       left: 4,
