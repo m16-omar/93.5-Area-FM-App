@@ -3,16 +3,17 @@ import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 import '../models/radio_stream_model.dart';
 import '../../const/app_constants.dart';
+import '../../const/app_assets.dart';
 
 class AudioPlayerService extends ChangeNotifier {
   late AudioPlayer _audioPlayer;
 
   RadioStreamModel _currentTrack = const RadioStreamModel(
     id: 'live_stream',
-    title: 'The Big Breakfast Club',
-    artist: 'DJ Big Shaq & MC Sparkle',
+    title: 'The Morning Rush',
+    artist: 'Big P & DJ Big Shaq',
     showName: '93.5 Area FM Live Stream',
-    coverUrl: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=600&q=80',
+    coverUrl: AppAssets.show4,
     streamUrl: AppConstants.defaultStreamUrl,
     isLive: true,
   );

@@ -9,10 +9,10 @@ class HomeRepository {
   Future<RadioStreamModel> getLiveStream() async {
     return const RadioStreamModel(
       id: 'live_main',
-      title: 'The Morning Hype Show',
-      artist: 'DJ Big Shaq & MC Sparkle',
+      title: 'The Morning Rush',
+      artist: 'Big P & DJ Big Shaq',
       showName: '93.5 Area FM Live',
-      coverUrl: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=600&q=80',
+      coverUrl: AppAssets.show4,
       streamUrl: 'https://stream.zeno.fm/f3wvbbqmdg8uv',
       isLive: true,
     );

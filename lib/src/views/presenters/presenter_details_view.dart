@@ -9,8 +9,11 @@ import '../../../common/widgets/mini_player.dart';
 import '../../../common/widgets/network_image.dart';
 import '../../../common/helpers/url_helper.dart';
 import '../../../const/app_colors.dart';
+import '../../../const/app_constants.dart';
 import '../../providers/presenter_provider.dart';
+import '../../providers/radio_player_provider.dart';
 import '../../models/presenter_model.dart';
+import '../../models/radio_stream_model.dart';
 
 class PresenterDetailsView extends ConsumerStatefulWidget {
   final String id;
@@ -588,7 +591,7 @@ class _StatCard extends StatelessWidget {
   }
 }
 
-class _PresenterShowTile extends StatelessWidget {
+class _PresenterShowTile extends ConsumerWidget {
   final PresenterModel presenter;
   final bool isDark;
 
@@ -598,7 +601,7 @@ class _PresenterShowTile extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -727,7 +730,19 @@ class _PresenterShowTile extends StatelessWidget {
 
           // Play button
           GestureDetector(
-            onTap: () => context.push('/radio_player'),
+            onTap: () {
+              final track = RadioStreamModel(
+                id: 'show_${presenter.id}',
+                title: presenter.showName,
+                artist: presenter.name,
+                showName: '93.5 Area FM Live',
+                coverUrl: presenter.image,
+                streamUrl: AppConstants.defaultStreamUrl,
+                isLive: presenter.isLive(),
+              );
+              ref.read(audioPlayerServiceProvider).playTrack(track);
+              context.push('/radio_player');
+            },
             child: Container(
               width: 42,
               height: 42,
