@@ -12,6 +12,7 @@ class AppAssets {
   static const String onboarding2Bg = 'assets/images/onboarding2_bg.png';
   static const String onboarding3Bg = 'assets/images/onboarding3_bg.png';
   static const String studioMicOnly = 'assets/images/studio_mic_only.png';
+  static const String studioMicTransparent = 'assets/images/studio_mic_transparent.png';
   static const String homeHeroMic = 'assets/images/home_hero_mic.jpeg';
   static const String djAceOnAir = 'assets/images/dj_ace_onair.png';
   static const String banner = 'assets/images/banner.png';

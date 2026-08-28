@@ -301,17 +301,31 @@ class _PresentersHeader extends StatelessWidget {
             top: topPadding + 5,
             bottom: 0,
             width: size.width * 0.48,
-            child: Image.asset(
-              AppAssets.studioMicOnly,
-              fit: BoxFit.contain,
-              alignment: Alignment.centerRight,
-              errorBuilder: (context, error, stackTrace) {
-                return Image.asset(
-                  'assets/images/studio_mic_header.png',
-                  fit: BoxFit.contain,
-                  alignment: Alignment.centerRight,
-                );
+            child: ShaderMask(
+              shaderCallback: (Rect bounds) {
+                return const LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Colors.transparent,
+                    Colors.white,
+                  ],
+                  stops: [0.0, 0.35],
+                ).createShader(bounds);
               },
+              blendMode: BlendMode.dstIn,
+              child: Image.asset(
+                AppAssets.studioMicTransparent,
+                fit: BoxFit.contain,
+                alignment: Alignment.centerRight,
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset(
+                    AppAssets.studioMicOnly,
+                    fit: BoxFit.contain,
+                    alignment: Alignment.centerRight,
+                  );
+                },
+              ),
             ),
           ),
 
