@@ -112,19 +112,19 @@ class _EventsViewState extends ConsumerState<EventsView> {
                             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                             decoration: BoxDecoration(
                               color: isSelected
-                                  ? const Color(0xFF005BC5)
-                                  : (isDark ? const Color(0xFF0B1B22) : const Color(0xFFE2E8F0)),
+                                  ? AppColors.primary
+                                  : (isDark ? AppColors.surfaceDark : const Color(0xFFE2E8F0)),
                               borderRadius: BorderRadius.circular(20),
                               border: Border.all(
                                 color: isSelected
-                                    ? const Color(0xFF0072FF)
-                                    : (isDark ? const Color(0xFF14303D) : const Color(0xFFCBD5E1)),
+                                    ? AppColors.primaryDark
+                                    : (isDark ? AppColors.borderDark : const Color(0xFFCBD5E1)),
                                 width: 1,
                               ),
                               boxShadow: isSelected
                                   ? [
                                       BoxShadow(
-                                        color: const Color(0xFF005BC5).withValues(alpha: 0.35),
+                                        color: AppColors.primary.withValues(alpha: 0.35),
                                         blurRadius: 8,
                                         offset: const Offset(0, 2),
                                       ),
@@ -175,7 +175,7 @@ class _EventsViewState extends ConsumerState<EventsView> {
                           child: Text(
                             'See All',
                             style: GoogleFonts.inter(
-                              color: const Color(0xFFFF5252),
+                              color: AppColors.primary,
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
                             ),
@@ -208,7 +208,7 @@ class _EventsViewState extends ConsumerState<EventsView> {
                         final event = filteredUpcoming[i];
                         final isBookmarked = _bookmarkedIds.contains(event.id);
                         return Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                           padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                           child: _UpcomingEventCard(
                             event: event,
                             isBookmarked: isBookmarked,
@@ -257,7 +257,7 @@ class _EventsViewState extends ConsumerState<EventsView> {
                             child: Text(
                               'See All',
                               style: GoogleFonts.inter(
-                                color: const Color(0xFFFF5252),
+                                color: AppColors.primary,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -326,15 +326,15 @@ class _EventsHeaderSection extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  const Color(0xFF040B0F).withValues(alpha: 0.85),
-                  const Color(0xFF071216).withValues(alpha: 0.6),
-                  const Color(0xFF071216),
+                  AppColors.backgroundDark.withValues(alpha: 0.85),
+                  AppColors.backgroundDark.withValues(alpha: 0.6),
+                  AppColors.backgroundDark,
                 ],
                 stops: const [0.0, 0.6, 1.0],
               ),
             ),
           ),
-          // Blue Accent Spotlight Radial Effect on Right
+          // Accent Spotlight Radial Effect on Right
           Positioned(
             right: -20,
             top: 20,
@@ -345,7 +345,7 @@ class _EventsHeaderSection extends StatelessWidget {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    const Color(0xFF0072FF).withValues(alpha: 0.3),
+                    AppColors.oceanBlue.withValues(alpha: 0.25),
                     Colors.transparent,
                   ],
                   radius: 0.8,
@@ -387,7 +387,7 @@ class _EventsHeaderSection extends StatelessWidget {
                       TextSpan(
                         text: '93.5 AREA FM',
                         style: GoogleFonts.inter(
-                          color: const Color(0xFF00A3FF),
+                          color: AppColors.primary,
                           fontSize: 12.5,
                           fontWeight: FontWeight.w800,
                         ),
@@ -424,10 +424,10 @@ class _SearchAndFilterBar extends StatelessWidget {
           child: Container(
             height: 46,
             decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF0B1B22) : const Color(0xFFF1F5F9),
+              color: isDark ? AppColors.surfaceDark : const Color(0xFFF1F5F9),
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: isDark ? const Color(0xFF14303D) : const Color(0xFFCBD5E1),
+                color: isDark ? AppColors.borderDark : const Color(0xFFCBD5E1),
               ),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -481,11 +481,11 @@ class _SearchAndFilterBar extends StatelessWidget {
           width: 46,
           height: 46,
           decoration: BoxDecoration(
-            color: const Color(0xFF005BC5),
+            color: AppColors.primary,
             borderRadius: BorderRadius.circular(14),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF005BC5).withValues(alpha: 0.3),
+                color: AppColors.primary.withValues(alpha: 0.3),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -522,10 +522,10 @@ class _UpcomingEventCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF0A1924) : Colors.white,
+        color: isDark ? AppColors.surfaceDark : Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isDark ? const Color(0xFF14303D) : const Color(0xFFE2E8F0),
+          color: isDark ? AppColors.borderDark : const Color(0xFFE2E8F0),
         ),
         boxShadow: isDark
             ? null
@@ -568,10 +568,10 @@ class _UpcomingEventCard extends StatelessWidget {
                     Container(
                       width: 44,
                       decoration: BoxDecoration(
-                        color: isDark ? const Color(0xFF0B1B22) : const Color(0xFFF1F5F9),
+                        color: isDark ? AppColors.surfaceDark2 : const Color(0xFFF1F5F9),
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: isDark ? const Color(0xFF163445) : const Color(0xFFCBD5E1),
+                          color: isDark ? AppColors.borderDark : const Color(0xFFCBD5E1),
                         ),
                       ),
                       child: Column(
@@ -581,7 +581,7 @@ class _UpcomingEventCard extends StatelessWidget {
                             width: double.infinity,
                             padding: const EdgeInsets.symmetric(vertical: 3),
                             decoration: const BoxDecoration(
-                              color: Color(0xFF005BC5),
+                              color: AppColors.primary,
                               borderRadius: BorderRadius.vertical(top: Radius.circular(7)),
                             ),
                             child: Text(
@@ -613,7 +613,7 @@ class _UpcomingEventCard extends StatelessWidget {
                               event.weekday.toUpperCase(),
                               textAlign: TextAlign.center,
                               style: GoogleFonts.inter(
-                                color: const Color(0xFFFF6D00),
+                                color: AppColors.primary,
                                 fontSize: 9,
                                 fontWeight: FontWeight.w800,
                               ),
@@ -663,7 +663,7 @@ class _UpcomingEventCard extends StatelessWidget {
                               ? Icons.bookmark_rounded
                               : Icons.bookmark_border_rounded,
                           color: isBookmarked
-                              ? const Color(0xFF0072FF)
+                              ? AppColors.primary
                               : (isDark ? Colors.white60 : AppColors.textSecondaryLight),
                           size: 20,
                         ),
@@ -678,7 +678,7 @@ class _UpcomingEventCard extends StatelessWidget {
                     const Icon(
                       Icons.location_on_outlined,
                       size: 13,
-                      color: Color(0xFF0072FF),
+                      color: AppColors.primary,
                     ),
                     const SizedBox(width: 4),
                     Expanded(
@@ -722,7 +722,7 @@ class _UpcomingEventCard extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                         minimumSize: Size.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        side: const BorderSide(color: Color(0xFF005BC5), width: 1.2),
+                        side: const BorderSide(color: AppColors.primary, width: 1.2),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -730,7 +730,7 @@ class _UpcomingEventCard extends StatelessWidget {
                       child: Text(
                         'VIEW DETAILS',
                         style: GoogleFonts.inter(
-                          color: const Color(0xFF0072FF),
+                          color: AppColors.primary,
                           fontSize: 10.5,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 0.5,
@@ -799,7 +799,7 @@ class _PastEventCard extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF005BC5),
+                  color: AppColors.primary,
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Column(
@@ -838,7 +838,7 @@ class _PastEventCard extends StatelessWidget {
                   fontSize: 12,
                   fontWeight: FontWeight.w900,
                   height: 1.1,
-                  shadows: [
+                  shadows: const [
                     Shadow(color: Colors.black, blurRadius: 4),
                   ],
                 ),

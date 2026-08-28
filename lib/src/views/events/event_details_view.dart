@@ -48,16 +48,29 @@ class EventDetailsView extends ConsumerWidget {
                 style: GoogleFonts.poppins(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
-                  color: Colors.white,
+                  color: isDark ? Colors.white : AppColors.textPrimaryLight,
                 ),
               ),
               const SizedBox(height: 14),
               Container(
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceDark,
+                  color: isDark ? AppColors.surfaceDark : Colors.white,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.borderDark.withValues(alpha: 0.5)),
+                  border: Border.all(
+                    color: isDark
+                        ? AppColors.borderDark.withValues(alpha: 0.5)
+                        : AppColors.borderLight,
+                  ),
+                  boxShadow: isDark
+                      ? null
+                      : [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.04),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
                 ),
                 child: Column(
                   children: [
@@ -68,7 +81,7 @@ class EventDetailsView extends ConsumerWidget {
                         Text(
                           '${event.date} • ${event.time}',
                           style: GoogleFonts.inter(
-                            color: Colors.white,
+                            color: isDark ? Colors.white : AppColors.textPrimaryLight,
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                           ),
@@ -84,7 +97,7 @@ class EventDetailsView extends ConsumerWidget {
                           child: Text(
                             event.location,
                             style: GoogleFonts.inter(
-                              color: AppColors.textSecondaryDark,
+                              color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
                               fontSize: 13,
                             ),
                           ),
@@ -100,7 +113,7 @@ class EventDetailsView extends ConsumerWidget {
                 style: GoogleFonts.poppins(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
-                  color: Colors.white,
+                  color: isDark ? Colors.white : AppColors.textPrimaryLight,
                 ),
               ),
               const SizedBox(height: 8),
@@ -109,7 +122,7 @@ class EventDetailsView extends ConsumerWidget {
                 style: GoogleFonts.inter(
                   fontSize: 14,
                   height: 1.6,
-                  color: AppColors.textSecondaryDark,
+                  color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
                 ),
               ),
               const SizedBox(height: 32),
