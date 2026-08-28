@@ -5,10 +5,16 @@ class PresenterModel {
   final String name;
   final String showName;
   final String timeSlot;
+  final String days;
   final String category;
   final bool isOnAir;
   final String image;
+  final String tagline;
+  final String about;
   final String bio;
+  final String birthday;
+  final String onAirSince;
+  final String location;
   final String instagram;
   final String twitter;
   final String facebook;
@@ -21,10 +27,16 @@ class PresenterModel {
     required this.name,
     required this.showName,
     this.timeSlot = '',
+    this.days = 'Weekdays',
     this.category = 'Presenters',
     this.isOnAir = false,
     required this.image,
+    this.tagline = '',
+    this.about = '',
     required this.bio,
+    this.birthday = 'May 20',
+    this.onAirSince = '2016',
+    this.location = 'Lagos, Nigeria',
     this.instagram = '',
     this.twitter = '',
     this.facebook = '',
@@ -39,10 +51,16 @@ class PresenterModel {
       name: json['name'] ?? '',
       showName: json['showName'] ?? '',
       timeSlot: json['timeSlot'] ?? '',
+      days: json['days'] ?? 'Weekdays',
       category: json['category'] ?? 'Presenters',
       isOnAir: json['isOnAir'] ?? false,
       image: json['image'] ?? '',
+      tagline: json['tagline'] ?? '',
+      about: json['about'] ?? '',
       bio: json['bio'] ?? '',
+      birthday: json['birthday'] ?? 'May 20',
+      onAirSince: json['onAirSince'] ?? '2016',
+      location: json['location'] ?? 'Lagos, Nigeria',
       instagram: json['instagram'] ?? '',
       twitter: json['twitter'] ?? '',
       facebook: json['facebook'] ?? '',
@@ -56,10 +74,16 @@ class PresenterModel {
       'name': name,
       'showName': showName,
       'timeSlot': timeSlot,
+      'days': days,
       'category': category,
       'isOnAir': isOnAir,
       'image': image,
+      'tagline': tagline,
+      'about': about,
       'bio': bio,
+      'birthday': birthday,
+      'onAirSince': onAirSince,
+      'location': location,
       'instagram': instagram,
       'twitter': twitter,
       'facebook': facebook,
