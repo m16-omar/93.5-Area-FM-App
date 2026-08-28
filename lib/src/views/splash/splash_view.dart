@@ -47,103 +47,140 @@ class _SplashViewState extends ConsumerState<SplashView>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Background graphic artwork
-          Positioned(
-            right: -20,
-            top: 0,
-            width: size.width * 0.85,
-            height: size.height * 0.55,
-            child: Image.asset(
+          // 1. Studio Background Artwork
+          Image.asset(
+            AppAssets.splashBg,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) => Image.asset(
               AppAssets.studioMicOnly,
               fit: BoxFit.cover,
             ),
           ),
-          // Dark gradient overlays
+
+          // 2. Subtle Dark Gradient Overlay
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black.withValues(alpha: 0.4),
-                  Colors.black.withValues(alpha: 0.8),
-                  Colors.black,
+                  Colors.black.withValues(alpha: 0.25),
+                  Colors.transparent,
+                  Colors.black.withValues(alpha: 0.65),
+                  Colors.black.withValues(alpha: 0.95),
                 ],
-                stops: const [0.0, 0.45, 0.85],
+                stops: const [0.0, 0.35, 0.75, 1.0],
               ),
             ),
           ),
-          // Content
+
+          // 3. Content
           SafeArea(
             child: Column(
               children: [
-                const Spacer(),
+                const Spacer(flex: 3),
+
                 // Branded Image Logo
                 _SplashLogo(),
-                const SizedBox(height: 16),
-                // Tagline
+
+                const SizedBox(height: 18),
+
+                // Tagline: "Where Music Lives & the Beat Never Stops"
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: 'One Voice, ',
+                        text: 'Where ',
                         style: GoogleFonts.inter(
                           color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.3,
                         ),
                       ),
                       TextSpan(
-                        text: 'Every Area',
+                        text: 'Music Lives\n',
                         style: GoogleFonts.inter(
-                          color: AppColors.primary,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFFFF5500),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 0.3,
+                        ),
+                      ),
+                      TextSpan(
+                        text: '& the Beat Never Stops',
+                        style: GoogleFonts.inter(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.3,
                         ),
                       ),
                     ],
                   ),
                 ),
-                const Spacer(),
-                // Animated progress bar
+
+                const Spacer(flex: 4),
+
+                // Loading Text (Bright, crisp white and on top of bar)
+                Text(
+                  'LOADING...',
+                  style: GoogleFonts.inter(
+                    color: Colors.white,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 2.0,
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                // Animated Progress Bar (Thick, rounded, bright orange indicator with dark track)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 48),
-                  child: Column(
-                    children: [
-                      AnimatedBuilder(
-                        animation: _progressAnimation,
-                        builder: (context, child) {
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(4),
-                            child: LinearProgressIndicator(
-                              value: _progressAnimation.value,
-                              backgroundColor: Colors.white12,
-                              color: AppColors.primary,
-                              minHeight: 4,
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        'LOADING...',
-                        style: GoogleFonts.bebasNeue(
-                          color: Colors.white60,
-                          fontSize: 14,
-                          letterSpacing: 3,
+                  padding: const EdgeInsets.symmetric(horizontal: 56),
+                  child: AnimatedBuilder(
+                    animation: _progressAnimation,
+                    builder: (context, child) {
+                      return Container(
+                        height: 6.5,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF1E293B).withValues(alpha: 0.9),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      ),
-                    ],
+                        child: FractionallySizedBox(
+                          alignment: Alignment.centerLeft,
+                          widthFactor: _progressAnimation.value.clamp(0.0, 1.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [
+                                  Color(0xFFFF4500),
+                                  Color(0xFFFF6A00),
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0xFFFF5500).withValues(alpha: 0.4),
+                                  blurRadius: 6,
+                                  offset: const Offset(0, 1),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
+
                 const SizedBox(height: 48),
               ],
             ),
@@ -159,7 +196,7 @@ class _SplashLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.asset(
       AppAssets.logo,
-      height: 70,
+      height: 85,
       fit: BoxFit.contain,
       errorBuilder: (context, error, stackTrace) => RichText(
         textAlign: TextAlign.center,
@@ -167,15 +204,30 @@ class _SplashLogo extends StatelessWidget {
           children: [
             TextSpan(
               text: '93.5\n',
-              style: GoogleFonts.bebasNeue(fontSize: 32, color: Colors.white, letterSpacing: 4, height: 1.0),
+              style: GoogleFonts.bebasNeue(
+                fontSize: 34,
+                color: Colors.white,
+                letterSpacing: 4,
+                height: 1.0,
+              ),
             ),
             TextSpan(
               text: 'AREA ',
-              style: GoogleFonts.bebasNeue(fontSize: 54, color: AppColors.primary, letterSpacing: 4, height: 0.95),
+              style: GoogleFonts.bebasNeue(
+                fontSize: 54,
+                color: AppColors.primary,
+                letterSpacing: 4,
+                height: 0.95,
+              ),
             ),
             TextSpan(
               text: 'FM',
-              style: GoogleFonts.bebasNeue(fontSize: 54, color: Colors.white, letterSpacing: 4, height: 0.95),
+              style: GoogleFonts.bebasNeue(
+                fontSize: 54,
+                color: Colors.white,
+                letterSpacing: 4,
+                height: 0.95,
+              ),
             ),
           ],
         ),
