@@ -145,35 +145,26 @@ class _SplashViewState extends ConsumerState<SplashView>
 
                 const SizedBox(height: 18),
 
-                // Tagline
+                // Tagline: "One Voice, Every Area"
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Where ',
+                        text: 'One Voice, ',
                         style: GoogleFonts.inter(
                           color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
                           letterSpacing: 0.3,
                         ),
                       ),
                       TextSpan(
-                        text: 'Music Lives\n',
+                        text: 'Every Area',
                         style: GoogleFonts.inter(
                           color: const Color(0xFFFF5500),
-                          fontSize: 15,
+                          fontSize: 16,
                           fontWeight: FontWeight.w800,
-                          letterSpacing: 0.3,
-                        ),
-                      ),
-                      TextSpan(
-                        text: '& the Beat Never Stops',
-                        style: GoogleFonts.inter(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
                           letterSpacing: 0.3,
                         ),
                       ),
