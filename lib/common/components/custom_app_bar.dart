@@ -63,7 +63,7 @@ class AreaFMAppBar extends ConsumerWidget implements PreferredSizeWidget {
         ),
         leading: showBack
             ? IconButton(
-                icon: Icon(Icons.arrow_back_ios, color: iconColor, size: 22),
+                icon: Icon(Icons.arrow_back, color: iconColor, size: 24),
                 onPressed: () {
                   if (Navigator.of(context).canPop()) {
                     Navigator.of(context).pop();

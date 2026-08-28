@@ -186,41 +186,41 @@ class _ChartsHeader extends StatelessWidget {
               ),
             ),
           ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'CHARTS',
-                    style: GoogleFonts.bebasNeue(
-                      fontSize: 42,
-                      color: Colors.white,
-                      letterSpacing: 2,
-                    ),
+          Positioned(
+            left: 20,
+            right: 20,
+            bottom: 12,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'CHARTS',
+                  style: GoogleFonts.bebasNeue(
+                    fontSize: 42,
+                    color: Colors.white,
+                    letterSpacing: 2,
                   ),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'The hottest songs on ',
-                          style: GoogleFonts.inter(color: Colors.white70, fontSize: 13),
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'The hottest songs on ',
+                        style: GoogleFonts.inter(color: Colors.white70, fontSize: 13),
+                      ),
+                      TextSpan(
+                        text: '93.5 AREA FM.',
+                        style: GoogleFonts.inter(
+                          color: AppColors.primary,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
                         ),
-                        TextSpan(
-                          text: '93.5 AREA FM.',
-                          style: GoogleFonts.inter(
-                            color: AppColors.primary,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],

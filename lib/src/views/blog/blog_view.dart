@@ -122,36 +122,94 @@ class _BlogHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: size.height * 0.26,
+      height: size.height * 0.28,
       child: Stack(
         fit: StackFit.expand,
         children: [
           Positioned(
-            right: -20, top: 0, bottom: 0,
+            right: -20,
+            top: 0,
+            bottom: 0,
             child: Image.network(
               'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=400&q=80',
-              fit: BoxFit.cover, width: size.width * 0.55,
+              fit: BoxFit.cover,
+              width: size.width * 0.55,
             ),
           ),
-          Container(decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [AppColors.backgroundDark, AppColors.backgroundDark.withValues(alpha: 0.85), Colors.transparent], stops: const [0.0, 0.5, 1.0]))),
-          Container(decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [AppColors.backgroundDark, Colors.transparent, AppColors.backgroundDark], stops: const [0.0, 0.4, 1.0]))),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text('NEWS &', style: GoogleFonts.bebasNeue(fontSize: 40, color: Colors.white, letterSpacing: 2)),
-                  Text('BLOG', style: GoogleFonts.bebasNeue(fontSize: 40, color: AppColors.primary, letterSpacing: 2, height: 0.85)),
-                  RichText(
-                    text: TextSpan(children: [
-                      TextSpan(text: 'Stories from ', style: GoogleFonts.inter(color: Colors.white70, fontSize: 13)),
-                      TextSpan(text: '93.5 AREA FM.', style: GoogleFonts.inter(color: AppColors.primary, fontSize: 13, fontWeight: FontWeight.w600)),
-                    ]),
-                  ),
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  AppColors.backgroundDark,
+                  AppColors.backgroundDark.withValues(alpha: 0.85),
+                  Colors.transparent,
                 ],
+                stops: const [0.0, 0.5, 1.0],
               ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  AppColors.backgroundDark,
+                  Colors.transparent,
+                  AppColors.backgroundDark,
+                ],
+                stops: const [0.0, 0.4, 1.0],
+              ),
+            ),
+          ),
+          Positioned(
+            left: 20,
+            right: 20,
+            bottom: 12,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'NEWS &',
+                  style: GoogleFonts.bebasNeue(
+                    fontSize: 38,
+                    color: Colors.white,
+                    letterSpacing: 2,
+                    height: 1.0,
+                  ),
+                ),
+                Text(
+                  'BLOG',
+                  style: GoogleFonts.bebasNeue(
+                    fontSize: 40,
+                    color: AppColors.primary,
+                    letterSpacing: 2,
+                    height: 0.9,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Stories from ',
+                        style: GoogleFonts.inter(color: Colors.white70, fontSize: 13),
+                      ),
+                      TextSpan(
+                        text: '93.5 AREA FM.',
+                        style: GoogleFonts.inter(
+                          color: AppColors.primary,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ],
