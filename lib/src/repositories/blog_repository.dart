@@ -49,9 +49,15 @@ class BlogRepository {
             ? response.data
             : (response.data['results'] is List ? response.data['results'] : []);
         if (data.isNotEmpty) {
-          return data
+          final list = data
               .map((item) => PostModel.fromJson(item as Map<String, dynamic>))
               .toList();
+          list.sort((a, b) {
+            final idA = int.tryParse(a.id) ?? 0;
+            final idB = int.tryParse(b.id) ?? 0;
+            return idB.compareTo(idA);
+          });
+          return list;
         }
       }
     } catch (_) {
@@ -74,10 +80,10 @@ class BlogRepository {
 
   static const List<String> defaultCategories = [
     'All',
-    'Music',
-    'Entertainment',
-    'Technology',
     'Politics',
+    'Technology',
+    'Entertainment',
+    'Music',
   ];
 
   Future<List<String>> getCategories() async {
@@ -88,7 +94,15 @@ class BlogRepository {
             ? response.data
             : (response.data['results'] is List ? response.data['results'] : []);
         if (data.isNotEmpty) {
-          final cats = data
+          final sortedData = List<Map<String, dynamic>>.from(
+            data.whereType<Map<String, dynamic>>(),
+          )..sort((a, b) {
+              final idA = int.tryParse(a['id']?.toString() ?? '0') ?? 0;
+              final idB = int.tryParse(b['id']?.toString() ?? '0') ?? 0;
+              return idB.compareTo(idA);
+            });
+
+          final cats = sortedData
               .map((item) => (item['name'] ?? '').toString().trim())
               .where((s) => s.isNotEmpty)
               .toSet()

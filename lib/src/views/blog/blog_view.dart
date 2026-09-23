@@ -27,7 +27,7 @@ class _BlogViewState extends ConsumerState<BlogView> {
   Widget build(BuildContext context) {
     final postsAsync = ref.watch(blogPostsProvider);
     final categoriesAsync = ref.watch(blogCategoriesProvider);
-    final categories = categoriesAsync.asData?.value ?? BlogRepository.defaultCategories;
+    final rawCategories = categoriesAsync.asData?.value ?? BlogRepository.defaultCategories;
     final size = MediaQuery.of(context).size;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -47,9 +47,35 @@ class _BlogViewState extends ConsumerState<BlogView> {
           },
         ),
         data: (posts) {
+          // Collect and merge all available categories (latest first)
+          final Set<String> categorySet = {};
+          for (final c in rawCategories) {
+            if (c != 'All' && c.trim().isNotEmpty) {
+              categorySet.add(c.trim());
+            }
+          }
+          for (final p in posts) {
+            if (p.category.trim().isNotEmpty) {
+              categorySet.add(p.category.trim());
+            }
+          }
+          final categories = ['All', ...categorySet];
+
+          // Sort posts latest first
+          final sortedPosts = List<PostModel>.from(posts)
+            ..sort((a, b) {
+              final idA = int.tryParse(a.id) ?? 0;
+              final idB = int.tryParse(b.id) ?? 0;
+              return idB.compareTo(idA);
+            });
+
           final filtered = _selectedCategory == 'All'
-              ? posts
-              : posts.where((p) => p.category.toLowerCase().trim() == _selectedCategory.toLowerCase().trim()).toList();
+              ? sortedPosts
+              : sortedPosts
+                  .where((p) =>
+                      p.category.toLowerCase().trim() ==
+                      _selectedCategory.toLowerCase().trim())
+                  .toList();
 
           return RefreshIndicator(
             color: AppColors.primary,
@@ -75,7 +101,50 @@ class _BlogViewState extends ConsumerState<BlogView> {
                     ),
                   ),
                 ),
-                if (filtered.isNotEmpty)
+                if (filtered.isEmpty)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 20),
+                      child: Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.newspaper_rounded,
+                              size: 44,
+                              color: AppColors.textMutedDark,
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              'No stories in "$_selectedCategory" yet',
+                              style: GoogleFonts.poppins(
+                                color: isDark ? Colors.white70 : AppColors.textSecondaryLight,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            OutlinedButton(
+                              onPressed: () => setState(() => _selectedCategory = 'All'),
+                              style: OutlinedButton.styleFrom(
+                                side: const BorderSide(color: AppColors.primary),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                              ),
+                              child: Text(
+                                'View All Stories',
+                                style: GoogleFonts.inter(
+                                  color: AppColors.primary,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                else ...[
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -85,36 +154,57 @@ class _BlogViewState extends ConsumerState<BlogView> {
                       ),
                     ),
                   ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Latest News', style: GoogleFonts.poppins(color: isDark ? Colors.white : AppColors.textPrimaryLight, fontSize: 16, fontWeight: FontWeight.w700)),
-                        Text('See All', style: GoogleFonts.inter(color: AppColors.primary, fontSize: 13, fontWeight: FontWeight.w600)),
-                      ],
-                    ),
-                  ),
-                ),
-                // Post list
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, i) {
-                      if (i == 0 && filtered.isNotEmpty) return const SizedBox.shrink();
-                      final post = filtered[i];
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
-                        child: _PostTile(
-                          post: post,
-                          onTap: () => context.push('/post_details/${post.id}'),
+                  if (filtered.length > 1) ...[
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              _selectedCategory == 'All'
+                                  ? 'Latest News'
+                                  : 'More in $_selectedCategory',
+                              style: GoogleFonts.poppins(
+                                color: isDark ? Colors.white : AppColors.textPrimaryLight,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            if (_selectedCategory != 'All')
+                              GestureDetector(
+                                onTap: () => setState(() => _selectedCategory = 'All'),
+                                child: Text(
+                                  'See All',
+                                  style: GoogleFonts.inter(
+                                    color: AppColors.primary,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
-                      );
-                    },
-                    childCount: filtered.length,
-                  ),
-                ),
-                const SliverToBoxAdapter(child: SizedBox(height: 20)),
+                      ),
+                    ),
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, i) {
+                          final post = filtered[i + 1];
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+                            child: _PostTile(
+                              post: post,
+                              onTap: () => context.push('/post_details/${post.id}'),
+                            ),
+                          );
+                        },
+                        childCount: filtered.length - 1,
+                      ),
+                    ),
+                  ],
+                ],
+                const SliverToBoxAdapter(child: SizedBox(height: 24)),
               ],
             ),
           );
