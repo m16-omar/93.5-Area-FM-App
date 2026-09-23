@@ -115,6 +115,8 @@ class AppFilterChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return SizedBox(
       height: 36,
       child: ListView.separated(
@@ -130,16 +132,39 @@ class AppFilterChips extends StatelessWidget {
               duration: const Duration(milliseconds: 200),
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
               decoration: BoxDecoration(
-                color: isSelected ? AppColors.primary : const Color(0xFF0A1C24),
+                color: isSelected
+                    ? AppColors.primary
+                    : (isDark ? const Color(0xFF0A1C24) : Colors.white),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: isSelected ? AppColors.primary : const Color(0xFF14303D),
+                  color: isSelected
+                      ? AppColors.primary
+                      : (isDark ? const Color(0xFF14303D) : const Color(0xFFE2E8F0)),
                 ),
+                boxShadow: isSelected
+                    ? [
+                        BoxShadow(
+                          color: AppColors.primary.withValues(alpha: 0.35),
+                          blurRadius: 5,
+                          offset: const Offset(0, 2),
+                        )
+                      ]
+                    : (isDark
+                        ? null
+                        : [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.03),
+                              blurRadius: 4,
+                              offset: const Offset(0, 1),
+                            )
+                          ]),
               ),
               child: Text(
                 f,
                 style: GoogleFonts.inter(
-                  color: Colors.white,
+                  color: isSelected
+                      ? Colors.white
+                      : (isDark ? Colors.white : AppColors.textPrimaryLight),
                   fontSize: 12,
                   fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                 ),

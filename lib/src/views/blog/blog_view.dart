@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../const/app_colors.dart';
+import '../../../const/app_assets.dart';
 import '../../../common/components/custom_app_bar.dart';
 import '../../../common/widgets/app_loader.dart';
 import '../../../common/widgets/app_error.dart';
@@ -29,10 +30,11 @@ class _BlogViewState extends ConsumerState<BlogView> {
     final categoriesAsync = ref.watch(blogCategoriesProvider);
     final rawCategories = categoriesAsync.asData?.value ?? BlogRepository.defaultCategories;
     final size = MediaQuery.of(context).size;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
-      extendBodyBehindAppBar: true,
+      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+      extendBodyBehindAppBar: false,
       drawer: const AppDrawer(),
       appBar: const AreaFMAppBar(notificationCount: 3),
       body: postsAsync.when(
@@ -108,16 +110,16 @@ class _BlogViewState extends ConsumerState<BlogView> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.newspaper_rounded,
                               size: 44,
-                              color: AppColors.textMutedDark,
+                              color: isDark ? AppColors.textMutedDark : AppColors.textSecondaryLight,
                             ),
                             const SizedBox(height: 12),
                             Text(
                               'No stories in "$_selectedCategory" yet',
                               style: GoogleFonts.poppins(
-                                color: Colors.white70,
+                                color: isDark ? Colors.white70 : AppColors.textSecondaryLight,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -165,7 +167,7 @@ class _BlogViewState extends ConsumerState<BlogView> {
                                   ? 'Latest News'
                                   : 'More in $_selectedCategory',
                               style: GoogleFonts.poppins(
-                                color: Colors.white,
+                                color: isDark ? Colors.white : AppColors.textPrimaryLight,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -219,98 +221,118 @@ class _BlogHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: size.height * 0.28,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Positioned(
-            right: -20,
-            top: 0,
-            bottom: 0,
-            child: Image.network(
-              'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=400&q=80',
-              fit: BoxFit.cover,
-              width: size.width * 0.55,
-            ),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+      child: Container(
+        height: 140,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          gradient: const LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [
+              Color(0xFF04181E),
+              Color(0xFF085264),
+              Color(0xFF0B6B82),
+            ],
           ),
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [
-                  AppColors.backgroundDark,
-                  AppColors.backgroundDark.withValues(alpha: 0.85),
-                  Colors.transparent,
-                ],
-                stops: const [0.0, 0.5, 1.0],
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF085264).withValues(alpha: 0.4),
+              blurRadius: 16,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              // Studio Mic Artwork with smooth fade mask on left edge
+              Positioned(
+                right: 0,
+                top: -10,
+                bottom: -10,
+                width: size.width * 0.55,
+                child: ShaderMask(
+                  shaderCallback: (rect) {
+                    return const LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [Colors.transparent, Colors.white],
+                      stops: [0.0, 0.35],
+                    ).createShader(rect);
+                  },
+                  blendMode: BlendMode.dstIn,
+                  child: Image.asset(
+                    AppAssets.studioMicOnly,
+                    fit: BoxFit.cover,
+                    alignment: Alignment.centerRight,
+                    errorBuilder: (context, error, stackTrace) => const SizedBox(),
+                  ),
+                ),
               ),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  AppColors.backgroundDark,
-                  Colors.transparent,
-                  AppColors.backgroundDark,
-                ],
-                stops: const [0.0, 0.4, 1.0],
+              // Smooth Left Gradient for crisp text readability
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                        const Color(0xFF085264),
+                        const Color(0xFF085264).withValues(alpha: 0.7),
+                        Colors.transparent,
+                      ],
+                      stops: const [0.0, 0.45, 0.85],
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-          Positioned(
-            left: 20,
-            right: 20,
-            bottom: 12,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'NEWS &',
-                  style: GoogleFonts.bebasNeue(
-                    fontSize: 38,
-                    color: Colors.white,
-                    letterSpacing: 2,
-                    height: 1.0,
-                  ),
-                ),
-                Text(
-                  'BLOG',
-                  style: GoogleFonts.bebasNeue(
-                    fontSize: 40,
-                    color: AppColors.primary,
-                    letterSpacing: 2,
-                    height: 0.9,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Stories from ',
-                        style: GoogleFonts.inter(color: Colors.white70, fontSize: 13),
+              // NEWS & BLOG Header Content Column
+              Padding(
+                padding: const EdgeInsets.all(18),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'NEWS & BLOG',
+                      style: GoogleFonts.outfit(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w900,
+                        fontStyle: FontStyle.italic,
+                        color: Colors.white,
+                        letterSpacing: 1.5,
+                        height: 1.0,
                       ),
-                      TextSpan(
-                        text: '93.5 AREA FM.',
-                        style: GoogleFonts.inter(
-                          color: AppColors.primary,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                        ),
+                    ),
+                    const SizedBox(height: 6),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Stories & updates from\n',
+                            style: GoogleFonts.inter(color: Colors.white70, fontSize: 12.5),
+                          ),
+                          TextSpan(
+                            text: '93.5 AREA FM.',
+                            style: GoogleFonts.inter(
+                              color: AppColors.primary,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -327,7 +349,16 @@ class _FeaturedPostCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 210,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.12),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -391,19 +422,42 @@ class _PostTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.surfaceDark,
+          color: isDark ? AppColors.surfaceDark : Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.borderDark.withValues(alpha: 0.5)),
+          border: Border.all(
+            color: isDark
+                ? AppColors.borderDark.withValues(alpha: 0.5)
+                : const Color(0xFFE2E8F0),
+          ),
+          boxShadow: isDark
+              ? null
+              : [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.04),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
         ),
         child: Row(
           children: [
             ClipRRect(
-              borderRadius: const BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)),
-              child: CustomNetworkImage(imageUrl: post.image, width: 90, height: 90, fit: BoxFit.cover),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(12),
+                bottomLeft: Radius.circular(12),
+              ),
+              child: CustomNetworkImage(
+                imageUrl: post.image,
+                width: 90,
+                height: 90,
+                fit: BoxFit.cover,
+              ),
             ),
             Expanded(
               child: Padding(
@@ -416,29 +470,78 @@ class _PostTile extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: AppColors.primary.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(4),
-                        border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+                        border: Border.all(
+                          color: AppColors.primary.withValues(alpha: 0.3),
+                        ),
                       ),
-                      child: Text(post.category, style: GoogleFonts.inter(color: AppColors.primary, fontSize: 9, fontWeight: FontWeight.w700)),
+                      child: Text(
+                        post.category,
+                        style: GoogleFonts.inter(
+                          color: AppColors.primary,
+                          fontSize: 9,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 5),
-                    Text(post.title, style: GoogleFonts.poppins(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600, height: 1.3), maxLines: 2, overflow: TextOverflow.ellipsis),
+                    Text(
+                      post.title,
+                      style: GoogleFonts.poppins(
+                        color: isDark ? Colors.white : AppColors.textPrimaryLight,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        height: 1.3,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     const SizedBox(height: 5),
                     Row(
                       children: [
-                        Text(post.author, style: GoogleFonts.inter(color: AppColors.textSecondaryDark, fontSize: 10)),
+                        Text(
+                          post.author,
+                          style: GoogleFonts.inter(
+                            color: isDark
+                                ? AppColors.textSecondaryDark
+                                : AppColors.textSecondaryLight,
+                            fontSize: 10,
+                          ),
+                        ),
                         const SizedBox(width: 6),
-                        Text('·', style: GoogleFonts.inter(color: AppColors.textMutedDark, fontSize: 10)),
+                        Text(
+                          '·',
+                          style: GoogleFonts.inter(
+                            color: isDark
+                                ? AppColors.textMutedDark
+                                : AppColors.textSecondaryLight,
+                            fontSize: 10,
+                          ),
+                        ),
                         const SizedBox(width: 6),
-                        Text(post.date, style: GoogleFonts.inter(color: AppColors.textMutedDark, fontSize: 10)),
+                        Text(
+                          post.date,
+                          style: GoogleFonts.inter(
+                            color: isDark
+                                ? AppColors.textMutedDark
+                                : AppColors.textSecondaryLight,
+                            fontSize: 10,
+                          ),
+                        ),
                       ],
                     ),
                   ],
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(right: 10),
-              child: Icon(Icons.bookmark_outline_rounded, color: AppColors.textMutedDark, size: 18),
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: Icon(
+                Icons.bookmark_outline_rounded,
+                color: isDark
+                    ? AppColors.textMutedDark
+                    : AppColors.textSecondaryLight,
+                size: 18,
+              ),
             ),
           ],
         ),
