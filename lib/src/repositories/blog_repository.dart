@@ -71,4 +71,33 @@ class BlogRepository {
     final posts = await getPosts();
     return posts.firstWhere((p) => p.id == id, orElse: () => posts.first);
   }
+
+  static const List<String> defaultCategories = [
+    'All',
+    'Music',
+    'Entertainment',
+    'Technology',
+    'Politics',
+  ];
+
+  Future<List<String>> getCategories() async {
+    try {
+      final response = await _apiService.get('/news-categories');
+      if (response.statusCode == 200 && response.data != null) {
+        final List<dynamic> data = response.data is List
+            ? response.data
+            : (response.data['results'] is List ? response.data['results'] : []);
+        if (data.isNotEmpty) {
+          final cats = data
+              .map((item) => (item['name'] ?? '').toString().trim())
+              .where((s) => s.isNotEmpty)
+              .toSet()
+              .toList();
+          return ['All', ...cats];
+        }
+      }
+    } catch (_) {}
+
+    return defaultCategories;
+  }
 }

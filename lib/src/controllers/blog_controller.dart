@@ -11,3 +11,7 @@ final blogPostsProvider = FutureProvider<List<PostModel>>((ref) async {
 final postDetailsProvider = FutureProvider.family<PostModel, String>((ref, id) async {
   return await ref.watch(blogRepositoryProvider).getPostById(id);
 });
+
+final blogCategoriesProvider = FutureProvider<List<String>>((ref) async {
+  return await ref.watch(blogRepositoryProvider).getCategories();
+});

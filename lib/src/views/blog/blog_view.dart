@@ -9,6 +9,7 @@ import '../../../common/widgets/app_error.dart';
 import '../../../common/widgets/network_image.dart';
 import '../../../common/widgets/app_search_filter.dart';
 import '../../providers/blog_provider.dart';
+import '../../repositories/blog_repository.dart';
 import '../../models/post_model.dart';
 import '../drawer/app_drawer.dart';
 
@@ -21,11 +22,12 @@ class BlogView extends ConsumerStatefulWidget {
 
 class _BlogViewState extends ConsumerState<BlogView> {
   String _selectedCategory = 'All';
-  final _categories = ['All', 'Station News', 'Events', 'Interviews', 'Music'];
 
   @override
   Widget build(BuildContext context) {
     final postsAsync = ref.watch(blogPostsProvider);
+    final categoriesAsync = ref.watch(blogCategoriesProvider);
+    final categories = categoriesAsync.asData?.value ?? BlogRepository.defaultCategories;
     final size = MediaQuery.of(context).size;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -39,18 +41,25 @@ class _BlogViewState extends ConsumerState<BlogView> {
         loading: () => const AppLoader(message: 'Loading news...'),
         error: (err, stack) => AppErrorWidget(
           message: err.toString(),
-          onRetry: () => ref.refresh(blogPostsProvider),
+          onRetry: () {
+            ref.invalidate(blogPostsProvider);
+            ref.invalidate(blogCategoriesProvider);
+          },
         ),
         data: (posts) {
           final filtered = _selectedCategory == 'All'
               ? posts
-              : posts.where((p) => p.category.toLowerCase() == _selectedCategory.toLowerCase()).toList();
+              : posts.where((p) => p.category.toLowerCase().trim() == _selectedCategory.toLowerCase().trim()).toList();
 
           return RefreshIndicator(
             color: AppColors.primary,
             onRefresh: () async {
               ref.invalidate(blogPostsProvider);
-              await ref.read(blogPostsProvider.future);
+              ref.invalidate(blogCategoriesProvider);
+              await Future.wait([
+                ref.read(blogPostsProvider.future),
+                ref.read(blogCategoriesProvider.future),
+              ]);
             },
             child: CustomScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -60,7 +69,7 @@ class _BlogViewState extends ConsumerState<BlogView> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                     child: AppFilterChips(
-                      filters: _categories,
+                      filters: categories,
                       selected: _selectedCategory,
                       onChanged: (v) => setState(() => _selectedCategory = v),
                     ),
