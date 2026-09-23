@@ -22,7 +22,13 @@ class ChartsView extends ConsumerStatefulWidget {
 
 class _ChartsViewState extends ConsumerState<ChartsView> {
   String _selectedCategory = 'TOP 10';
-  final _categories = ['TOP 10', 'Nigerian Top 10', 'Afrobeats', 'Hip Hop', 'Gospel'];
+  final _categories = [
+    'TOP 10',
+    'Nigerian Top 10',
+    'Afrobeats',
+    'Hip Hop',
+    'Gospel',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +37,9 @@ class _ChartsViewState extends ConsumerState<ChartsView> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+      backgroundColor: isDark
+          ? AppColors.backgroundDark
+          : AppColors.backgroundLight,
       extendBodyBehindAppBar: true,
       drawer: const AppDrawer(),
       appBar: const AreaFMAppBar(notificationCount: 3),
@@ -71,12 +79,20 @@ class _ChartsViewState extends ConsumerState<ChartsView> {
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.update_rounded, size: 16, color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight),
+                          Icon(
+                            Icons.update_rounded,
+                            size: 16,
+                            color: isDark
+                                ? AppColors.textSecondaryDark
+                                : AppColors.textSecondaryLight,
+                          ),
                           const SizedBox(width: 6),
                           Text(
                             'Updated 2 hours ago',
                             style: GoogleFonts.inter(
-                              color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                              color: isDark
+                                  ? AppColors.textSecondaryDark
+                                  : AppColors.textSecondaryLight,
                               fontSize: 12,
                             ),
                           ),
@@ -84,7 +100,11 @@ class _ChartsViewState extends ConsumerState<ChartsView> {
                       ),
                       Row(
                         children: [
-                          const Icon(Icons.share_outlined, size: 16, color: AppColors.primary),
+                          const Icon(
+                            Icons.share_outlined,
+                            size: 16,
+                            color: AppColors.primary,
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             'SHARE',
@@ -103,30 +123,29 @@ class _ChartsViewState extends ConsumerState<ChartsView> {
               ),
               // Chart list
               SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, i) {
-                    final track = charts[i];
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                      child: _ChartTile(
-                        track: track,
-                        onPlay: () {
-                          final radioStream = RadioStreamModel(
-                            id: 'chart_${track.rank}',
-                            title: track.title,
-                            artist: track.artist,
-                            showName: 'Top Chart #${track.rank}',
-                            coverUrl: track.albumCover,
-                            streamUrl: track.audioUrl,
-                            isLive: false,
-                          );
-                          ref.read(audioPlayerServiceProvider).playTrack(radioStream);
-                        },
-                      ),
-                    );
-                  },
-                  childCount: charts.length,
-                ),
+                delegate: SliverChildBuilderDelegate((context, i) {
+                  final track = charts[i];
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                    child: _ChartTile(
+                      track: track,
+                      onPlay: () {
+                        final radioStream = RadioStreamModel(
+                          id: 'chart_${track.rank}',
+                          title: track.title,
+                          artist: track.artist,
+                          showName: 'Top Chart #${track.rank}',
+                          coverUrl: track.albumCover,
+                          streamUrl: track.audioUrl,
+                          isLive: false,
+                        );
+                        ref
+                            .read(audioPlayerServiceProvider)
+                            .playTrack(radioStream);
+                      },
+                    ),
+                  );
+                }, childCount: charts.length),
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 20)),
             ],
@@ -207,7 +226,10 @@ class _ChartsHeader extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: 'The hottest songs on ',
-                        style: GoogleFonts.inter(color: Colors.white70, fontSize: 13),
+                        style: GoogleFonts.inter(
+                          color: Colors.white70,
+                          fontSize: 13,
+                        ),
                       ),
                       TextSpan(
                         text: '93.5 AREA FM.',
@@ -275,14 +297,14 @@ class _ChartTile extends StatelessWidget {
                       change > 0
                           ? Icons.arrow_upward_rounded
                           : change < 0
-                              ? Icons.arrow_downward_rounded
-                              : Icons.remove_rounded,
+                          ? Icons.arrow_downward_rounded
+                          : Icons.remove_rounded,
                       size: 12,
                       color: change > 0
                           ? AppColors.success
                           : change < 0
-                              ? AppColors.error
-                              : AppColors.textMutedDark,
+                          ? AppColors.error
+                          : AppColors.textMutedDark,
                     ),
                     Text(
                       change != 0 ? '${change.abs()}' : '-',
@@ -291,8 +313,8 @@ class _ChartTile extends StatelessWidget {
                         color: change > 0
                             ? AppColors.success
                             : change < 0
-                                ? AppColors.error
-                                : AppColors.textMutedDark,
+                            ? AppColors.error
+                            : AppColors.textMutedDark,
                       ),
                     ),
                   ],
@@ -360,7 +382,11 @@ class _ChartTile extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              const Icon(Icons.more_vert, color: AppColors.textMutedDark, size: 20),
+              const Icon(
+                Icons.more_vert,
+                color: AppColors.textMutedDark,
+                size: 20,
+              ),
             ],
           ),
         ],
