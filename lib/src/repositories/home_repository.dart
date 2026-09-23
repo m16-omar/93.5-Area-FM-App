@@ -3,6 +3,7 @@ import '../models/post_model.dart';
 import '../models/podcast_model.dart';
 import '../models/event_model.dart';
 import '../models/radio_stream_model.dart';
+import 'blog_repository.dart';
 import '../../const/app_assets.dart';
 
 class HomeRepository {
@@ -54,30 +55,7 @@ class HomeRepository {
   }
 
   Future<List<PostModel>> getLatestNews() async {
-    return const [
-      PostModel(
-        id: 'news1',
-        title: '93.5 Area FM Launches New Studio & High Definition Live Stream',
-        category: 'Station News',
-        author: 'Editorial Team',
-        date: 'July 30, 2026',
-        image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=600&q=80',
-        summary: 'Upgraded broadcast acoustics and crystal-clear mobile streaming for listeners worldwide.',
-        content: '93.5 Area FM has officially unveiled its next-generation digital broadcast facility.',
-        tags: ['Radio', 'HD Audio'],
-      ),
-      PostModel(
-        id: 'news2',
-        title: 'Annual City Music Festival Announced featuring Top Headliners',
-        category: 'Events',
-        author: 'Entertainment Desk',
-        date: 'July 27, 2026',
-        image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=600&q=80',
-        summary: 'Get ready for the biggest urban music event of the year powered by 93.5 Area FM.',
-        content: 'The annual City Music Festival returns this August with over 30 artists performing live.',
-        tags: ['Concert', 'Live Music'],
-      ),
-    ];
+    return BlogRepository().getPosts();
   }
 
   Future<List<PodcastModel>> getFeaturedPodcasts() async {
