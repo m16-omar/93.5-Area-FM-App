@@ -7,6 +7,50 @@ class BlogRepository {
 
   static const List<PostModel> _fallbackNews = [
     PostModel(
+      id: '82',
+      title: 'Funke Akindele Credits Discipline and Sacrifice for ₦2.7bn Box Office Record',
+      category: 'Entertainment',
+      author: 'Area FM News Desk',
+      date: 'Jun 12, 2026',
+      image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80',
+      summary: 'Nollywood filmmaker and actress Funke Akindele has opened up about the dedication behind her record-breaking box office success.',
+      content: 'Nollywood powerhouse Funke Akindele has credited relentless discipline, creative sacrifice, and an unwavering commitment to audience satisfaction for her unmatched ₦2.7 billion box office milestone.\n\nSpeaking in an exclusive interview, the acclaimed filmmaker shared how meticulous planning, rigorous script development, and trust in her production crew paved the way for monumental success across West African cinemas.\n\n"Every project is approached with passion and perfectionism. We owe our audience nothing less than world-class storytelling," Akindele emphasized.',
+      tags: ['Entertainment', 'Nollywood', 'Box Office', 'Funke Akindele'],
+    ),
+    PostModel(
+      id: '81',
+      title: 'Niniola Mourns Late Husband, Says \'I Did Nothing Wrong\'',
+      category: 'Entertainment',
+      author: 'Entertainment Desk',
+      date: 'Jun 10, 2026',
+      image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80',
+      summary: 'Queen of Afro-House Niniola breaks her silence regarding emotional grief and addressing public speculation.',
+      content: 'Grammy-nominated Afro-House diva Niniola has spoken publicly about navigating deep personal loss following the passing of her partner.\n\nIn a heartfelt message shared with fans and media, she reflected on love, resilience, and setting the record straight against baseless online rumors.\n\n"Grief is a deeply personal journey. I stand in my truth and focus on music, healing, and honoring loved ones with grace," she shared.',
+      tags: ['Entertainment', 'Music', 'Niniola', 'Afrobeats'],
+    ),
+    PostModel(
+      id: '79',
+      title: 'Davido Calls for Mental Health Facilities Dedicated to Entertainers',
+      category: 'Entertainment',
+      author: 'Area FM News Desk',
+      date: 'Jun 05, 2026',
+      image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=600&q=80',
+      summary: 'Afrobeats icon Davido advocates for structured mental wellness and counseling centers for African creatives and performers.',
+      content: 'Global music sensation Davido has championed the urgent need for dedicated mental wellness and psychological support centers for entertainers.\n\nAddressing industry stakeholders, the superstar highlighted the relentless scrutiny, grueling touring schedules, and emotional toll that performers frequently navigate behind the scenes.\n\n"We need safe spaces, professional support, and open conversations about mental health in our creative ecosystem," Davido urged.',
+      tags: ['Entertainment', 'Davido', 'Mental Health', 'Afrobeats'],
+    ),
+    PostModel(
+      id: '55',
+      title: 'Burna Boy Breaks Spotify Monthly Listeners Record for an African Artist',
+      category: 'Entertainment',
+      author: 'Area FM News Desk',
+      date: 'May 28, 2026',
+      image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=600&q=80',
+      summary: 'The Grammy-winning African Giant sets a new global streaming milestone with unprecedented Spotify monthly listener numbers.',
+      content: 'Burna Boy has officially shattered the Spotify monthly listener record for an African artist, crossing unprecedented global streaming figures.\n\nDriven by worldwide sold-out stadium tours and charting collaborations, the international superstar continues to elevate African music onto the world’s biggest stages.',
+      tags: ['Entertainment', 'Burna Boy', 'Spotify', 'Record Breaker'],
+    ),
+    PostModel(
       id: '4',
       title: '“Prove me wrong that Tinubu won’t be running against himself in 2027” — Barr. Ozekhome challenges Nigerians',
       category: 'Politics',
@@ -68,7 +112,7 @@ class BlogRepository {
 
   Future<PostModel> getPostById(String id) async {
     try {
-      final response = await _apiService.get('${ApiConstants.newsEndpoint}/$id/');
+      final response = await _apiService.get('${ApiConstants.newsEndpoint}$id/');
       if (response.statusCode == 200 && response.data != null) {
         return PostModel.fromJson(response.data as Map<String, dynamic>);
       }
@@ -80,15 +124,16 @@ class BlogRepository {
 
   static const List<String> defaultCategories = [
     'All',
-    'Politics',
-    'Technology',
     'Entertainment',
     'Music',
+    'Sport',
+    'Politics',
+    'Business',
   ];
 
   Future<List<String>> getCategories() async {
     try {
-      final response = await _apiService.get('/news-categories');
+      final response = await _apiService.get(ApiConstants.newsCategoriesEndpoint);
       if (response.statusCode == 200 && response.data != null) {
         final List<dynamic> data = response.data is List
             ? response.data

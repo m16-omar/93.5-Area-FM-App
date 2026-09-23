@@ -24,7 +24,11 @@ class PostModel {
   factory PostModel.fromJson(Map<String, dynamic> json) {
     String rawImage = json['image']?.toString() ?? '';
     if (rawImage.isNotEmpty && !rawImage.startsWith('http') && !rawImage.startsWith('assets/')) {
-      rawImage = 'https://res.cloudinary.com/dgjzsen3g/image/upload/$rawImage';
+      if (rawImage.startsWith('/')) {
+        rawImage = 'https://city1051fm.cloud$rawImage';
+      } else {
+        rawImage = 'https://res.cloudinary.com/dgjzsen3g/image/upload/$rawImage';
+      }
     }
 
     String parsedDate = json['formatted_date']?.toString() ??
