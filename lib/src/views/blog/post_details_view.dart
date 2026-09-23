@@ -25,7 +25,7 @@ class PostDetailsView extends ConsumerWidget {
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       appBar: AreaFMAppBar(
-        title: 'Article Details',
+        title: 'News Details',
         showBack: true,
         foregroundColor: textColor,
         actions: [
@@ -39,7 +39,7 @@ class PostDetailsView extends ConsumerWidget {
       ),
       bottomNavigationBar: const MiniPlayerWidget(),
       body: postAsync.when(
-        loading: () => const AppLoader(message: 'Loading article...'),
+        loading: () => const AppLoader(message: 'Loading news...'),
         error: (err, stack) => AppErrorWidget(
           message: err.toString(),
           onRetry: () => ref.refresh(postDetailsProvider(id)),
