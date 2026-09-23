@@ -44,7 +44,9 @@ class AppAssets {
   static const String userAvatarPlaceholder =
       'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80';
 
-  // ── Demo Presenter images ─────────────────────────────────────
+  // ── Management / Presenter Images ────────────────────────────
+  static const String adedojaAllen = 'assets/images/adedoja_allen.jpg';
+  static const String rexOkiche = 'assets/images/rex_okiche.jpg';
   static const String presenterBigP =
       'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80';
   static const String presenterDjAce =

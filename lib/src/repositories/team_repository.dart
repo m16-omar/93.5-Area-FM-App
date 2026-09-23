@@ -1,23 +1,24 @@
+import '../../const/app_assets.dart';
 import '../models/team_member_model.dart';
 
 class TeamRepository {
   Future<List<TeamMemberModel>> getTeamMembers() async {
     return const [
       TeamMemberModel(
-        id: 't1',
-        name: 'Chief Michael O.',
-        role: 'General Manager',
-        image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80',
-        bio: 'Over 20 years of broadcast leadership driving innovation in urban radio streaming.',
-        email: 'gm@935areafm.com',
+        id: 't_adedoja_allen',
+        name: 'Adedoja Allen',
+        role: 'MD / CEO',
+        image: AppAssets.adedojaAllen,
+        bio: 'Managing Director/CEO of City 105.1FM and 93.5 Area FM. Over a decade of visionary executive leadership driving transformative media and community initiatives.',
+        email: 'md@935areafm.com',
       ),
       TeamMemberModel(
-        id: 't2',
-        name: 'Victoria Adams',
-        role: 'Head of Programs',
-        image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80',
-        bio: 'Curates hit radio programs, talent development, and daily broadcast schedules.',
-        email: 'programs@935areafm.com',
+        id: 't_rex_okiche',
+        name: 'Rex Okiche',
+        role: 'Head of Programmes',
+        image: AppAssets.rexOkiche,
+        bio: 'Head of Programmes and creative ideation helmsman with over 14 years of radio broadcasting, audio production, and talent development experience.',
+        email: 'programmes@935areafm.com',
       ),
     ];
   }

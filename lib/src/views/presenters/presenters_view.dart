@@ -22,7 +22,7 @@ class PresentersView extends ConsumerStatefulWidget {
 class _PresentersViewState extends ConsumerState<PresentersView> {
   final _searchController = TextEditingController();
   String _selectedFilter = 'All';
-  final _filters = ['All', 'On Air', 'Presenters', 'DJs', 'Producers', 'News Team'];
+  final _filters = ['All', 'Management', 'On Air', 'Presenters', 'DJs', 'Producers', 'News Team'];
   String _searchQuery = '';
 
   @override
@@ -56,7 +56,8 @@ class _PresentersViewState extends ConsumerState<PresentersView> {
       if (_searchQuery.isNotEmpty) {
         matchesSearch = p.name.toLowerCase().contains(_searchQuery) ||
             p.showName.toLowerCase().contains(_searchQuery) ||
-            p.timeSlot.toLowerCase().contains(_searchQuery);
+            p.timeSlot.toLowerCase().contains(_searchQuery) ||
+            p.category.toLowerCase().contains(_searchQuery);
       }
 
       return matchesCategory && matchesSearch;
@@ -89,7 +90,7 @@ class _PresentersViewState extends ConsumerState<PresentersView> {
           final filteredList = _filterPresenters(presenters);
 
           return RefreshIndicator(
-            color: const Color(0xFFFF5500),
+            color: AppColors.primary,
             onRefresh: () async {
               ref.invalidate(presentersListProvider);
               await ref.read(presentersListProvider.future);
@@ -113,28 +114,37 @@ class _PresentersViewState extends ConsumerState<PresentersView> {
                               child: Container(
                                 height: 44,
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFF0C1929),
+                                  color: isDark ? const Color(0xFF0C1929) : Colors.white,
                                   borderRadius: BorderRadius.circular(22),
                                   border: Border.all(
-                                    color: const Color(0xFF162942),
+                                    color: isDark ? const Color(0xFF162942) : const Color(0xFFE2E8F0),
                                     width: 1,
                                   ),
+                                  boxShadow: isDark
+                                      ? null
+                                      : [
+                                          BoxShadow(
+                                            color: Colors.black.withValues(alpha: 0.04),
+                                            blurRadius: 6,
+                                            offset: const Offset(0, 2),
+                                          ),
+                                        ],
                                 ),
                                 child: TextField(
                                   controller: _searchController,
                                   style: GoogleFonts.inter(
-                                    color: Colors.white,
+                                    color: isDark ? Colors.white : AppColors.textPrimaryLight,
                                     fontSize: 13.5,
                                   ),
                                   decoration: InputDecoration(
                                     hintText: 'Search team members...',
                                     hintStyle: GoogleFonts.inter(
-                                      color: const Color(0xFF64748B),
+                                      color: isDark ? const Color(0xFF64748B) : AppColors.textSecondaryLight,
                                       fontSize: 13,
                                     ),
-                                    prefixIcon: const Icon(
+                                    prefixIcon: Icon(
                                       Icons.search_rounded,
-                                      color: Color(0xFF64748B),
+                                      color: isDark ? const Color(0xFF64748B) : AppColors.textSecondaryLight,
                                       size: 20,
                                     ),
                                     border: InputBorder.none,
@@ -148,7 +158,7 @@ class _PresentersViewState extends ConsumerState<PresentersView> {
                               width: 44,
                               height: 44,
                               decoration: const BoxDecoration(
-                                color: Color(0xFF0052FF),
+                                color: AppColors.primary,
                                 shape: BoxShape.circle,
                               ),
                               child: const Icon(
@@ -177,11 +187,23 @@ class _PresentersViewState extends ConsumerState<PresentersView> {
                                   duration: const Duration(milliseconds: 180),
                                   padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
                                   decoration: BoxDecoration(
-                                    color: isSelected ? const Color(0xFF0052FF) : const Color(0xFF0C1929),
+                                    color: isSelected
+                                        ? AppColors.primary
+                                        : (isDark ? const Color(0xFF0C1929) : Colors.white),
                                     borderRadius: BorderRadius.circular(10),
                                     border: Border.all(
-                                      color: isSelected ? const Color(0xFF0052FF) : const Color(0xFF162942),
+                                      color: isSelected
+                                          ? AppColors.primary
+                                          : (isDark ? const Color(0xFF162942) : const Color(0xFFE2E8F0)),
                                     ),
+                                    boxShadow: !isSelected && !isDark
+                                        ? [
+                                            BoxShadow(
+                                              color: Colors.black.withValues(alpha: 0.03),
+                                              blurRadius: 4,
+                                            ),
+                                          ]
+                                        : null,
                                   ),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -189,7 +211,9 @@ class _PresentersViewState extends ConsumerState<PresentersView> {
                                       Text(
                                         filter,
                                         style: GoogleFonts.inter(
-                                          color: isSelected ? Colors.white : Colors.white70,
+                                          color: isSelected
+                                              ? Colors.white
+                                              : (isDark ? Colors.white70 : AppColors.textSecondaryLight),
                                           fontSize: 12,
                                           fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                                         ),
@@ -200,7 +224,7 @@ class _PresentersViewState extends ConsumerState<PresentersView> {
                                           width: 6,
                                           height: 6,
                                           decoration: const BoxDecoration(
-                                            color: Color(0xFFFF5500),
+                                            color: AppColors.primary,
                                             shape: BoxShape.circle,
                                           ),
                                         ),
@@ -432,11 +456,11 @@ class _SoundwaveGraphic extends StatelessWidget {
           width: 2.5,
           height: 90 * h,
           decoration: BoxDecoration(
-            color: const Color(0xFF0077FF).withValues(alpha: 0.35 + (h * 0.45)),
+            color: const Color(0xFFFF5500).withValues(alpha: 0.35 + (h * 0.45)),
             borderRadius: BorderRadius.circular(2),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF00B4FF).withValues(alpha: 0.3),
+                color: const Color(0xFFFF8A00).withValues(alpha: 0.3),
                 blurRadius: 4,
                 spreadRadius: 1,
               ),

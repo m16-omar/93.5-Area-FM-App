@@ -1,9 +1,54 @@
 import 'package:flutter/material.dart';
+import '../../const/app_assets.dart';
 import '../models/presenter_model.dart';
 
 class PresenterRepository {
   Future<List<PresenterModel>> getPresenters() async {
     return const [
+      PresenterModel(
+        id: 'staff_adedoja_allen',
+        name: 'Adedoja Allen',
+        showName: 'Management',
+        timeSlot: 'MD / CEO',
+        days: 'Executive',
+        category: 'Management',
+        isOnAir: false,
+        image: AppAssets.adedojaAllen,
+        tagline: 'Managing Director & CEO of City 105.1 FM & 93.5 Area FM.',
+        about: 'Adedoja Allen is the Managing Director/CEO of City 105.1FM and 93.5 Area FM. She holds an MBA from Lagos Business School/IESE Business School, an MSc from Aston Business School, and has led the transformation of the station into one of Nigeria\'s premier urban broadcasters.',
+        bio: 'Adedoja Allen is the Managing Director/CEO of City 105.1FM. She has a sterling academic and professionally distinguished career chronicle. She holds an MBA from Lagos Business School/IESE Business School, Navarra Barcelona, an MSc in Business and Information Technology from Aston Business School, Birmingham UK, and a Bachelor\'s degree in Mathematics from the University of Ibadan. Her prominent accounting work at the British Broadcasting Corporation (BBC) in the UK gave her a strong competitive edge before returning to Nigeria.\n\nIn 2012, she assumed the top leadership position at City FM, steering the station to top ranking across Lagos. She is also the visionary founder behind "Praise in the City", "She Leads with Adedoja Allen", and City Media Academy (CMA).',
+        birthday: 'Dec 26',
+        onAirSince: '2012',
+        location: 'Lagos, Nigeria',
+        instagram: 'https://www.instagram.com/dojaallen',
+        twitter: 'https://x.com/dojaallen',
+        facebook: 'https://www.facebook.com/dedoja',
+        tiktok: '',
+        gradientColors: [Color(0xFFD64B00), Color(0xFF8A2E00)],
+        accentColor: Color(0xFFFF6A00),
+      ),
+      PresenterModel(
+        id: 'staff_rex_okiche',
+        name: 'Rex Okiche',
+        showName: 'Management',
+        timeSlot: 'Head of Programmes',
+        days: 'Executive',
+        category: 'Management',
+        isOnAir: false,
+        image: AppAssets.rexOkiche,
+        tagline: 'Head of Programmes and creative ideation helmsman.',
+        about: 'Rex Okiche is the Head of Programmes and creative ideation helmsman at City 105.1 FM and 93.5 Area FM with over 14 years of broadcasting experience.',
+        bio: 'Rex Okiche is the Head of Programmes and creative ideation helmsman at City 105.1 FM. With over 14 years of experience in the radio broadcasting and entertainment industries, Rex has earned a reputation as a dynamic media professional with a knack for keeping listeners entertained and audiences growing.\n\nBeyond programming, Rex brings a strong foundation in account strategy and marketing communications. He is an audiophile who excels in audio production, on-air presentation, voiceover artistry, and social media management. He holds a Bachelor\'s degree in Computer Science from UNN and certifications from GOTNI Leadership Centre, Music Business Academy, and O2 Academy.',
+        birthday: 'Oct 15',
+        onAirSince: '2014',
+        location: 'Lagos, Nigeria',
+        instagram: 'https://www.instagram.com/rexokiche',
+        twitter: 'https://x.com/rexokiche',
+        facebook: '',
+        tiktok: '',
+        gradientColors: [Color(0xFF8D4012), Color(0xFF381604)],
+        accentColor: Color(0xFFFF8A00),
+      ),
       PresenterModel(
         id: 'pres_big_p',
         name: 'Big P',
@@ -43,8 +88,8 @@ class PresenterRepository {
         instagram: 'https://instagram.com/djace',
         twitter: 'https://twitter.com/djace',
         tiktok: 'https://tiktok.com/@djace',
-        gradientColors: [Color(0xFF0F3E9B), Color(0xFF061840)],
-        accentColor: Color(0xFF38BDF8),
+        gradientColors: [Color(0xFF9E3A00), Color(0xFF4D1A00)],
+        accentColor: Color(0xFFFF7A1A),
       ),
       PresenterModel(
         id: 'pres_tolu',
@@ -85,8 +130,8 @@ class PresenterRepository {
         instagram: 'https://instagram.com/djswitch',
         twitter: 'https://twitter.com/djswitch',
         tiktok: 'https://tiktok.com/@djswitch',
-        gradientColors: [Color(0xFF10284D), Color(0xFF091220)],
-        accentColor: Color(0xFF60A5FA),
+        gradientColors: [Color(0xFFB54700), Color(0xFF4A1800)],
+        accentColor: Color(0xFFFF9500),
       ),
       PresenterModel(
         id: 'pres_lami',
@@ -127,8 +172,8 @@ class PresenterRepository {
         instagram: 'https://instagram.com/chefk',
         twitter: 'https://twitter.com/chefk',
         tiktok: 'https://tiktok.com/@chefk',
-        gradientColors: [Color(0xFF12345E), Color(0xFF09172A)],
-        accentColor: Color(0xFF38BDF8),
+        gradientColors: [Color(0xFFA83A00), Color(0xFF4F1800)],
+        accentColor: Color(0xFFFF6A00),
       ),
       PresenterModel(
         id: 'pres_jayda',
@@ -169,8 +214,8 @@ class PresenterRepository {
         instagram: 'https://instagram.com/eddie_producer',
         twitter: 'https://twitter.com/eddie_producer',
         tiktok: 'https://tiktok.com/@eddie_producer',
-        gradientColors: [Color(0xFF132F52), Color(0xFF0A1524)],
-        accentColor: Color(0xFF60A5FA),
+        gradientColors: [Color(0xFF8D4012), Color(0xFF381604)],
+        accentColor: Color(0xFFFF7A1A),
       ),
       PresenterModel(
         id: 'pres_bella',
