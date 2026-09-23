@@ -231,7 +231,7 @@ class _OnboardingPage extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 14, bottom: 8),
                 child: Center(child: _LogoText()),
               ),
-              SizedBox(height: size.height * 0.10),
+              SizedBox(height: size.height * 0.155),
               // Title area
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
