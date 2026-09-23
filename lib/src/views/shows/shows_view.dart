@@ -698,15 +698,28 @@ class _ShowListTile extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // Deep Teal Play Circle Button
+                    // View Details Button
                     Container(
-                      width: 32,
-                      height: 32,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF0B6B82),
-                        shape: BoxShape.circle,
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF0B6B82),
+                        borderRadius: BorderRadius.circular(6),
                       ),
-                      child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 20),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'View Details',
+                            style: GoogleFonts.inter(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(width: 3),
+                          const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white, size: 8),
+                        ],
+                      ),
                     ),
                   ],
                 ),
