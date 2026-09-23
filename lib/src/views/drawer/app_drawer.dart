@@ -131,55 +131,66 @@ class AppDrawer extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  // User Profile Row
-                  Row(
-                    children: [
-                      Container(
-                        width: 48,
-                        height: 48,
-                        decoration: BoxDecoration(
-                          color: isDark
-                              ? AppColors.surfaceDark2
-                              : const Color(0xFFE5E7EB),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.person_rounded,
-                          color: isDark
-                              ? Colors.white70
-                              : const Color(0xFF9CA3AF),
-                          size: 28,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              user?.name ?? 'Guest Name',
-                              style: GoogleFonts.poppins(
-                                color: textPrimary,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                              ),
+                  // User Profile Row (Tappable to login/profile)
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      context.push(RouteNames.login);
+                    },
+                    borderRadius: BorderRadius.circular(12),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 48,
+                            height: 48,
+                            decoration: BoxDecoration(
+                              color: isDark
+                                  ? AppColors.surfaceDark2
+                                  : const Color(0xFFE5E7EB),
+                              shape: BoxShape.circle,
                             ),
-                            Text(
-                              user?.email ?? 'guest@935areafm.com',
-                              style: GoogleFonts.inter(
-                                color: textSecondary,
-                                fontSize: 12,
-                              ),
+                            child: Icon(
+                              Icons.person_rounded,
+                              color: isDark
+                                  ? Colors.white70
+                                  : const Color(0xFF9CA3AF),
+                              size: 28,
                             ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  user?.name ?? 'Guest Listener',
+                                  style: GoogleFonts.poppins(
+                                    color: textPrimary,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  user?.email ?? 'Tap to sign in or register',
+                                  style: GoogleFonts.inter(
+                                    color: user != null ? textSecondary : AppColors.primary,
+                                    fontSize: 12,
+                                    fontWeight: user != null ? FontWeight.normal : FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Icon(
+                            Icons.chevron_right_rounded,
+                            color: AppColors.primary,
+                            size: 22,
+                          ),
+                        ],
                       ),
-                      const Icon(
-                        Icons.chevron_right_rounded,
-                        color: AppColors.primary,
-                        size: 22,
-                      ),
-                    ],
+                    ),
                   ),
                   const SizedBox(height: 16),
                   Divider(height: 1, color: dividerColor),

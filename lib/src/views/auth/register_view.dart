@@ -121,18 +121,63 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 12),
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.1),
-                        shape: BoxShape.circle,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          if (Navigator.of(context).canPop()) {
+                            Navigator.of(context).pop();
+                          } else {
+                            context.go(RouteNames.login);
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.1),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                        ),
                       ),
-                      child: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white, size: 18),
-                    ),
+                      GestureDetector(
+                        onTap: () => context.go(RouteNames.home),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: Colors.white24),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Continue as Guest',
+                                style: GoogleFonts.inter(
+                                  color: Colors.white70,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              const Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                color: Colors.white70,
+                                size: 10,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 16),
                   _LogoBadge(),
                   const SizedBox(height: 16),
                   RichText(
@@ -388,7 +433,13 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                           ),
                           WidgetSpan(
                             child: GestureDetector(
-                              onTap: () => Navigator.of(context).pop(),
+                              onTap: () {
+                                if (Navigator.of(context).canPop()) {
+                                  Navigator.of(context).pop();
+                                } else {
+                                  context.go(RouteNames.login);
+                                }
+                              },
                               child: Text(
                                 'Log In',
                                 style: GoogleFonts.inter(

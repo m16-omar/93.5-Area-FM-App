@@ -70,6 +70,11 @@ class _OnboardingViewState extends ConsumerState<OnboardingView> {
 
   void _finishOnboarding() {
     StorageService.setFirstLaunchDone();
+    context.go(RouteNames.login);
+  }
+
+  void _continueAsGuest() {
+    StorageService.setFirstLaunchDone();
     context.go(RouteNames.home);
   }
 
@@ -81,6 +86,8 @@ class _OnboardingViewState extends ConsumerState<OnboardingView> {
 
   @override
   Widget build(BuildContext context) {
+    final isLastPage = _currentPage == _pages.length - 1;
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
@@ -119,7 +126,7 @@ class _OnboardingViewState extends ConsumerState<OnboardingView> {
             right: 0,
             child: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+                padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -142,7 +149,7 @@ class _OnboardingViewState extends ConsumerState<OnboardingView> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 20),
                     // Action button
                     SizedBox(
                       width: double.infinity,
@@ -161,9 +168,7 @@ class _OnboardingViewState extends ConsumerState<OnboardingView> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              _currentPage == _pages.length - 1
-                                  ? 'Get Started'
-                                  : 'Next',
+                              isLastPage ? 'Get Started / Log In' : 'Next',
                               style: GoogleFonts.poppins(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -175,6 +180,22 @@ class _OnboardingViewState extends ConsumerState<OnboardingView> {
                         ),
                       ),
                     ),
+                    if (isLastPage) ...[
+                      const SizedBox(height: 10),
+                      TextButton(
+                        onPressed: _continueAsGuest,
+                        child: Text(
+                          'Continue as Guest',
+                          style: GoogleFonts.inter(
+                            color: Colors.white70,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colors.white38,
+                          ),
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),
