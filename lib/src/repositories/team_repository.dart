@@ -12,14 +12,6 @@ class TeamRepository {
         bio: 'Managing Director/CEO of City 105.1FM and 93.5 Area FM. Over a decade of visionary executive leadership driving transformative media and community initiatives.',
         email: 'md@935areafm.com',
       ),
-      TeamMemberModel(
-        id: 't_rex_okiche',
-        name: 'Rex Okiche',
-        role: 'Head of Programmes',
-        image: AppAssets.rexOkiche,
-        bio: 'Head of Programmes and creative ideation helmsman with over 14 years of radio broadcasting, audio production, and talent development experience.',
-        email: 'programmes@935areafm.com',
-      ),
     ];
   }
 
