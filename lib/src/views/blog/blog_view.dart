@@ -29,10 +29,9 @@ class _BlogViewState extends ConsumerState<BlogView> {
     final categoriesAsync = ref.watch(blogCategoriesProvider);
     final rawCategories = categoriesAsync.asData?.value ?? BlogRepository.defaultCategories;
     final size = MediaQuery.of(context).size;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+      backgroundColor: AppColors.backgroundDark,
       extendBodyBehindAppBar: true,
       drawer: const AppDrawer(),
       appBar: const AreaFMAppBar(notificationCount: 3),
@@ -118,7 +117,7 @@ class _BlogViewState extends ConsumerState<BlogView> {
                             Text(
                               'No stories in "$_selectedCategory" yet',
                               style: GoogleFonts.poppins(
-                                color: isDark ? Colors.white70 : AppColors.textSecondaryLight,
+                                color: Colors.white70,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -166,7 +165,7 @@ class _BlogViewState extends ConsumerState<BlogView> {
                                   ? 'Latest News'
                                   : 'More in $_selectedCategory',
                               style: GoogleFonts.poppins(
-                                color: isDark ? Colors.white : AppColors.textPrimaryLight,
+                                color: Colors.white,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
                               ),
